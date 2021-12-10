@@ -4,7 +4,7 @@ Available features
 
 - gltf model uploading
 - teleport
--
+
 ## Available Scripts
 
 In the project directory, you can run:
