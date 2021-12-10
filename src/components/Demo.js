@@ -91,7 +91,7 @@ class Game {
     this.raycaster = new THREE.Raycaster();
     this.tempMatrix = new THREE.Matrix4();
 
-    // const model = './models/one_of_the_few/scene.gltf'
+    // const model = './models/path_to_your_model/scene.gltf'
 
     // loadModel(model, this.stage) 
     //   .then(this.onModelLoad)
