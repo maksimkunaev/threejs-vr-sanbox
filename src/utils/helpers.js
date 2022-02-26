@@ -1,4 +1,4 @@
-        import * as THREE from 'three';
+import * as THREE from 'three';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
@@ -15,8 +15,8 @@ async function getMesh({
   const geometry = new THREE.SphereGeometry(radius, segmentCounts, segmentCounts );
   const loader = new THREE.TextureLoader();
   const material = new THREE.MeshStandardMaterial( { 
-      color, 
-      side,
+    color, 
+    side,
   });
 
   if (map) material.map = loader.load(map);
@@ -82,7 +82,6 @@ function initControllers({
   controllerGrip2.add( controllerModelFactory.createControllerModel( controllerGrip2 ) );
   scene.add( controllerGrip2 );
 
-
   const geometry = new THREE.BufferGeometry().setFromPoints( [ new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, - 1 ) ] );
 
   const line = new THREE.Line( geometry );
@@ -126,7 +125,6 @@ function loadFont(url) {
 }
 
 function addTextMesh({ text = 'Text example', height = 1, size = 1, font }) {
-  // onSuccess('helvetiker')
   const textGeometry = new TextGeometry( text, {
     font: font,
     size: 0.1,
@@ -153,28 +151,20 @@ function loadModel(url, scene) {
     function onSuccess(gltf) {
       model = gltf.scene;
       const box = new THREE.Box3().setFromObject(model);
-      // const boxSize = box.getSize(new THREE.Vector3());
       
-      gltf.scene.traverse( function ( object ) {
-        if ( object.isMesh ) {
-          // object.castShadow = true;
-        }
-      });
-
-      console.log( "Done loading model", model.name );
+      console.log('Loading model completed.', model.name );
       resolve({model, gltf})
     }
 
     function onProgress(xhr) {
-      console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+      console.log(( xhr.loaded / xhr.total * 100 ) + '% loaded' );
     }
 
     function onError( error ) {
-      console.log( 'An error happened',error );
+      console.log('An error happened',error );
     }
 
     gltfLoader.load(url, onSuccess, onProgress, onError);
-
   })
 }
 
@@ -198,7 +188,6 @@ function setTexture({maps,material}) {
     map.repeat.set( 10, 24 );
     material.bumpMap = map;
     material.needsUpdate = true;
-
   });
 
   maps.roughness && textureLoader.load(maps.roughness, function ( map ) {

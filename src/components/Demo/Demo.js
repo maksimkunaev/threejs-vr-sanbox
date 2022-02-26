@@ -1,21 +1,13 @@
 import React, { useEffect } from 'react';
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton';
-import helpers from '../utils/helpers.js';
+import helpers from '../../utils/helpers.js';
 import './Demo.css'
-import axios from 'axios'
 
 const {
-  getMesh,
   addObserver,
   initControllers,
   initOrbits,
-  initiControls,
-  updateText,
-  loadFont,
-  addTextMesh,
-  loadModel,
-  setTexture,
   getCubicBezierCurve3,
   getIntersections,
   resizeRendererToDisplaySize,
@@ -44,7 +36,7 @@ class Game {
 
     this.stage.add( new THREE.AxesHelper( 100 ) );
     this.scene.background = new THREE.Color( '#0A1931' );
-    // this.scene.fog = new THREE.Fog('#545454e8', 0, 35);
+    this.scene.fog = new THREE.Fog('#545454e8', 0, 35);
 
     this.floor = this.getFloor('#046582');
     this.scene.add(this.floor);
@@ -91,11 +83,6 @@ class Game {
     this.raycaster = new THREE.Raycaster();
     this.tempMatrix = new THREE.Matrix4();
 
-    // const model = './models/path_to_your_model/scene.gltf'
-
-    // loadModel(model, this.stage) 
-    //   .then(this.onModelLoad)
-    
     if (this.IS_XR_ENABLED) {
       this.renderer.xr.enabled = true;
       document.body.appendChild(VRButton.createButton(this.renderer));
@@ -112,28 +99,19 @@ class Game {
   }
 
   onModelLoad = ({model, gltf}) => {
-      const object = new THREE.Object3D();
-      // this.addAudio('/audio/path_to_your_audio.mp3', this.person, object);
+    const object = new THREE.Object3D();
 
-      object.add(model)
-      this.stage.add(object);
+    object.add(model)
+    this.stage.add(object);
 
     model.position.set(0,1.6,-2)
-    // model.scale.set(10,10,10)
     this.globals.objectForTeleportation.push(model);
 
     const mixer = new THREE.AnimationMixer( model );
     const animations = gltf.animations;
-    // 'Idle','Run','TPose','Walk',
-    const clip = THREE.AnimationClip.findByName( animations, 'sphere body|sphere bodyAction' );
-    const action = mixer.clipAction( clip );
-    // if (action) action.play();
-    console.log(clip,action)
 
-    // // Play all animations
-    // animations.forEach( function ( clip ) {
-    //   mixer.clipAction( clip ).play();
-    // });
+    const clip = THREE.AnimationClip.findByName( animations, 'sphere body|sphere bodyAction' );
+    mixer.clipAction( clip );
 
     this.globals.model = {
       mesh: object,
@@ -156,16 +134,13 @@ class Game {
       sound.setLoop( true );
       sound.setVolume( 0.5 );
       sound.play();
-      // console.log(sound)
     });
 
     sourceMesh.add( sound );
   }
 
   updateModel = () => {
-    const mixerUpdateDelta = this.globals.clock.getDelta();
-    // this.globals.model.mixer && this.globals.model.mixer.update( mixerUpdateDelta );
-    // if (this.globals.model.mesh ) this.globals.model.mesh.position.z -= mixerUpdateDelta
+    this.globals.clock.getDelta();
   }
 
   setAspect() {
@@ -178,8 +153,6 @@ class Game {
 
   updateTeleportCurveAndRing() {
     const { 
-      renderer, 
-      camera, 
       ringMesh, 
       person, 
       globals,
@@ -275,11 +248,11 @@ class Game {
     this.renderer.render(this.scene, this.camera);
   }
 
-  onSelectStart = event => {
+  onSelectStart = () => {
     this.globals.moving = true;
   }
 
-  onSelectEnd = event => {
+  onSelectEnd = () => {
     this.globals.moving = false;
   }
 
@@ -296,8 +269,6 @@ class Game {
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.outputEncoding = THREE.sRGBEncoding;
-    // renderer.physicallyCorrectLights = true
-    // renderer.shadowMap.enabled = true;
 
     return new THREE.Scene();
   }
@@ -358,7 +329,7 @@ class Game {
     return dirLight
   }
 
-  getBox = (geometry, height, color) => {
+  getBox = (geometry, color) => {
     const material = new THREE.MeshPhongMaterial({color,shininess: 150});
     const cube = new THREE.Mesh(geometry, material);
 
@@ -371,13 +342,13 @@ class Game {
     return cube;
   }
 
-  getBoxes = () => {
+  getBoxes = (count = 10) => {
     const height = 0.3;
     const geometry = new THREE.BoxGeometry(height, height, height);
     const boxes = [];
 
-    for (let i = 0; i < 2; i++) {
-      const box = this.getBox(geometry, height, 'yellow');
+    for (let i = 0; i < count; i++) {
+      const box = this.getBox(geometry, 'yellow');
       
       this.stage.add(box);
       boxes.push({ type: 'cube', mesh: box })
@@ -411,45 +382,12 @@ class Game {
   }
 }
 
-const apiService = {
-  message(form) {
-    return new Promise((resolve, reject) => {
-      return axios
-        .post('http://localhost:5000/message', form)
-        .then(response => {
-          console.log(response);
-           this.raw_messages.push({
-            author: 'bot',
-            text: response.data
-          })
-         resolve()
-        })
-        .catch(error => reject(error));
-    })
-  }
-}
 function Demo() {
-  // const [visible, setVisible] = useEffect(true);
-
-  // const onPlay = () => {
-  
-    // setVisible(false);
-  // }
-
   useEffect(() => {
     new Game();
   },[])
-  // const sendMessage = () =>{
-  //    apiService.message({text: 'hi',temperature:0.8})
-  //     .then(() => {})
-  //     .catch(error => console.log(error))
-  // }
 
-  return <div>
-    <canvas id="c" />
-    {/*<button onClick={onPlay} className='button play'>play</button>*/}
-    {/*<button onClick={sendMessage} className='button send'>send</button>*/}
-  </div>
+  return <canvas id="c" />
 }
 
 export default Demo;

@@ -1,14 +1,8 @@
 import './App.css';
-import Demo from './components/Demo';
-import Recoder from './components/Recorder';
+import Demo from './components/Demo/Demo';
 
 function App() {
-  return (
-    <>
-      {/*<Recoder />*/}
-      <Demo />
-    </>
-  );
+  return <Demo />
 }
 
 export default App;
