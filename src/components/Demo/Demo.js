@@ -4,6 +4,26 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton';
 import helpers from '../../utils/helpers.js';
 import './Demo.css'
 
+import landmarks from './constants/landmarks.js'
+import TRIANGULATION from './constants/triangulation.js'
+
+function create_facemesh_mesh(keypoints){
+  try {
+    const geometry = new THREE.BufferGeometry();
+    geometry.addAttribute( 'position', new THREE.BufferAttribute(new Float32Array(keypoints.flat()),3));
+    geometry.setIndex( new THREE.BufferAttribute( new Uint16Array(TRIANGULATION), 1 ) );
+     
+    const material = new THREE.MeshPhongMaterial();
+    material.color.setHSL(0, 1, .5);  // red
+    material.flatShading = true;
+
+      const mesh = new THREE.Mesh( geometry, material );
+      console.log(mesh);
+      return mesh;
+  } catch(n) {
+  }
+}
+
 const {
   addObserver,
   initControllers,
@@ -34,9 +54,10 @@ class Game {
       objectForTeleportation: []
     }
 
+
     this.stage.add( new THREE.AxesHelper( 100 ) );
     this.scene.background = new THREE.Color( '#0A1931' );
-    this.scene.fog = new THREE.Fog('#545454e8', 0, 35);
+    // this.scene.fog = new THREE.Fog('#545454e8', 0, 35);
 
     this.floor = this.getFloor('#046582');
     this.scene.add(this.floor);
@@ -67,6 +88,7 @@ class Game {
     // ------ light ------ //
     this.scene.add(this.getHemitLight())
     this.scene.add(this.getDirLight())
+    this.scene.add( new THREE.DirectionalLight( 0xffffff, 0.5 ) );
 
     // ------ boxes geometry ------ //
     this.globals.boxes = this.getBoxes()
@@ -88,6 +110,12 @@ class Game {
       document.body.appendChild(VRButton.createButton(this.renderer));
     }
 
+    this.addFaceMesh(landmarks)
+   
+
+    // helpers.loadModel(model, this.stage) 
+    //   .then(this.onModelLoad)
+
     // ------ run ------ //
     if (this.IS_XR_ENABLED) {
       this.renderer.setAnimationLoop(this.render);
@@ -96,6 +124,20 @@ class Game {
     if (!this.IS_XR_ENABLED) {
       requestAnimationFrame(this.render);
     }
+  }
+
+  addFaceMesh = (landmarks) => {
+    const points = landmarks.flat();
+    console.log(points)
+    const mesh = create_facemesh_mesh(points)
+
+    mesh.position.set(0,0,0)
+    mesh.scale.x = 0.2;
+    mesh.scale.y = 0.2;
+    mesh.scale.z = 0.2;
+    
+    console.log(mesh.geometry )
+    this.scene.add( mesh );
   }
 
   onModelLoad = ({model, gltf}) => {
@@ -302,7 +344,7 @@ class Game {
 
   getCamera() {
     const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 120);
-    camera.position.set(0, 1.6, -1);
+    camera.position.set(20, 40, -60);
 
     return camera
   }
@@ -342,7 +384,7 @@ class Game {
     return cube;
   }
 
-  getBoxes = (count = 10) => {
+  getBoxes = (count = 0) => {
     const height = 0.3;
     const geometry = new THREE.BoxGeometry(height, height, height);
     const boxes = [];
