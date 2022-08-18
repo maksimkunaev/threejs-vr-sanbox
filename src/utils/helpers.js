@@ -70,6 +70,15 @@ function initControllers({
   controller2 = renderer.xr.getController( 1 );
   controller2.addEventListener( 'selectstart', _onSelectStart );
   controller2.addEventListener( 'selectend', _onSelectEnd );
+
+  controller1.addEventListener( 'squeezestart', (e) => {
+    console.log('onsqueezestart', e)
+  } );
+
+  controller2.addEventListener( 'squeezestart', (e) => {
+    console.log('onsqueezestart', e)
+  });
+
   scene.add( controller2 );
 
   const controllerModelFactory = new XRControllerModelFactory();
@@ -86,12 +95,12 @@ function initControllers({
 
   const line = new THREE.Line( geometry );
   line.name = 'line';
-  line.scale.z = 5;
+  line.scale.z = 50;
 
   controller1.add( line.clone() );
   controller2.add( line.clone() );
 
-  return [controller1, controller2]
+  return {controller1, controller2, gamepad1: controllerGrip1, gamepad2: controllerGrip2}
 }
 
 function initOrbits(camera, canvas) {
@@ -200,6 +209,7 @@ function setTexture({maps,material}) {
   });
 }
 
+// TODO optimize (just update every loop - not create avery loop iteraetion)
 function getCubicBezierCurve3(x0, y0, z0, x2, y2, z2) {
   const getMiddlePoint = (first, last) => {
     return first + (last - first)/2 
@@ -215,7 +225,7 @@ function getCubicBezierCurve3(x0, y0, z0, x2, y2, z2) {
   return bezierCurve3
 }
 
-function getIntersections( controller, objects, raycaster, tempMatrix, mouse, camera,) {
+function getIntersections( controller, objects, raycaster, tempMatrix) {
   tempMatrix.identity().extractRotation( controller.matrixWorld );
 
   raycaster.ray.origin.setFromMatrixPosition( controller.matrixWorld );
@@ -239,6 +249,44 @@ function resizeRendererToDisplaySize(renderer) {
   return needResize;
 }
 
+function createFacemeshMesh(keypoints, TRIANGULATION){
+  try {
+    const geometry = new THREE.BufferGeometry();
+    geometry.addAttribute( 'position', new THREE.BufferAttribute(new Float32Array(keypoints.flat()),3));
+    geometry.setIndex( new THREE.BufferAttribute( new Uint16Array(TRIANGULATION), 1 ) );
+     
+    const material = new THREE.MeshPhongMaterial();
+    material.color.setHSL(0, 1, .5);  // red
+    material.flatShading = true;
+
+      const mesh = new THREE.Mesh( geometry, material );
+      // console.log(mesh);
+      return mesh;
+  } catch(n) {
+  }
+}
+const generateBoxes = count => {
+  const boxes = [];
+  for (let i = 0; i < count; i++) {
+    const box = {
+      position: [
+        Math.random() * 10 - 5,
+        Math.random() * 10 - 5,
+        Math.random() * 10 - 5,
+      ],
+      size: [
+        Math.random() * 2,
+        Math.random() * 2,
+        Math.random() * 2,
+      ],
+      color: Math.random() * 0xffffff,
+    }
+    boxes.push(box);
+  }
+  return boxes;
+}
+
+
 export default {
   getMesh,
   addObserver,
@@ -252,4 +300,6 @@ export default {
   getCubicBezierCurve3,
   getIntersections,
   resizeRendererToDisplaySize,
+  createFacemeshMesh,
+  generateBoxes,
 }

@@ -1,28 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton';
 import helpers from '../../utils/helpers.js';
 import './Demo.css'
-
-import landmarks from './constants/landmarks.js'
-import TRIANGULATION from './constants/triangulation.js'
-
-function create_facemesh_mesh(keypoints){
-  try {
-    const geometry = new THREE.BufferGeometry();
-    geometry.addAttribute( 'position', new THREE.BufferAttribute(new Float32Array(keypoints.flat()),3));
-    geometry.setIndex( new THREE.BufferAttribute( new Uint16Array(TRIANGULATION), 1 ) );
-     
-    const material = new THREE.MeshPhongMaterial();
-    material.color.setHSL(0, 1, .5);  // red
-    material.flatShading = true;
-
-      const mesh = new THREE.Mesh( geometry, material );
-      console.log(mesh);
-      return mesh;
-  } catch(n) {
-  }
-}
+import { GUI } from 'dat.gui'
 
 const {
   addObserver,
@@ -31,13 +12,34 @@ const {
   getCubicBezierCurve3,
   getIntersections,
   resizeRendererToDisplaySize,
+  createFacemeshMesh,
+  generateBoxes,
 } = helpers;
+
+// const planeSettings = generateBoxes(3)
+const menuItems = [
+  {
+    image: 'sunset-text.png',
+    position: [-2, 1, -3],
+    size: [2, 1, 0],
+    name: 'sunset',
+  },
+  {
+    image: 'street-text.png',
+    position: [2, 1, -3],
+    size: [2, 1, 0],
+    name: 'street',
+  }
+];
 
 class Game {
   constructor() {
-    this.IS_XR_ENABLED = false;
+    this.IS_XR_ENABLED = true;
 
     this.renderer = this.getRenderer();
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+
     this.scene = this.getScene(this.renderer);
     this.stage = this.getStage();
     this.scene.add(this.stage);
@@ -45,15 +47,26 @@ class Game {
     this.globals = {
       controller1: null,
       controller2: null,
+      gamepad1: null,
+      gamepad2: null,
       moving: false,
       progress: 0,
       boxes: [],
+      planes: [],
       bezierCurve: null,
       model: {},
       clock: new THREE.Clock(),
-      objectForTeleportation: []
+      objectForTeleportation: [],
+      audio: {
+        isEnabled: false,
+        isPlaying: false,
+        sound: null,
+        listener: null,
+        source: 'voice-1.ogg',
+      },
+      intersected: null,
+      light: null,
     }
-
 
     this.stage.add( new THREE.AxesHelper( 100 ) );
     this.scene.background = new THREE.Color( '#0A1931' );
@@ -70,10 +83,22 @@ class Game {
     this.camera = this.getCamera();
     this.person.add(this.camera);
 
-    const [controller1, controller2] = initControllers({ 
+    const {controller1, controller2, gamepad1, gamepad2 } = initControllers({ 
       scene: this.person, 
       onSelectStart: this.onSelectStart,
+      onSelectEnd: this.onSelectEnd,
       renderer: this.renderer
+    })
+
+    gamepad1.addEventListener("connected", (e) => {
+      console.log('gamepad1',);
+      this.globals.gamepad1 = e.data.gamepad
+    })
+
+
+    gamepad2.addEventListener("connected", (e) => {
+      console.log('gamepad2',);
+      this.globals.gamepad2 = e.data.gamepad
     })
 
     this.person.add(controller1);
@@ -86,12 +111,9 @@ class Game {
     initOrbits(this.camera, this.renderer.domElement);
 
     // ------ light ------ //
-    this.scene.add(this.getHemitLight())
-    this.scene.add(this.getDirLight())
-    this.scene.add( new THREE.DirectionalLight( 0xffffff, 0.5 ) );
-
-    // ------ boxes geometry ------ //
-    this.globals.boxes = this.getBoxes()
+    const pointLight = this.getPointLight([0, 8, 0])
+    this.scene.add(pointLight)
+    this.globals.light = pointLight
 
     // ------ ring teleportation mesh ------ //
     this.ringMesh = this.getRing()
@@ -105,18 +127,37 @@ class Game {
     this.raycaster = new THREE.Raycaster();
     this.tempMatrix = new THREE.Matrix4();
 
+ 
+
+    // this.addFaceMesh(landmarks)
+    // ------ get boxes ------ //
+
+     this.getMenuItems(menuItems).forEach(plane => {
+      this.stage.add(plane.mesh)
+      this.globals.planes.push(plane)
+    })
+
+    // GIU
+    const cube = pointLight
+    const gui = new GUI()
+    const cubeFolder = gui.addFolder('Cube')
+    cubeFolder.add(cube.position, 'x', 0, Math.PI * 4)
+    cubeFolder.add(cube.position, 'y', 0, Math.PI * 4)
+    cubeFolder.add(cube.position, 'z', 0, Math.PI * 4)
+    cubeFolder.open()
+
+    const model = '/360_sphere_robot/scene.gltf';
+
+    helpers.loadModel(model, this.stage) 
+      .then(this.onModelLoad)
+
+    // ------ run ------ //
+
     if (this.IS_XR_ENABLED) {
       this.renderer.xr.enabled = true;
       document.body.appendChild(VRButton.createButton(this.renderer));
     }
-
-    this.addFaceMesh(landmarks)
-   
-
-    // helpers.loadModel(model, this.stage) 
-    //   .then(this.onModelLoad)
-
-    // ------ run ------ //
+    
     if (this.IS_XR_ENABLED) {
       this.renderer.setAnimationLoop(this.render);
     } 
@@ -128,15 +169,13 @@ class Game {
 
   addFaceMesh = (landmarks) => {
     const points = landmarks.flat();
-    console.log(points)
-    const mesh = create_facemesh_mesh(points)
+    const mesh = createFacemeshMesh(points)
 
     mesh.position.set(0,0,0)
     mesh.scale.x = 0.2;
     mesh.scale.y = 0.2;
     mesh.scale.z = 0.2;
-    
-    console.log(mesh.geometry )
+
     this.scene.add( mesh );
   }
 
@@ -179,6 +218,22 @@ class Game {
     });
 
     sourceMesh.add( sound );
+
+    this.globals.audio = {
+      sound,
+      listener,
+      source: sourceMesh
+    }
+  }
+
+  removeAudio() {
+    const { sound, listener, source } = this.globals.audio;
+
+    if (sound) {
+      sound.stop();
+      source.remove(sound);
+      listener.remove(source);
+    }
   }
 
   updateModel = () => {
@@ -193,7 +248,7 @@ class Game {
     }
   }
 
-  updateTeleportCurveAndRing() {
+  updateBezierCurveAndRing() {
     const { 
       ringMesh, 
       person, 
@@ -201,29 +256,58 @@ class Game {
       curveMesh,
     } = this;
 
+    if (globals.moving) return 
+
     const intersects = getIntersections(
-      this.globals.controller2, 
+      this.globals.controller1, 
       this.globals.objectForTeleportation, 
       this.raycaster, 
       this.tempMatrix
     );
     const intersected = intersects[0];
 
-    if (intersected && !globals.moving) {
-      this.updateRingPosition(ringMesh, intersected)
-    }
+    if (!intersected) return 
 
-    if (intersected && !globals.moving) {
-      const bezierCurve = getCubicBezierCurve3(
-        person.position.x,
-        person.position.y,
-        person.position.z,
-        ringMesh.position.x,
-        ringMesh.position.y,
-        ringMesh.position.z,
-      );
-      this.updateCurvePosition(curveMesh, bezierCurve, globals)
-    }
+    const bezierCurve = getCubicBezierCurve3(
+      person.position.x,
+      person.position.y,
+      person.position.z,
+      ringMesh.position.x,
+      ringMesh.position.y,
+      ringMesh.position.z,
+    );
+
+    this.updateCurvePosition(curveMesh, bezierCurve, globals);
+    this.updateRingPosition(ringMesh, intersected);
+  }
+
+  getIntersectedFigure() {
+    const { 
+      globals,
+    } = this;
+
+    const intersects = getIntersections(
+      this.globals.controller2, 
+      [...this.globals.boxes.map(box => box.mesh), ...this.globals.planes.map(plane => plane.mesh)],
+      this.raycaster, 
+      this.tempMatrix
+    );
+
+    return intersects[0];
+  }
+
+  playAudio = () => {
+    const {
+      globals,
+    } = this;
+
+    this.addAudio(globals.audio.source, this.person, globals.model.mesh)
+    console.log('play audio')
+  }
+
+  stopAudio = () => {
+    console.log('stop audio')
+    this.removeAudio()
   }
 
   updateRingPosition(ringMesh, intersected) {
@@ -274,28 +358,21 @@ class Game {
     })
   }
 
-  render = (time) => {
-    time *= 0.0005;
-
-    this.setAspect()
-    this.updateTeleportCurveAndRing()
-    this.movePerson()
-    this.moveBoxes(time);
-    this.updateModel(time)
-
-    if (!this.IS_XR_ENABLED) {
-      requestAnimationFrame(this.render);
-    } 
-
-    this.renderer.render(this.scene, this.camera);
+  moveLight = (time) => {
+    const { light } = this.globals;
+   
+    const newX = 3 * Math.sin(time);
+    light.position.x = newX
   }
 
-  onSelectStart = () => {
-    this.globals.moving = true;
+  onSelectStart = (e) => {
+    console.log(e)
+    if (e.data.handedness === "right")  {
+      this.globals.moving = true;
+    }
   }
 
-  onSelectEnd = () => {
-    this.globals.moving = false;
+  onSelectEnd = (e) => {
   }
 
   getStage() {
@@ -344,59 +421,45 @@ class Game {
 
   getCamera() {
     const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 120);
-    camera.position.set(20, 40, -60);
-
+    camera.position.set(1.2, 3, 14);
+    camera.lookAt( 0,0,0);
     return camera
   }
 
-  getHemitLight() {
-    const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );
+  getPointLight(position) {
+    const sphere = new THREE.SphereGeometry( 0.1, 16, 8 );
 
-    hemiLight.position.set( 0, 20, 0 );
+    const light = new THREE.PointLight( 0xff0040, 2, 50 );
+    light.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xff0040 } ) ) );
+    light.position.set( position[0], position[1], position[2] );
+    light.castShadow = true;
 
-    return hemiLight
+    return light
   }
 
-  getDirLight() {
-    const dirLight = new THREE.DirectionalLight( 0xffffff );
-    dirLight.position.set( - 3, 10, - 10 );
-    dirLight.castShadow = true;
-    dirLight.shadow.camera.top = 2;
-    dirLight.shadow.camera.bottom = - 2;
-    dirLight.shadow.camera.left = - 2;
-    dirLight.shadow.camera.right = 2;
-    dirLight.shadow.camera.near = 0.1;
-    dirLight.shadow.camera.far = 40;
+  getMenuItems = () => {
+    const loader = new THREE.TextureLoader();
 
-    return dirLight
-  }
+    return menuItems.map(({image, position, size, name}) => {
+      const group = new THREE.Group();
 
-  getBox = (geometry, color) => {
-    const material = new THREE.MeshPhongMaterial({color,shininess: 150});
-    const cube = new THREE.Mesh(geometry, material);
+      const material = new THREE.MeshBasicMaterial({color: Math.random() * 0xffffff});
+      const bigGeometry = new THREE.PlaneGeometry(size[0], size[1]);
+      const bigPlane = new THREE.Mesh(bigGeometry, material);
+      bigPlane.position.set(0, 0, 0);
 
-    cube.position.set(Math.random() * 12 - 6, 8, Math.random() * 12 - 6);
-    cube.rotation.set(Math.random()*2, Math.random()*2, Math.random()*2);
+      const texture = loader.load(image);
+      const smallMaterial = new THREE.MeshBasicMaterial({map: texture});
+      const geometry = new THREE.PlaneGeometry(size[0], size[1] * 0.5);
+      const smallPlane = new THREE.Mesh(geometry, smallMaterial);
+      smallPlane.position.set(0,0,0);
 
-    cube.receiveShadow = true
-    cube.castShadow = true
+      group.add(bigPlane);
+      group.add(smallPlane);
+      group.position.set(position[0], position[1], position[2]);
 
-    return cube;
-  }
-
-  getBoxes = (count = 0) => {
-    const height = 0.3;
-    const geometry = new THREE.BoxGeometry(height, height, height);
-    const boxes = [];
-
-    for (let i = 0; i < count; i++) {
-      const box = this.getBox(geometry, 'yellow');
-      
-      this.stage.add(box);
-      boxes.push({ type: 'cube', mesh: box })
-    }
- 
-    return boxes
+      return { type: "plane", mesh: group, name };
+    })
   }
 
   getRing() {
@@ -422,6 +485,71 @@ class Game {
 
     return curveMesh
   }
+
+  setHover = (e) => {
+    const intersected = this.getIntersectedFigure();
+    if (intersected) {
+      if ( this.globals.intersected !== intersected.object ) {
+        this.globals.intersected = intersected.object;
+        this.globals.intersected.currentHex = this.globals.intersected.material.color.getHex()
+        
+        // console.log('set new box color');
+
+        // set hover state
+        this.globals.intersected.material.color.setHex(0xff0000)
+      }
+    } else {
+      if (this.globals.intersected) {
+        // console.log('return to original color',{intersected});
+        // return to original color
+        this.globals.intersected.material.color.setHex(this.globals.intersected.currentHex)
+        this.globals.intersected = null
+        // this.globals.intersected.material.opacity.set(this.globals.intersected.currentHex);
+      }
+    }
+
+    // const selectedUuid = intersected?.object?.uuid;
+    // return this.globals.boxes.find(box => box.mesh.uuid === selectedUuid);
+  }
+
+  checkButtonPressed = () => {
+    const joystick = this.globals?.gamepad1?.buttons[3]
+
+    if (joystick && joystick.touched) {
+      const { axes } = this.globals.gamepad1;
+      const [,,xAmplitude] = axes;
+
+      if (xAmplitude > 0.15) {
+        this.person.rotation.y -= 0.015;
+      }
+
+      if (xAmplitude < -0.15) {
+        this.person.rotation.y += 0.015;
+      }
+      // console.log('joystick touched axes', axes);
+      console.log('\n');
+    }
+  }
+
+  render = (time) => {
+    time *= 0.0005;
+
+    this.setAspect()
+    this.updateBezierCurveAndRing()
+    this.movePerson()
+    // this.getIntersectedFigure()
+    // this.moveBoxes(time);
+    // this.moveLight(time)
+    this.updateModel(time)
+    this.setHover()
+    this.checkButtonPressed()
+    
+    if (!this.IS_XR_ENABLED) {
+      requestAnimationFrame(this.render);
+    } 
+
+    this.renderer.render(this.scene, this.camera);
+  }
 }
 
 function Demo() {
@@ -429,7 +557,15 @@ function Demo() {
     new Game();
   },[])
 
-  return <canvas id="c" />
+  return <div>
+     <canvas id="c" />
+  </div>
 }
 
 export default Demo;
+
+// todo
+// 1. add initial room with 2 window and text ("left" and "right")
+// select intersected box/plane/figure
+// 2. add rotation person (camera) by movin sticks
+// 3. add different lights
