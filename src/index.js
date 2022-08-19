@@ -2,74 +2,31 @@ import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import helpers from './helpers.js';
+import Controllers from './controllers.js';
 
-const {
-  addObserver,
-  initControllers,
-  initOrbits,
-  getIntersections,
-  needUpdateRenderSize,
-} = helpers;
+const { getDefaultSize, addObserver, initOrbits, needUpdateRenderSize } =
+  helpers;
 
 export default class DefaultScene {
   isXREnabled = 'xr' in window.navigator;
 
-  controller1 = null;
-  controller2 = null;
-  gamepad1 = null;
-  gamepad2 = null;
-  boxes = [];
-  planes = [];
-  model = {};
-  intersectListeners = new Map();
-  updaters = []
+  updaters = [];
   callbacks = {
     onSelectStart: [],
     onSelectEnd: [],
     onSticksEvents: [],
-  }
+  };
 
   constructor(params = {}) {
     this.params = params;
 
-    this.renderer = this.getRenderer();
-    params.configureRenderer?.(this.renderer);
+    this.initRenderer();
+    this.initScene();
+    this.initObserver();
+    this.initOrbitControls();
+    this.initCamera();
 
-    this.scene = this.getScene(this.renderer);
-    params.configureScene?.(this.scene);
-
-    this.observer = this.getObserver();
-    this.scene.add(this.observer);
-
-    // camera
-    this.camera = params.camera || this.getCamera();
-    this.observer.add(this.camera);
-
-    // create raycaster
-    this.raycaster = new THREE.Raycaster();
-    this.tempMatrix = new THREE.Matrix4();
-
-    const { controller1, controller2, grip1, grip2 } = initControllers({
-      scene: this.observer,
-      onSelectStart: this.onSelectStart,
-      onSelectEnd: this.onSelectEnd,
-      renderer: this.renderer,
-    });
-
-    grip1.addEventListener('connected', e => {
-      this.gamepad1 = e.data.gamepad;
-    });
-
-    grip2.addEventListener('connected', e => {
-      console.log('grip2');
-      this.gamepad2 = e.data.gamepad;
-    });
-
-    this.observer.add(controller1);
-    this.observer.add(controller2);
-
-    this.controller1 = controller1;
-    this.controller2 = controller2;
+    this.controllers = new Controllers(this.scene, this.renderer);
 
     params.onReady?.(this);
 
@@ -89,7 +46,62 @@ export default class DefaultScene {
     }
   }
 
-  initOrbits = () => initOrbits(this.camera, this.renderer.domElement);
+  initRenderer() {
+    const {
+      configure,
+      pixelRatio,
+      size = getDefaultSize(),
+      ...rest
+    } = this.params.render || {};
+
+    this.renderer = new THREE.WebGLRenderer(rest);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setSize(size.width, size.height);
+    this.renderer.outputEncoding = THREE.sRGBEncoding;
+
+    configure?.(this.renderer);
+  }
+
+  initScene() {
+    this.scene = new THREE.Scene();
+  }
+
+  initObserver() {
+    const { configure } = this.params.observer || {};
+
+    this.observer = addObserver(new THREE.Object3D());
+    this.observer.position.set(0, 0, 0);
+    configure?.(this.observer);
+
+    this.scene.add(this.observer);
+  }
+
+  initOrbitControls(params = this.params.orbits) {
+    if (!params) return;
+
+    const { configure } = (typeof params === 'object' && params) || {};
+
+    this.orbitControls = new OrbitControls(
+      this.camera,
+      this.renderer.domElement
+    );
+
+    this.orbitControls.target.set(0, 1.6, 0);
+    this.orbitControls.update();
+
+    configure?.(this.orbitControls);
+  }
+
+  initCamera(params = this.params.camera) {
+    if (typeof params === 'function') {
+      this.camera = params();
+      return;
+    }
+
+    this.camera = new THREE.PerspectiveCamera(75, 2, 0.1, 120);
+    this.camera.position.set(1.2, 3, 14);
+    this.camera.lookAt(0, 0, 0);
+  }
 
   loadModel({ url, onSuccess, onProgress, onError, position, scale }) {
     if (!this.gltfLoader) this.gltfLoader = new GLTFLoader();
@@ -110,23 +122,6 @@ export default class DefaultScene {
       onProgress,
       onError
     );
-  }
-
-  subscribeIntersectObjects(objects, callback) {
-    this.intersectListeners.set(callback, () => {
-      const intersections = getIntersections(
-        this.controller2,
-        objects,
-        this.raycaster,
-        this.tempMatrix
-      );
-
-      if (intersections[0]) callback(intersections[0]);
-    });
-  }
-
-  unsubscribeIntersectObjects(callback) {
-    this.intersectListeners.delete(callback);
   }
 
   addAudio({ url, targetMesh, listenerMeshes, onLoad }) {
@@ -158,45 +153,16 @@ export default class DefaultScene {
     this.callbacks.onSelectEnd?.forEach(callback => callback(e));
   };
 
-  getStage() {
-    return new THREE.Group();
-  }
-
-  getRenderer() {
-    const { canvas } = this.params;
-    return new THREE.WebGLRenderer({ canvas, antialias: true });
-  }
-
-  getScene(renderer) {
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.outputEncoding = THREE.sRGBEncoding;
-
-    return new THREE.Scene();
-  }
-
-  getObserver() {
-    const observer = addObserver(new THREE.Object3D());
-    observer.position.set(0, 0, 0);
-
-    return observer;
-  }
-
-  getCamera() {
-    const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 120);
-    camera.position.set(1.2, 3, 14);
-    camera.lookAt(0, 0, 0);
-    return camera;
-  }
-
   checkSticksPressed = () => {
-    const stickButtonLeft = this?.gamepad1?.buttons[3]
-    const stickButtonRight = this?.gamepad2?.buttons[3]
+    const stickButtonLeft = this?.gamepad1?.buttons[3];
+    const stickButtonRight = this?.gamepad2?.buttons[3];
     const axesLeft = this?.gamepad1?.axes;
     const axesRight = this?.gamepad2?.axes;
-    
+
     this.updateObserverRotation(stickButtonLeft, axesLeft);
-    this.callbacks.onSticksEvents?.forEach(callback => callback(stickButtonRight, axesRight));
+    this.callbacks.onSticksEvents?.forEach(callback =>
+      callback(stickButtonRight, axesRight)
+    );
   };
 
   updateObserverRotation = (stickButton, axes) => {

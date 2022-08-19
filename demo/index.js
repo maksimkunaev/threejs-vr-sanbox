@@ -92,17 +92,43 @@ function createMenu(instance) {
 
 let pointLight;
 
+const globalState = {
+  teleportation: true,
+  objects: {
+    floor: {
+      mesh: getFloor('#046582', 0, 0, 0),
+      listener: () => {
+        cosole.log(this);
+      },
+    },
+    light: getPointLight([0, 10, 0]),
+    menu: createMenu(),
+  },
+};
+
 new DefaultScene({
-  canvas: document.querySelector('canvas'),
-  configureRenderer(renderer) {
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+  renderer: {
+    canvas: document.querySelector('canvas'),
+    antialias: true,
+    configure: renderer => {
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+    },
   },
-  configureScene(scene) {
-    scene.add(new THREE.AxesHelper(100));
-    scene.background = new THREE.Color('#0A1931');
-    // scene.fog = new THREE.Fog('#545454e8', 0, 35);
+  scene: {
+    configure: scene => {
+      scene.add(new THREE.AxesHelper(100));
+      scene.background = new THREE.Color('#0A1931');
+      // scene.fog = new THREE.Fog('#545454e8', 0, 35);
+    },
   },
+  orbitControls: true,
+  // camera: () => {
+  //   const camera = new THREE.OrthographicCamera( -10, 10, 10, -10, 1, 1000 );
+  //   camera.position.set(0, 0, 10);
+  //   return camera;
+  // }
+
   onReady(DS) {
     const { scene } = DS;
 
@@ -126,7 +152,7 @@ new DefaultScene({
     DS.initOrbits();
 
     DS.loadModel({ url: '/public/360_sphere_robot/scene.gltf' });
-    
+
     DS.addAudio({
       url: '/public/guitar.mp3',
       targetMesh: DS.scene,
@@ -151,9 +177,9 @@ new DefaultScene({
       controller: DS.controller2,
     });
 
-    DS.updaters.push(teleportation.update)
-    DS.callbacks.onSelectStart.push(teleportation.startTeleportation)
-    DS.callbacks.onSticksEvents.push(teleportation.toggleTeleportGeometry)
+    DS.updaters.push(teleportation.update);
+    DS.callbacks.onSelectStart.push(teleportation.startTeleportation);
+    DS.callbacks.onSticksEvents.push(teleportation.toggleTeleportGeometry);
   },
   update(time) {
     pointLight.position.x = 3 * Math.sin(time);

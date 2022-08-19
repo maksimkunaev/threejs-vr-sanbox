@@ -1,36 +1,12 @@
 import * as THREE from 'three';
-import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-async function getMesh({
-  radius = 1,
-  color = 'blue',
-  side = THREE.FrontSide,
-  segmentCounts = 30,
-  map,
-}) {
-  const geometry = new THREE.SphereGeometry(
-    radius,
-    segmentCounts,
-    segmentCounts
-  );
-  const loader = new THREE.TextureLoader();
-  const material = new THREE.MeshStandardMaterial({
-    color,
-    side,
-  });
-
-  if (map) material.map = loader.load(map);
-
-  const mesh = new THREE.Mesh(geometry, material);
-
-  mesh.castShadow = true;
-  mesh.receiveShadow = true;
-
-  return mesh;
-}
+export const getDefaultSize = () => ({
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
 
 function addObserver(mesh) {
   const height = 0.05;
@@ -47,60 +23,6 @@ function addObserver(mesh) {
   mesh.add(observer);
 
   return observer;
-}
-
-function initControllers({ scene, renderer, onSelectStart, onSelectEnd }) {
-  const controller1 = renderer.xr.getController(0);
-  const controller2 = renderer.xr.getController(1);
-
-  if (onSelectStart) {
-    controller1.addEventListener('selectstart', onSelectStart);
-    controller2.addEventListener('selectstart', onSelectStart);
-  }
-
-  if (onSelectEnd) {
-    controller1.addEventListener('selectend', onSelectEnd);
-    controller2.addEventListener('selectend', onSelectEnd);
-  }
-
-  scene.add(controller1);
-  scene.add(controller2);
-
-  const controllerModelFactory = new XRControllerModelFactory();
-
-  const grip1 = renderer.xr.getControllerGrip(0);
-  const grip2 = renderer.xr.getControllerGrip(1);
-
-  grip1.add(controllerModelFactory.createControllerModel(grip1));
-  grip2.add(controllerModelFactory.createControllerModel(grip2));
-
-  scene.add(grip1);
-  scene.add(grip2);
-
-  const geometry = new THREE.BufferGeometry().setFromPoints([
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0, 0, -1),
-  ]);
-  const line = new THREE.Line(geometry);
-
-  line.name = 'line';
-  line.scale.z = 50;
-
-  controller1.add(line.clone());
-  controller2.add(line.clone());
-
-  return {
-    controller1,
-    controller2,
-    grip1,
-    grip2,
-  };
-}
-
-function initOrbits(camera, canvas) {
-  const controls = new OrbitControls(camera, canvas);
-  controls.target.set(0, 1.6, 0);
-  controls.update();
 }
 
 function updateText({ text, scene, oldTextMesh, font }) {
