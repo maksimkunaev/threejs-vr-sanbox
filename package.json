@@ -5,31 +5,17 @@
   "dependencies": {
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-node-resolve": "^13.3.0",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
-    "axios": "^0.24.0",
     "dat.gui": "^0.7.7",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "react-speech-recognition": "^3.9.0",
     "rollup": "^2.78.0",
-    "teleportvr": "^3.0.0",
-    "three": "^0.133.1",
-    "web-vitals": "^1.1.2"
+    "three": "^0.133.1"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
   },
   "scripts": {
-    "start": "PORT=3006 react-scripts start",
     "build": "rollup -c --environment PORT=4444 --environment INCLUDE_DEPS,BUILD:production",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "dev": "rollup -c --environment PORT=4444 --environment INCLUDE_DEPS,BUILD:production --watch",
+    "demo": "http-server ./demo -p=5000"
   },
   "browserslist": {
     "production": [

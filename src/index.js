@@ -7,7 +7,6 @@ const {
   addObserver,
   initControllers,
   initOrbits,
-  getCubicBezierCurve3,
   getIntersections,
   needUpdateRenderSize,
 } = helpers;
@@ -19,16 +18,16 @@ export default class DefaultScene {
   controller2 = null;
   gamepad1 = null;
   gamepad2 = null;
-  moving = false;
-  progress = 0;
   boxes = [];
   planes = [];
-  ringMesh = null;
-  curveMesh = null;
-  bezierCurve = null;
   model = {};
-  objectsForTeleportation = [];
   intersectListeners = new Map();
+  updaters = []
+  callbacks = {
+    onSelectStart: [],
+    onSelectEnd: [],
+    onSticksEvents: [],
+  }
 
   constructor(params = {}) {
     this.params = params;
@@ -72,14 +71,6 @@ export default class DefaultScene {
     this.controller1 = controller1;
     this.controller2 = controller2;
 
-    // ring teleportation mesh
-    this.ringMesh = this.getRing();
-    this.scene.add(this.ringMesh);
-
-    // curve teleportation mesh
-    this.curveMesh = this.getCurveMesh();
-    this.scene.add(this.curveMesh);
-
     params.onReady?.(this);
 
     // run //
@@ -96,10 +87,6 @@ export default class DefaultScene {
     if (!this.isXREnabled) {
       requestAnimationFrame(this.update);
     }
-  }
-
-  setObjectsForTeleport(objects) {
-    this.objectsForTeleportation.push(...objects);
   }
 
   initOrbits = () => initOrbits(this.camera, this.renderer.domElement);
@@ -127,8 +114,6 @@ export default class DefaultScene {
 
   subscribeIntersectObjects(objects, callback) {
     this.intersectListeners.set(callback, () => {
-      console.log('objects', objects);
-
       const intersections = getIntersections(
         this.controller2,
         objects,
@@ -165,68 +150,13 @@ export default class DefaultScene {
     }
   }
 
-  updateBezierCurveAndRing() {
-    const { ringMesh, observer } = this;
-
-    if (this.moving) return;
-
-    const intersects = getIntersections(
-      this.controller1,
-      this.objectsForTeleportation,
-      this.raycaster,
-      this.tempMatrix
-    );
-    const intersected = intersects[0];
-
-    if (!intersected) return;
-
-    const newBezierCurve = getCubicBezierCurve3(
-      observer.position.x,
-      observer.position.y,
-      observer.position.z,
-      ringMesh.position.x,
-      ringMesh.position.y,
-      ringMesh.position.z
-    );
-
-    this.updateCurvePosition(newBezierCurve);
-    this.updateRingPosition(intersected);
-  }
-
-  updateRingPosition({ point }) {
-    this.ringMesh.position.set(point.x, point.y + 0.02, point.z);
-  }
-
-  updateCurvePosition(newBezierCurve) {
-    this.curveMesh.geometry = new THREE.BufferGeometry().setFromPoints(
-      newBezierCurve.getPoints(50)
-    );
-    this.curveMesh.geometry.buffersNeedUpdate = true;
-    this.bezierCurve = newBezierCurve;
-  }
-
-  moveObserver = () => {
-    if (this.moving && this.bezierCurve) {
-      if (this.progress >= 1) {
-        this.progress = 0;
-        this.moving = false;
-        this.bezierCurve = null;
-        return;
-      }
-
-      this.observer.position.copy(this.bezierCurve.getPointAt(this.progress));
-      this.progress += 0.05;
-    }
-  };
-
   onSelectStart = e => {
-    console.log(e);
-    if (e.data.handedness === 'right') {
-      this.moving = true;
-    }
+    this.callbacks.onSelectStart?.forEach(callback => callback(e));
   };
 
-  onSelectEnd = e => {};
+  onSelectEnd = e => {
+    this.callbacks.onSelectEnd?.forEach(callback => callback(e));
+  };
 
   getStage() {
     return new THREE.Group();
@@ -259,33 +189,18 @@ export default class DefaultScene {
     return camera;
   }
 
-  getRing() {
-    const ringMesh = new THREE.Mesh(
-      new THREE.RingGeometry(0.05, 0.2, 18),
-      new THREE.MeshPhongMaterial({ color: '#185ADB' })
-    );
-    ringMesh.rotation.x = -Math.PI / 2;
+  checkSticksPressed = () => {
+    const stickButtonLeft = this?.gamepad1?.buttons[3]
+    const stickButtonRight = this?.gamepad2?.buttons[3]
+    const axesLeft = this?.gamepad1?.axes;
+    const axesRight = this?.gamepad2?.axes;
+    
+    this.updateObserverRotation(stickButtonLeft, axesLeft);
+    this.callbacks.onSticksEvents?.forEach(callback => callback(stickButtonRight, axesRight));
+  };
 
-    return ringMesh;
-  }
-
-  getCurveMesh() {
-    const bezierCurve = getCubicBezierCurve3(0, 0, 0, -5, -5, -5);
-    const curveMesh = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints(bezierCurve.getPoints(50)),
-      new THREE.LineBasicMaterial({ color: 0xff0000 })
-    );
-
-    return curveMesh;
-  }
-
-  updateObserverRotation = () => {
-    // TODO: move to this.controller.onstickmove
-
-    const joystick = this?.gamepad1?.buttons[3];
-
-    if (joystick && joystick.touched) {
-      const { axes } = this.gamepad1;
+  updateObserverRotation = (stickButton, axes) => {
+    if (stickButton?.touched) {
       const [, , xAmplitude] = axes;
 
       if (xAmplitude > 0.15) {
@@ -302,12 +217,11 @@ export default class DefaultScene {
     time *= 0.0005;
 
     this.setAspect();
-    this.updateBezierCurveAndRing();
-    this.moveObserver();
-    this.updateObserverRotation();
+    this.checkSticksPressed();
 
     this.params.update(time);
     this.intersectListeners.forEach(l => l());
+    this.updaters.forEach(u => u(time));
 
     if (!this.isXREnabled) {
       requestAnimationFrame(this.update);
