@@ -1,10 +1,11 @@
 import * as THREE from 'three';
 import { GUI } from 'dat.gui';
 
+import Teleportation from '../src/teleport';
 import DefaultScene from '../src/index.js';
 
 function getFloor(color, x, y, z) {
-  const floorMesh = new THREE.Mesh(
+  const mesh = new THREE.Mesh(
     new THREE.PlaneGeometry(50, 50),
     new THREE.MeshPhongMaterial({
       side: THREE.DoubleSide,
@@ -15,13 +16,13 @@ function getFloor(color, x, y, z) {
       bumpScale: 0.0005,
     })
   );
-  floorMesh.rotation.x = -Math.PI / 2.0;
-  floorMesh.receiveShadow = true;
-  floorMesh.position.x = x || 0;
-  floorMesh.position.z = z || 0;
-  floorMesh.position.y = y || 0;
+  mesh.rotation.x = -Math.PI / 2.0;
+  mesh.receiveShadow = true;
+  mesh.position.x = x || 0;
+  mesh.position.z = z || 0;
+  mesh.position.y = y || 0;
 
-  return floorMesh;
+  return mesh;
 }
 
 function getPointLight(position) {
@@ -69,8 +70,6 @@ function createMenu(instance) {
   let lastIntersected;
 
   function onMenuHover(obj) {
-    console.log('onMenuHover', obj);
-
     if (obj) {
       if (lastIntersected !== obj.object) {
         lastIntersected = obj.object;
@@ -110,7 +109,6 @@ new DefaultScene({
     // floor
     const floor = getFloor('#046582', 0, 0, 0);
     scene.add(floor);
-    DS.setObjectsForTeleport([floor]);
 
     // light
     pointLight = getPointLight([0, 10, 0]);
@@ -127,8 +125,8 @@ new DefaultScene({
 
     DS.initOrbits();
 
-    DS.loadModel({ url: '/360_sphere_robot/scene.gltf' });
-
+    DS.loadModel({ url: '/public/360_sphere_robot/scene.gltf' });
+    
     DS.addAudio({
       url: '/public/guitar.mp3',
       targetMesh: DS.scene,
@@ -145,6 +143,17 @@ new DefaultScene({
         sound.play();
       },
     });
+
+    const teleportation = new Teleportation({
+      scene,
+      targets: [floor],
+      observer: DS.observer,
+      controller: DS.controller2,
+    });
+
+    DS.updaters.push(teleportation.update)
+    DS.callbacks.onSelectStart.push(teleportation.startTeleportation)
+    DS.callbacks.onSticksEvents.push(teleportation.toggleTeleportGeometry)
   },
   update(time) {
     pointLight.position.x = 3 * Math.sin(time);

@@ -182,7 +182,7 @@ function setTexture({ maps, material }) {
 }
 
 // TODO optimize (just update every loop - not create avery loop iteraetion)
-function getCubicBezierCurve3(x0, y0, z0, x2, y2, z2) {
+function getCubicCurve3(x0, y0, z0, x2, y2, z2) {
   const getMiddlePoint = (first, last) => {
     return first + (last - first) / 2;
   };
@@ -254,7 +254,7 @@ export default {
   loadFont,
   addTextMesh,
   setTexture,
-  getCubicBezierCurve3,
+  getCubicCurve3,
   getIntersections,
   needUpdateRenderSize,
   generateBoxes,

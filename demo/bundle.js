@@ -43857,7 +43857,7 @@
 
 	/**
 	 * dat-gui JavaScript Controller Library
-	 * https://github.com/dataarts/dat.gui
+	 * http://code.google.com/p/dat-gui
 	 *
 	 * Copyright 2011 Data Arts Team, Google Creative Lab
 	 *
@@ -44073,7 +44073,7 @@
 	    },
 	    CSS_RGB: {
 	      read: function read(original) {
-	        var test = original.match(/^rgb\(\s*(\S+)\s*,\s*(\S+)\s*,\s*(\S+)\s*\)/);
+	        var test = original.match(/^rgb\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\)/);
 	        if (test === null) {
 	          return false;
 	        }
@@ -44088,7 +44088,7 @@
 	    },
 	    CSS_RGBA: {
 	      read: function read(original) {
-	        var test = original.match(/^rgba\(\s*(\S+)\s*,\s*(\S+)\s*,\s*(\S+)\s*,\s*(\S+)\s*\)/);
+	        var test = original.match(/^rgba\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\)/);
 	        if (test === null) {
 	          return false;
 	        }
@@ -45166,13 +45166,13 @@
 	      }
 	    });
 	    dom.bind(_this2.__input, 'blur', onBlur);
-	    dom.bind(_this2.__selector, 'mousedown', function () {
-	      dom.addClass(this, 'drag').bind(window, 'mouseup', function () {
+	    dom.bind(_this2.__selector, 'mousedown', function ()        {
+	      dom.addClass(this, 'drag').bind(window, 'mouseup', function ()        {
 	        dom.removeClass(_this.__selector, 'drag');
 	      });
 	    });
-	    dom.bind(_this2.__selector, 'touchstart', function () {
-	      dom.addClass(this, 'drag').bind(window, 'touchend', function () {
+	    dom.bind(_this2.__selector, 'touchstart', function ()        {
+	      dom.addClass(this, 'drag').bind(window, 'touchend', function ()        {
 	        dom.removeClass(_this.__selector, 'drag');
 	      });
 	    });
@@ -45521,7 +45521,7 @@
 	  return CenteredDiv;
 	}();
 
-	var styleSheet = ___$insertStyle(".dg ul{list-style:none;margin:0;padding:0;width:100%;clear:both}.dg.ac{position:fixed;top:0;left:0;right:0;height:0;z-index:0}.dg:not(.ac) .main{overflow:hidden}.dg.main{-webkit-transition:opacity .1s linear;-o-transition:opacity .1s linear;-moz-transition:opacity .1s linear;transition:opacity .1s linear}.dg.main.taller-than-window{overflow-y:auto}.dg.main.taller-than-window .close-button{opacity:1;margin-top:-1px;border-top:1px solid #2c2c2c}.dg.main ul.closed .close-button{opacity:1 !important}.dg.main:hover .close-button,.dg.main .close-button.drag{opacity:1}.dg.main .close-button{-webkit-transition:opacity .1s linear;-o-transition:opacity .1s linear;-moz-transition:opacity .1s linear;transition:opacity .1s linear;border:0;line-height:19px;height:20px;cursor:pointer;text-align:center;background-color:#000}.dg.main .close-button.close-top{position:relative}.dg.main .close-button.close-bottom{position:absolute}.dg.main .close-button:hover{background-color:#111}.dg.a{float:right;margin-right:15px;overflow-y:visible}.dg.a.has-save>ul.close-top{margin-top:0}.dg.a.has-save>ul.close-bottom{margin-top:27px}.dg.a.has-save>ul.closed{margin-top:0}.dg.a .save-row{top:0;z-index:1002}.dg.a .save-row.close-top{position:relative}.dg.a .save-row.close-bottom{position:fixed}.dg li{-webkit-transition:height .1s ease-out;-o-transition:height .1s ease-out;-moz-transition:height .1s ease-out;transition:height .1s ease-out;-webkit-transition:overflow .1s linear;-o-transition:overflow .1s linear;-moz-transition:overflow .1s linear;transition:overflow .1s linear}.dg li:not(.folder){cursor:auto;height:27px;line-height:27px;padding:0 4px 0 5px}.dg li.folder{padding:0;border-left:4px solid rgba(0,0,0,0)}.dg li.title{cursor:pointer;margin-left:-4px}.dg .closed li:not(.title),.dg .closed ul li,.dg .closed ul li>*{height:0;overflow:hidden;border:0}.dg .cr{clear:both;padding-left:3px;height:27px;overflow:hidden}.dg .property-name{cursor:default;float:left;clear:left;width:40%;overflow:hidden;text-overflow:ellipsis}.dg .cr.function .property-name{width:100%}.dg .c{float:left;width:60%;position:relative}.dg .c input[type=text]{border:0;margin-top:4px;padding:3px;width:100%;float:right}.dg .has-slider input[type=text]{width:30%;margin-left:0}.dg .slider{float:left;width:66%;margin-left:-5px;margin-right:0;height:19px;margin-top:4px}.dg .slider-fg{height:100%}.dg .c input[type=checkbox]{margin-top:7px}.dg .c select{margin-top:5px}.dg .cr.function,.dg .cr.function .property-name,.dg .cr.function *,.dg .cr.boolean,.dg .cr.boolean *{cursor:pointer}.dg .cr.color{overflow:visible}.dg .selector{display:none;position:absolute;margin-left:-9px;margin-top:23px;z-index:10}.dg .c:hover .selector,.dg .selector.drag{display:block}.dg li.save-row{padding:0}.dg li.save-row .button{display:inline-block;padding:0px 6px}.dg.dialogue{background-color:#222;width:460px;padding:15px;font-size:13px;line-height:15px}#dg-new-constructor{padding:10px;color:#222;font-family:Monaco, monospace;font-size:10px;border:0;resize:none;box-shadow:inset 1px 1px 1px #888;word-wrap:break-word;margin:12px 0;display:block;width:440px;overflow-y:scroll;height:100px;position:relative}#dg-local-explain{display:none;font-size:11px;line-height:17px;border-radius:3px;background-color:#333;padding:8px;margin-top:10px}#dg-local-explain code{font-size:10px}#dat-gui-save-locally{display:none}.dg{color:#eee;font:11px 'Lucida Grande', sans-serif;text-shadow:0 -1px 0 #111}.dg.main::-webkit-scrollbar{width:5px;background:#1a1a1a}.dg.main::-webkit-scrollbar-corner{height:0;display:none}.dg.main::-webkit-scrollbar-thumb{border-radius:5px;background:#676767}.dg li:not(.folder){background:#1a1a1a;border-bottom:1px solid #2c2c2c}.dg li.save-row{line-height:25px;background:#dad5cb;border:0}.dg li.save-row select{margin-left:5px;width:108px}.dg li.save-row .button{margin-left:5px;margin-top:1px;border-radius:2px;font-size:9px;line-height:7px;padding:4px 4px 5px 4px;background:#c5bdad;color:#fff;text-shadow:0 1px 0 #b0a58f;box-shadow:0 -1px 0 #b0a58f;cursor:pointer}.dg li.save-row .button.gears{background:#c5bdad url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQJJREFUeNpiYKAU/P//PwGIC/ApCABiBSAW+I8AClAcgKxQ4T9hoMAEUrxx2QSGN6+egDX+/vWT4e7N82AMYoPAx/evwWoYoSYbACX2s7KxCxzcsezDh3evFoDEBYTEEqycggWAzA9AuUSQQgeYPa9fPv6/YWm/Acx5IPb7ty/fw+QZblw67vDs8R0YHyQhgObx+yAJkBqmG5dPPDh1aPOGR/eugW0G4vlIoTIfyFcA+QekhhHJhPdQxbiAIguMBTQZrPD7108M6roWYDFQiIAAv6Aow/1bFwXgis+f2LUAynwoIaNcz8XNx3Dl7MEJUDGQpx9gtQ8YCueB+D26OECAAQDadt7e46D42QAAAABJRU5ErkJggg==) 2px 1px no-repeat;height:7px;width:8px}.dg li.save-row .button:hover{background-color:#bab19e;box-shadow:0 -1px 0 #b0a58f}.dg li.folder{border-bottom:0}.dg li.title{padding-left:16px;background:#000 url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.2)}.dg .closed li.title{background-image:url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlGIWqMCbWAEAOw==)}.dg .cr.boolean{border-left:3px solid #806787}.dg .cr.color{border-left:3px solid}.dg .cr.function{border-left:3px solid #e61d5f}.dg .cr.number{border-left:3px solid #2FA1D6}.dg .cr.number input[type=text]{color:#2FA1D6}.dg .cr.string{border-left:3px solid #1ed36f}.dg .cr.string input[type=text]{color:#1ed36f}.dg .cr.function:hover,.dg .cr.boolean:hover{background:#111}.dg .c input[type=text]{background:#303030;outline:none}.dg .c input[type=text]:hover{background:#3c3c3c}.dg .c input[type=text]:focus{background:#494949;color:#fff}.dg .c .slider{background:#303030;cursor:ew-resize}.dg .c .slider-fg{background:#2FA1D6;max-width:100%}.dg .c .slider:hover{background:#3c3c3c}.dg .c .slider:hover .slider-fg{background:#44abda}\n");
+	var styleSheet = ___$insertStyle(".dg ul{list-style:none;margin:0;padding:0;width:100%;clear:both}.dg.ac{position:fixed;top:0;left:0;right:0;height:0;z-index:0}.dg:not(.ac) .main{overflow:hidden}.dg.main{-webkit-transition:opacity .1s linear;-o-transition:opacity .1s linear;-moz-transition:opacity .1s linear;transition:opacity .1s linear}.dg.main.taller-than-window{overflow-y:auto}.dg.main.taller-than-window .close-button{opacity:1;margin-top:-1px;border-top:1px solid #2c2c2c}.dg.main ul.closed .close-button{opacity:1 !important}.dg.main:hover .close-button,.dg.main .close-button.drag{opacity:1}.dg.main .close-button{-webkit-transition:opacity .1s linear;-o-transition:opacity .1s linear;-moz-transition:opacity .1s linear;transition:opacity .1s linear;border:0;line-height:19px;height:20px;cursor:pointer;text-align:center;background-color:#000}.dg.main .close-button.close-top{position:relative}.dg.main .close-button.close-bottom{position:absolute}.dg.main .close-button:hover{background-color:#111}.dg.a{float:right;margin-right:15px;overflow-y:visible}.dg.a.has-save>ul.close-top{margin-top:0}.dg.a.has-save>ul.close-bottom{margin-top:27px}.dg.a.has-save>ul.closed{margin-top:0}.dg.a .save-row{top:0;z-index:1002}.dg.a .save-row.close-top{position:relative}.dg.a .save-row.close-bottom{position:fixed}.dg li{-webkit-transition:height .1s ease-out;-o-transition:height .1s ease-out;-moz-transition:height .1s ease-out;transition:height .1s ease-out;-webkit-transition:overflow .1s linear;-o-transition:overflow .1s linear;-moz-transition:overflow .1s linear;transition:overflow .1s linear}.dg li:not(.folder){cursor:auto;height:27px;line-height:27px;padding:0 4px 0 5px}.dg li.folder{padding:0;border-left:4px solid rgba(0,0,0,0)}.dg li.title{cursor:pointer;margin-left:-4px}.dg .closed li:not(.title),.dg .closed ul li,.dg .closed ul li>*{height:0;overflow:hidden;border:0}.dg .cr{clear:both;padding-left:3px;height:27px;overflow:hidden}.dg .property-name{cursor:default;float:left;clear:left;width:40%;overflow:hidden;text-overflow:ellipsis}.dg .c{float:left;width:60%;position:relative}.dg .c input[type=text]{border:0;margin-top:4px;padding:3px;width:100%;float:right}.dg .has-slider input[type=text]{width:30%;margin-left:0}.dg .slider{float:left;width:66%;margin-left:-5px;margin-right:0;height:19px;margin-top:4px}.dg .slider-fg{height:100%}.dg .c input[type=checkbox]{margin-top:7px}.dg .c select{margin-top:5px}.dg .cr.function,.dg .cr.function .property-name,.dg .cr.function *,.dg .cr.boolean,.dg .cr.boolean *{cursor:pointer}.dg .cr.color{overflow:visible}.dg .selector{display:none;position:absolute;margin-left:-9px;margin-top:23px;z-index:10}.dg .c:hover .selector,.dg .selector.drag{display:block}.dg li.save-row{padding:0}.dg li.save-row .button{display:inline-block;padding:0px 6px}.dg.dialogue{background-color:#222;width:460px;padding:15px;font-size:13px;line-height:15px}#dg-new-constructor{padding:10px;color:#222;font-family:Monaco, monospace;font-size:10px;border:0;resize:none;box-shadow:inset 1px 1px 1px #888;word-wrap:break-word;margin:12px 0;display:block;width:440px;overflow-y:scroll;height:100px;position:relative}#dg-local-explain{display:none;font-size:11px;line-height:17px;border-radius:3px;background-color:#333;padding:8px;margin-top:10px}#dg-local-explain code{font-size:10px}#dat-gui-save-locally{display:none}.dg{color:#eee;font:11px 'Lucida Grande', sans-serif;text-shadow:0 -1px 0 #111}.dg.main::-webkit-scrollbar{width:5px;background:#1a1a1a}.dg.main::-webkit-scrollbar-corner{height:0;display:none}.dg.main::-webkit-scrollbar-thumb{border-radius:5px;background:#676767}.dg li:not(.folder){background:#1a1a1a;border-bottom:1px solid #2c2c2c}.dg li.save-row{line-height:25px;background:#dad5cb;border:0}.dg li.save-row select{margin-left:5px;width:108px}.dg li.save-row .button{margin-left:5px;margin-top:1px;border-radius:2px;font-size:9px;line-height:7px;padding:4px 4px 5px 4px;background:#c5bdad;color:#fff;text-shadow:0 1px 0 #b0a58f;box-shadow:0 -1px 0 #b0a58f;cursor:pointer}.dg li.save-row .button.gears{background:#c5bdad url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQJJREFUeNpiYKAU/P//PwGIC/ApCABiBSAW+I8AClAcgKxQ4T9hoMAEUrxx2QSGN6+egDX+/vWT4e7N82AMYoPAx/evwWoYoSYbACX2s7KxCxzcsezDh3evFoDEBYTEEqycggWAzA9AuUSQQgeYPa9fPv6/YWm/Acx5IPb7ty/fw+QZblw67vDs8R0YHyQhgObx+yAJkBqmG5dPPDh1aPOGR/eugW0G4vlIoTIfyFcA+QekhhHJhPdQxbiAIguMBTQZrPD7108M6roWYDFQiIAAv6Aow/1bFwXgis+f2LUAynwoIaNcz8XNx3Dl7MEJUDGQpx9gtQ8YCueB+D26OECAAQDadt7e46D42QAAAABJRU5ErkJggg==) 2px 1px no-repeat;height:7px;width:8px}.dg li.save-row .button:hover{background-color:#bab19e;box-shadow:0 -1px 0 #b0a58f}.dg li.folder{border-bottom:0}.dg li.title{padding-left:16px;background:#000 url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.2)}.dg .closed li.title{background-image:url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlGIWqMCbWAEAOw==)}.dg .cr.boolean{border-left:3px solid #806787}.dg .cr.color{border-left:3px solid}.dg .cr.function{border-left:3px solid #e61d5f}.dg .cr.number{border-left:3px solid #2FA1D6}.dg .cr.number input[type=text]{color:#2FA1D6}.dg .cr.string{border-left:3px solid #1ed36f}.dg .cr.string input[type=text]{color:#1ed36f}.dg .cr.function:hover,.dg .cr.boolean:hover{background:#111}.dg .c input[type=text]{background:#303030;outline:none}.dg .c input[type=text]:hover{background:#3c3c3c}.dg .c input[type=text]:focus{background:#494949;color:#fff}.dg .c .slider{background:#303030;cursor:ew-resize}.dg .c .slider-fg{background:#2FA1D6;max-width:100%}.dg .c .slider:hover{background:#3c3c3c}.dg .c .slider:hover .slider-fg{background:#44abda}\n");
 
 	css.inject(styleSheet);
 	var CSS_NAMESPACE = 'dg';
@@ -46027,7 +46027,7 @@
 	function augmentController(gui, li, controller) {
 	  controller.__li = li;
 	  controller.__gui = gui;
-	  Common.extend(controller, {
+	  Common.extend(controller,                                   {
 	    options: function options(_options) {
 	      if (arguments.length > 1) {
 	        var nextSibling = controller.__li.nextElementSibling;
@@ -46349,174 +46349,6 @@
 	  });
 	}
 	var GUI$1 = GUI;
-
-	class VRButton {
-
-		static createButton( renderer, options ) {
-
-			if ( options ) {
-
-				console.error( 'THREE.VRButton: The "options" parameter has been removed. Please set the reference space type via renderer.xr.setReferenceSpaceType() instead.' );
-
-			}
-
-			const button = document.createElement( 'button' );
-
-			function showEnterVR( /*device*/ ) {
-
-				let currentSession = null;
-
-				async function onSessionStarted( session ) {
-
-					session.addEventListener( 'end', onSessionEnded );
-
-					await renderer.xr.setSession( session );
-					button.textContent = 'EXIT VR';
-
-					currentSession = session;
-
-				}
-
-				function onSessionEnded( /*event*/ ) {
-
-					currentSession.removeEventListener( 'end', onSessionEnded );
-
-					button.textContent = 'ENTER VR';
-
-					currentSession = null;
-
-				}
-
-				//
-
-				button.style.display = '';
-
-				button.style.cursor = 'pointer';
-				button.style.left = 'calc(50% - 50px)';
-				button.style.width = '100px';
-
-				button.textContent = 'ENTER VR';
-
-				button.onmouseenter = function () {
-
-					button.style.opacity = '1.0';
-
-				};
-
-				button.onmouseleave = function () {
-
-					button.style.opacity = '0.5';
-
-				};
-
-				button.onclick = function () {
-
-					if ( currentSession === null ) {
-
-						// WebXR's requestReferenceSpace only works if the corresponding feature
-						// was requested at session creation time. For simplicity, just ask for
-						// the interesting ones as optional features, but be aware that the
-						// requestReferenceSpace call will fail if it turns out to be unavailable.
-						// ('local' is always available for immersive sessions and doesn't need to
-						// be requested separately.)
-
-						const sessionInit = { optionalFeatures: [ 'local-floor', 'bounded-floor', 'hand-tracking', 'layers' ] };
-						navigator.xr.requestSession( 'immersive-vr', sessionInit ).then( onSessionStarted );
-
-					} else {
-
-						currentSession.end();
-
-					}
-
-				};
-
-			}
-
-			function disableButton() {
-
-				button.style.display = '';
-
-				button.style.cursor = 'auto';
-				button.style.left = 'calc(50% - 75px)';
-				button.style.width = '150px';
-
-				button.onmouseenter = null;
-				button.onmouseleave = null;
-
-				button.onclick = null;
-
-			}
-
-			function showWebXRNotFound() {
-
-				disableButton();
-
-				button.textContent = 'VR NOT SUPPORTED';
-
-			}
-
-			function stylizeElement( element ) {
-
-				element.style.position = 'absolute';
-				element.style.bottom = '20px';
-				element.style.padding = '12px 6px';
-				element.style.border = '1px solid #fff';
-				element.style.borderRadius = '4px';
-				element.style.background = 'rgba(0,0,0,0.1)';
-				element.style.color = '#fff';
-				element.style.font = 'normal 13px sans-serif';
-				element.style.textAlign = 'center';
-				element.style.opacity = '0.5';
-				element.style.outline = 'none';
-				element.style.zIndex = '999';
-
-			}
-
-			if ( 'xr' in navigator ) {
-
-				button.id = 'VRButton';
-				button.style.display = 'none';
-
-				stylizeElement( button );
-
-				navigator.xr.isSessionSupported( 'immersive-vr' ).then( function ( supported ) {
-
-					supported ? showEnterVR() : showWebXRNotFound();
-
-				} );
-
-				return button;
-
-			} else {
-
-				const message = document.createElement( 'a' );
-
-				if ( window.isSecureContext === false ) {
-
-					message.href = document.location.href.replace( /^http:/, 'https:' );
-					message.innerHTML = 'WEBXR NEEDS HTTPS'; // TODO Improve message
-
-				} else {
-
-					message.href = 'https://immersiveweb.dev/';
-					message.innerHTML = 'WEBXR NOT AVAILABLE';
-
-				}
-
-				message.style.left = 'calc(50% - 90px)';
-				message.style.width = '180px';
-				message.style.textDecoration = 'none';
-
-				stylizeElement( message );
-
-				return message;
-
-			}
-
-		}
-
-	}
 
 	class GLTFLoader extends Loader {
 
@@ -53072,7 +52904,7 @@
 	}
 
 	// TODO optimize (just update every loop - not create avery loop iteraetion)
-	function getCubicBezierCurve3$1(x0, y0, z0, x2, y2, z2) {
+	function getCubicCurve3$1(x0, y0, z0, x2, y2, z2) {
 	  const getMiddlePoint = (first, last) => {
 	    return first + (last - first) / 2;
 	  };
@@ -53095,7 +52927,7 @@
 	  return bezierCurve3;
 	}
 
-	function getIntersections$1(controller, objects, raycaster, tempMatrix) {
+	function getIntersections$2(controller, objects, raycaster, tempMatrix) {
 	  tempMatrix.identity().extractRotation(controller.matrixWorld);
 
 	  raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
@@ -53144,17 +52976,333 @@
 	  loadFont,
 	  addTextMesh,
 	  setTexture,
-	  getCubicBezierCurve3: getCubicBezierCurve3$1,
-	  getIntersections: getIntersections$1,
+	  getCubicCurve3: getCubicCurve3$1,
+	  getIntersections: getIntersections$2,
 	  needUpdateRenderSize: needUpdateRenderSize$1,
 	  generateBoxes,
 	};
 
 	const {
+	  getCubicCurve3,
+	  getIntersections: getIntersections$1,
+	} = helpers;
+
+	const getTeleportTarget = () => {
+	  const mesh = new Mesh(
+	    new RingGeometry(0.05, 0.2, 18),
+	    new MeshPhongMaterial({ color: '#185ADB' })
+	  );
+	  mesh.rotation.x = -Math.PI / 2;
+
+	  return mesh;
+	};
+
+	const getTeleportRay = () => {
+	  const bezierCurve = getCubicCurve3(0, 0, 0, -5, -5, -5);
+
+	  return new Line(
+	    new BufferGeometry().setFromPoints(bezierCurve.getPoints(50)),
+	    new LineBasicMaterial({ color: 0xff0000 })
+	  );
+	};
+
+	class Teleportation {
+	  constructor({
+	    scene,
+	    targets,
+	    observer,
+	    controller,
+	  }) {
+	    this.scene = scene;
+	    this.targets = targets;
+	    this.observer = observer;
+	    this.controller = controller;
+	    this.teleportRay = null;
+	    this.teleportTarget = null;
+	    this.flyingInProgress = false;
+	    this.teleportProgress = 0;
+	    this.bezierCurve = null;
+
+	    this.raycaster = new Raycaster();
+	    this.tempMatrix = new Matrix4();
+	  }
+
+	  toggleTeleportGeometry = (button, axes = []) => {
+	    const [,,,yAmplitide] = axes;
+	    const visible = yAmplitide < -0.5;
+
+	    if (visible) {
+	     this.showTeleportGeometry();
+	    } else {
+	      this.hideTeleportGeometry();
+	    }
+	  }
+
+	  showTeleportGeometry = () => {
+	    if (this.teleportRay && this.teleportTarget) {
+	      return;
+	    }
+
+	    this.teleportTarget = getTeleportTarget();
+	    this.scene.add(this.teleportTarget);
+
+	    this.teleportRay = getTeleportRay();
+	    this.scene.add(this.teleportRay);
+	  }
+
+	  hideTeleportGeometry = () => {
+	    this.scene.remove(this.teleportTarget);
+	    this.scene.remove(this.teleportRay);
+
+	    this.teleportProgress = 0;
+	    this.flyingInProgress = false;
+	    this.teleportRay = null;
+	    this.teleportTarget = null;
+	    this.bezierCurve = null;
+	  }
+
+	  startTeleportation = () => {
+	    if (this.teleportRay && this.teleportTarget) {
+	      this.flyingInProgress = true; 
+	    }
+	  }
+
+	  updateTeleportGeometry = () => {
+	    const { teleportTarget, observer } = this;
+
+	    const intersects = getIntersections$1(
+	      this.controller,
+	      this.targets,
+	      this.raycaster,
+	      this.tempMatrix
+	    );
+	    const intersected = intersects[0];
+
+	    if (!intersected) return;
+
+	    const newCubicBezierCurve = getCubicCurve3(
+	      observer.position.x,
+	      observer.position.y,
+	      observer.position.z,
+	      teleportTarget.position.x,
+	      teleportTarget.position.y,
+	      teleportTarget.position.z
+	    );
+
+	    this.updateRayGeometry(newCubicBezierCurve);
+	    this.updateTargetGeometry(intersected);
+	  }
+
+	  updateRayGeometry(newCubicBezierCurve) {
+	    this.teleportRay.geometry = new BufferGeometry().setFromPoints(
+	      newCubicBezierCurve.getPoints(50)
+	    );
+	    this.teleportRay.geometry.buffersNeedUpdate = true;
+
+	    this.bezierCurve = newCubicBezierCurve;
+	  }
+
+	  updateTargetGeometry({ point }) {
+	    this.teleportTarget.position.set(point.x, point.y + 0.02, point.z);
+	  }
+
+	  updateObserverPosition = () => {
+	    if (this.teleportProgress < 1) {
+	      this.observer.position.copy(this.bezierCurve.getPointAt(this.teleportProgress));
+	      this.teleportProgress += 0.1;   
+	    } else {
+	      // TODO stop teleportation but keep geometry
+	      // TODO teleportation should be triggered on select event (not selectstart)
+	      // this.hideTeleportGeometry()
+	      this.flyingInProgress = false;
+	      this.teleportProgress = 0;
+	    }
+	  };
+
+	  // this is called in the main update loop
+	  update = () => {
+	    if (this.flyingInProgress && this.teleportRay) {
+	      this.updateObserverPosition();
+	    }
+
+	    if (!this.flyingInProgress && this.teleportRay) {
+	      this.updateTeleportGeometry();
+	    }
+	  }
+	}
+
+	class VRButton {
+
+		static createButton( renderer, options ) {
+
+			if ( options ) {
+
+				console.error( 'THREE.VRButton: The "options" parameter has been removed. Please set the reference space type via renderer.xr.setReferenceSpaceType() instead.' );
+
+			}
+
+			const button = document.createElement( 'button' );
+
+			function showEnterVR( /*device*/ ) {
+
+				let currentSession = null;
+
+				async function onSessionStarted( session ) {
+
+					session.addEventListener( 'end', onSessionEnded );
+
+					await renderer.xr.setSession( session );
+					button.textContent = 'EXIT VR';
+
+					currentSession = session;
+
+				}
+
+				function onSessionEnded( /*event*/ ) {
+
+					currentSession.removeEventListener( 'end', onSessionEnded );
+
+					button.textContent = 'ENTER VR';
+
+					currentSession = null;
+
+				}
+
+				//
+
+				button.style.display = '';
+
+				button.style.cursor = 'pointer';
+				button.style.left = 'calc(50% - 50px)';
+				button.style.width = '100px';
+
+				button.textContent = 'ENTER VR';
+
+				button.onmouseenter = function () {
+
+					button.style.opacity = '1.0';
+
+				};
+
+				button.onmouseleave = function () {
+
+					button.style.opacity = '0.5';
+
+				};
+
+				button.onclick = function () {
+
+					if ( currentSession === null ) {
+
+						// WebXR's requestReferenceSpace only works if the corresponding feature
+						// was requested at session creation time. For simplicity, just ask for
+						// the interesting ones as optional features, but be aware that the
+						// requestReferenceSpace call will fail if it turns out to be unavailable.
+						// ('local' is always available for immersive sessions and doesn't need to
+						// be requested separately.)
+
+						const sessionInit = { optionalFeatures: [ 'local-floor', 'bounded-floor', 'hand-tracking', 'layers' ] };
+						navigator.xr.requestSession( 'immersive-vr', sessionInit ).then( onSessionStarted );
+
+					} else {
+
+						currentSession.end();
+
+					}
+
+				};
+
+			}
+
+			function disableButton() {
+
+				button.style.display = '';
+
+				button.style.cursor = 'auto';
+				button.style.left = 'calc(50% - 75px)';
+				button.style.width = '150px';
+
+				button.onmouseenter = null;
+				button.onmouseleave = null;
+
+				button.onclick = null;
+
+			}
+
+			function showWebXRNotFound() {
+
+				disableButton();
+
+				button.textContent = 'VR NOT SUPPORTED';
+
+			}
+
+			function stylizeElement( element ) {
+
+				element.style.position = 'absolute';
+				element.style.bottom = '20px';
+				element.style.padding = '12px 6px';
+				element.style.border = '1px solid #fff';
+				element.style.borderRadius = '4px';
+				element.style.background = 'rgba(0,0,0,0.1)';
+				element.style.color = '#fff';
+				element.style.font = 'normal 13px sans-serif';
+				element.style.textAlign = 'center';
+				element.style.opacity = '0.5';
+				element.style.outline = 'none';
+				element.style.zIndex = '999';
+
+			}
+
+			if ( 'xr' in navigator ) {
+
+				button.id = 'VRButton';
+				button.style.display = 'none';
+
+				stylizeElement( button );
+
+				navigator.xr.isSessionSupported( 'immersive-vr' ).then( function ( supported ) {
+
+					supported ? showEnterVR() : showWebXRNotFound();
+
+				} );
+
+				return button;
+
+			} else {
+
+				const message = document.createElement( 'a' );
+
+				if ( window.isSecureContext === false ) {
+
+					message.href = document.location.href.replace( /^http:/, 'https:' );
+					message.innerHTML = 'WEBXR NEEDS HTTPS'; // TODO Improve message
+
+				} else {
+
+					message.href = 'https://immersiveweb.dev/';
+					message.innerHTML = 'WEBXR NOT AVAILABLE';
+
+				}
+
+				message.style.left = 'calc(50% - 90px)';
+				message.style.width = '180px';
+				message.style.textDecoration = 'none';
+
+				stylizeElement( message );
+
+				return message;
+
+			}
+
+		}
+
+	}
+
+	const {
 	  addObserver,
 	  initControllers,
 	  initOrbits,
-	  getCubicBezierCurve3,
 	  getIntersections,
 	  needUpdateRenderSize,
 	} = helpers;
@@ -53166,16 +53314,16 @@
 	  controller2 = null;
 	  gamepad1 = null;
 	  gamepad2 = null;
-	  moving = false;
-	  progress = 0;
 	  boxes = [];
 	  planes = [];
-	  ringMesh = null;
-	  curveMesh = null;
-	  bezierCurve = null;
 	  model = {};
-	  objectsForTeleportation = [];
 	  intersectListeners = new Map();
+	  updaters = []
+	  callbacks = {
+	    onSelectStart: [],
+	    onSelectEnd: [],
+	    onSticksEvents: [],
+	  }
 
 	  constructor(params = {}) {
 	    this.params = params;
@@ -53219,14 +53367,6 @@
 	    this.controller1 = controller1;
 	    this.controller2 = controller2;
 
-	    // ring teleportation mesh
-	    this.ringMesh = this.getRing();
-	    this.scene.add(this.ringMesh);
-
-	    // curve teleportation mesh
-	    this.curveMesh = this.getCurveMesh();
-	    this.scene.add(this.curveMesh);
-
 	    params.onReady?.(this);
 
 	    // run //
@@ -53243,10 +53383,6 @@
 	    if (!this.isXREnabled) {
 	      requestAnimationFrame(this.update);
 	    }
-	  }
-
-	  setObjectsForTeleport(objects) {
-	    this.objectsForTeleportation.push(...objects);
 	  }
 
 	  initOrbits = () => initOrbits(this.camera, this.renderer.domElement);
@@ -53274,8 +53410,6 @@
 
 	  subscribeIntersectObjects(objects, callback) {
 	    this.intersectListeners.set(callback, () => {
-	      console.log('objects', objects);
-
 	      const intersections = getIntersections(
 	        this.controller2,
 	        objects,
@@ -53312,68 +53446,13 @@
 	    }
 	  }
 
-	  updateBezierCurveAndRing() {
-	    const { ringMesh, observer } = this;
-
-	    if (this.moving) return;
-
-	    const intersects = getIntersections(
-	      this.controller1,
-	      this.objectsForTeleportation,
-	      this.raycaster,
-	      this.tempMatrix
-	    );
-	    const intersected = intersects[0];
-
-	    if (!intersected) return;
-
-	    const newBezierCurve = getCubicBezierCurve3(
-	      observer.position.x,
-	      observer.position.y,
-	      observer.position.z,
-	      ringMesh.position.x,
-	      ringMesh.position.y,
-	      ringMesh.position.z
-	    );
-
-	    this.updateCurvePosition(newBezierCurve);
-	    this.updateRingPosition(intersected);
-	  }
-
-	  updateRingPosition({ point }) {
-	    this.ringMesh.position.set(point.x, point.y + 0.02, point.z);
-	  }
-
-	  updateCurvePosition(newBezierCurve) {
-	    this.curveMesh.geometry = new BufferGeometry().setFromPoints(
-	      newBezierCurve.getPoints(50)
-	    );
-	    this.curveMesh.geometry.buffersNeedUpdate = true;
-	    this.bezierCurve = newBezierCurve;
-	  }
-
-	  moveObserver = () => {
-	    if (this.moving && this.bezierCurve) {
-	      if (this.progress >= 1) {
-	        this.progress = 0;
-	        this.moving = false;
-	        this.bezierCurve = null;
-	        return;
-	      }
-
-	      this.observer.position.copy(this.bezierCurve.getPointAt(this.progress));
-	      this.progress += 0.05;
-	    }
-	  };
-
 	  onSelectStart = e => {
-	    console.log(e);
-	    if (e.data.handedness === 'right') {
-	      this.moving = true;
-	    }
+	    this.callbacks.onSelectStart?.forEach(callback => callback(e));
 	  };
 
-	  onSelectEnd = e => {};
+	  onSelectEnd = e => {
+	    this.callbacks.onSelectEnd?.forEach(callback => callback(e));
+	  };
 
 	  getStage() {
 	    return new Group();
@@ -53406,33 +53485,18 @@
 	    return camera;
 	  }
 
-	  getRing() {
-	    const ringMesh = new Mesh(
-	      new RingGeometry(0.05, 0.2, 18),
-	      new MeshPhongMaterial({ color: '#185ADB' })
-	    );
-	    ringMesh.rotation.x = -Math.PI / 2;
+	  checkSticksPressed = () => {
+	    const stickButtonLeft = this?.gamepad1?.buttons[3];
+	    const stickButtonRight = this?.gamepad2?.buttons[3];
+	    const axesLeft = this?.gamepad1?.axes;
+	    const axesRight = this?.gamepad2?.axes;
+	    
+	    this.updateObserverRotation(stickButtonLeft, axesLeft);
+	    this.callbacks.onSticksEvents?.forEach(callback => callback(stickButtonRight, axesRight));
+	  };
 
-	    return ringMesh;
-	  }
-
-	  getCurveMesh() {
-	    const bezierCurve = getCubicBezierCurve3(0, 0, 0, -5, -5, -5);
-	    const curveMesh = new Line(
-	      new BufferGeometry().setFromPoints(bezierCurve.getPoints(50)),
-	      new LineBasicMaterial({ color: 0xff0000 })
-	    );
-
-	    return curveMesh;
-	  }
-
-	  updateObserverRotation = () => {
-	    // TODO: move to this.controller.onstickmove
-
-	    const joystick = this?.gamepad1?.buttons[3];
-
-	    if (joystick && joystick.touched) {
-	      const { axes } = this.gamepad1;
+	  updateObserverRotation = (stickButton, axes) => {
+	    if (stickButton?.touched) {
 	      const [, , xAmplitude] = axes;
 
 	      if (xAmplitude > 0.15) {
@@ -53449,12 +53513,11 @@
 	    time *= 0.0005;
 
 	    this.setAspect();
-	    this.updateBezierCurveAndRing();
-	    this.moveObserver();
-	    this.updateObserverRotation();
+	    this.checkSticksPressed();
 
 	    this.params.update(time);
 	    this.intersectListeners.forEach(l => l());
+	    this.updaters.forEach(u => u(time));
 
 	    if (!this.isXREnabled) {
 	      requestAnimationFrame(this.update);
@@ -53465,7 +53528,7 @@
 	}
 
 	function getFloor(color, x, y, z) {
-	  const floorMesh = new Mesh(
+	  const mesh = new Mesh(
 	    new PlaneGeometry(50, 50),
 	    new MeshPhongMaterial({
 	      side: DoubleSide,
@@ -53476,13 +53539,13 @@
 	      bumpScale: 0.0005,
 	    })
 	  );
-	  floorMesh.rotation.x = -Math.PI / 2.0;
-	  floorMesh.receiveShadow = true;
-	  floorMesh.position.x = x || 0;
-	  floorMesh.position.z = z || 0;
-	  floorMesh.position.y = y || 0;
+	  mesh.rotation.x = -Math.PI / 2.0;
+	  mesh.receiveShadow = true;
+	  mesh.position.x = x || 0;
+	  mesh.position.z = z || 0;
+	  mesh.position.y = y || 0;
 
-	  return floorMesh;
+	  return mesh;
 	}
 
 	function getPointLight(position) {
@@ -53530,8 +53593,6 @@
 	  let lastIntersected;
 
 	  function onMenuHover(obj) {
-	    console.log('onMenuHover', obj);
-
 	    if (obj) {
 	      if (lastIntersected !== obj.object) {
 	        lastIntersected = obj.object;
@@ -53571,7 +53632,6 @@
 	    // floor
 	    const floor = getFloor('#046582', 0, 0, 0);
 	    scene.add(floor);
-	    DS.setObjectsForTeleport([floor]);
 
 	    // light
 	    pointLight = getPointLight([0, 10, 0]);
@@ -53588,8 +53648,8 @@
 
 	    DS.initOrbits();
 
-	    DS.loadModel({ url: '/360_sphere_robot/scene.gltf' });
-
+	    DS.loadModel({ url: '/public/360_sphere_robot/scene.gltf' });
+	    
 	    DS.addAudio({
 	      url: '/public/guitar.mp3',
 	      targetMesh: DS.scene,
@@ -53606,6 +53666,17 @@
 	        sound.play();
 	      },
 	    });
+
+	    const teleportation = new Teleportation({
+	      scene,
+	      targets: [floor],
+	      observer: DS.observer,
+	      controller: DS.controller2,
+	    });
+
+	    DS.updaters.push(teleportation.update);
+	    DS.callbacks.onSelectStart.push(teleportation.startTeleportation);
+	    DS.callbacks.onSticksEvents.push(teleportation.toggleTeleportGeometry);
 	  },
 	  update(time) {
 	    pointLight.position.x = 3 * Math.sin(time);
