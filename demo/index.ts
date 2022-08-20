@@ -3,13 +3,7 @@ import { GUI } from 'dat.gui';
 import { InteractiveGroup } from 'three/examples/jsm/interactive/InteractiveGroup.js';
 import { HTMLMesh } from 'three/examples/jsm/interactive/HTMLMesh.js';
 import DefaultScene from '../src/index.js';
-import {
-  createMenu,
-  getFloor,
-  getLight,
-  LIGHT_TYPES,
-  MENU_CONFIG,
-} from './utils';
+import { createMenu, getFloor, getLight, LIGHT_TYPES, MENU_CONFIG } from './utils/utils.js';
 
 const globalState = {
   objects: {
@@ -66,6 +60,9 @@ new DefaultScene({
     const grid = new THREE.GridHelper(10, 10, 0x888888, 0x444444);
     scene.add(grid);
 
+    const grid = new THREE.GridHelper( 20, 20, 0x888888, 0x444444 );
+    scene.add( grid );
+        
     const menu = createMenu();
     scene.add(menu);
 
