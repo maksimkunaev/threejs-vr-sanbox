@@ -4,8 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
-/demo/bundle
-
+/demo/bundle.js
+/dist
 
 # testing
 /coverage

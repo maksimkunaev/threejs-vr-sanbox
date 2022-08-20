@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GUI } from 'dat.gui';
-
+import { InteractiveGroup } from 'three/examples/jsm/interactive/InteractiveGroup.js';
+import { HTMLMesh } from 'three/examples/jsm/interactive/HTMLMesh.js';
 import DefaultScene from '../src/index.js';
 import { createMenu, getFloor, getLight, LIGHT_TYPES, MENU_CONFIG } from './utils/utils.js';
 
@@ -29,7 +30,7 @@ new DefaultScene({
     configure: scene => {
       scene.add(new THREE.AxesHelper(100));
       scene.background = new THREE.Color('#0A1931');
-      // scene.fog = new THREE.Fog('#545454e8', 0, 35);
+      scene.fog = new THREE.Fog('#545454e8', 0, 35);
     },
   },
   // controllers: {
@@ -44,7 +45,6 @@ new DefaultScene({
   //   camera.position.set(0, 0, 10);
   //   return camera;
   // }
-
   async onReady(DS) {
     const { scene, controllers } = DS;
     const { light, light2, floor, box } = globalState.objects;
@@ -56,6 +56,9 @@ new DefaultScene({
     scene.add(light);
     scene.add(light2);
     scene.add(box);
+
+    const grid = new THREE.GridHelper(10, 10, 0x888888, 0x444444);
+    scene.add(grid);
 
     const grid = new THREE.GridHelper( 20, 20, 0x888888, 0x444444 );
     scene.add( grid );
@@ -93,7 +96,7 @@ new DefaultScene({
     });
 
     // model.scale.set(1.5, 1.5, 1.5);
-    DS.teleportation.addTargets([box,model]);
+    DS.teleportation.addTargets([box, model]);
 
     const gui = new GUI();
     const cubeFolder = gui.addFolder('Cube');
@@ -123,6 +126,17 @@ new DefaultScene({
         // sound.play();
       },
     });
+
+    const group = new InteractiveGroup(DS.renderer, DS.camera);
+    scene.add(group);
+
+    const mesh = new HTMLMesh(gui.domElement);
+    mesh.position.x = -0.75;
+    mesh.position.y = 1.5;
+    mesh.position.z = -0.5;
+    mesh.rotation.y = Math.PI / 4;
+    mesh.scale.setScalar(2);
+    group.add(mesh);
   },
   update(time) {
     // globalState.objects.light.position.x = 3 * Math.sin(time);

@@ -22,7 +22,7 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist",
     "baseUrl": "./",
-    "rootDir": "./src",
+    "rootDir": "./",
     "declaration": true,
     "declarationDir": "dist/types",
     // "emitDeclarationOnly": true,
