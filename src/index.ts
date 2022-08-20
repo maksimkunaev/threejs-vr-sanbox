@@ -69,6 +69,7 @@ export default class DefaultScene {
 
   initScene() {
     this.scene = new THREE.Scene();
+    this.params.scene?.configure?.(this.scene);
   }
 
   initObserver() {
@@ -131,14 +132,13 @@ export default class DefaultScene {
       this.gltfLoader.load(
         url,
         gltf => {
-          const obj = new THREE.Object3D();
 
           if (position) gltf.scene.position.set(...position);
           if (scale) gltf.scene.scale.set(...scale);
 
-          obj.add(gltf.scene);
-          this.scene.add(obj);
+          const obj = gltf.scene
 
+          this.scene.add(obj);
           resolve(obj);
         },
         onProgress,
