@@ -24,13 +24,6 @@ export default class DefaultScene {
   orbitControls: OrbitControls;
   gltfLoader: GLTFLoader;
 
-  updaters = [];
-  callbacks = {
-    onSelectStart: [],
-    onSelectEnd: [],
-    onSticksEvents: [],
-  };
-
   constructor(params: Params = {}) {
     this.params = params;
 
@@ -178,14 +171,6 @@ export default class DefaultScene {
     }
   }
 
-  onSelectStart = e => {
-    this.callbacks.onSelectStart?.forEach(callback => callback(e));
-  };
-
-  onSelectEnd = e => {
-    this.callbacks.onSelectEnd?.forEach(callback => callback(e));
-  };
-
   update = time => {
     time *= 0.0005;
 
@@ -193,11 +178,8 @@ export default class DefaultScene {
     this.params.update(time);
     this.controllers.update();
     this.teleportation?.update();
-    this.updaters.forEach(u => u(time));
 
-    if (!this.isXREnabled) {
-      requestAnimationFrame(this.update);
-    }
+    if (!this.isXREnabled) requestAnimationFrame(this.update);
 
     this.renderer.render(this.scene, this.camera);
   };

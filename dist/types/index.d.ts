@@ -15,12 +15,6 @@ export default class DefaultScene {
     observer: THREE.Mesh;
     orbitControls: OrbitControls;
     gltfLoader: GLTFLoader;
-    updaters: any[];
-    callbacks: {
-        onSelectStart: any[];
-        onSelectEnd: any[];
-        onSticksEvents: any[];
-    };
     constructor(params?: Params);
     initRenderer(): void;
     initScene(): void;
@@ -43,8 +37,6 @@ export default class DefaultScene {
         onLoad: any;
     }): void;
     setAspect(): void;
-    onSelectStart: (e: any) => void;
-    onSelectEnd: (e: any) => void;
     update: (time: any) => void;
 }
 export {};

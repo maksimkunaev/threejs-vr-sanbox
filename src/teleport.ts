@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import Controllers from './controllers.js';
 import * as H from './helpers.js';
 
 const getTeleportTarget = () => {
@@ -21,9 +22,18 @@ const getRay = () => {
 };
 
 export default class Teleportation {
+  params;
+  targets: THREE.Object3D[] = [];
+
+  scene: THREE.Scene;
+  observer: THREE.Object3D;
+  controllers: Controllers;
+  raycaster = new THREE.Raycaster();
+  tempMatrix = new THREE.Matrix4();
+
   ray = null;
-  target = null;
   curve = null;
+  target = null;
   gamepadReady = false;
   step = 0.05;
   rotationStep = 0.03;
@@ -33,19 +43,12 @@ export default class Teleportation {
 
   constructor({ scene, observer, controllers, params }) {
     this.scene = scene;
-    this.params = params;
     this.observer = observer;
     this.controllers = controllers;
 
-    this.raycaster = new THREE.Raycaster();
-    this.tempMatrix = new THREE.Matrix4();
+    this.params = params;
+    this.updateTargets(params.targets);
 
-    controllers.on(
-      this.controllerIndex,
-      'selectstart',
-      this.fly,
-      params.targets
-    );
     controllers.onGamepadConnected(
       this.controllerIndex,
       () => (this.gamepadReady = true)
@@ -62,14 +65,32 @@ export default class Teleportation {
     return this.controllers.gamepads[this.controllerIndex]; // right gamepad
   }
 
+  updateTargets(targets: THREE.Object3D[]) {
+    this.targets = targets;
+    this.subscribeToTargets();
+  }
+
+  addTargets(targets: THREE.Object3D[]) {
+    this.targets = this.targets.concat(targets);
+  }
+
+  subscribeToTargets() {
+    this.controllers.off(this.controllerIndex, 'selectstart', this.fly);
+    this.controllers.on(
+      this.controllerIndex,
+      'selectstart',
+      this.fly,
+      this.targets
+    );
+  }
+
   updateTeleportGeometry = () => {
-    const intersects = H.getIntersections(
+    const intersected = H.getIntersections(
       this.controllers.controllers[this.controllerIndex],
-      this.params.targets,
+      this.targets,
       this.raycaster,
       this.tempMatrix
-    );
-    const intersected = intersects[0];
+    )[0];
 
     if (!intersected) return;
 

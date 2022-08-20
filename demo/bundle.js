@@ -50041,175 +50041,140 @@
 	}
 
 	const getTeleportTarget = () => {
-	  const mesh = new Mesh(
-	    new RingGeometry(0.05, 0.2, 18),
-	    new MeshPhongMaterial({ color: '#185ADB' })
-	  );
-	  mesh.rotation.x = -Math.PI / 2;
-
-	  return mesh;
+	    const mesh = new Mesh(new RingGeometry(0.05, 0.2, 18), new MeshPhongMaterial({ color: '#185ADB' }));
+	    mesh.rotation.x = -Math.PI / 2;
+	    return mesh;
 	};
-
 	const getRay = () => {
-	  const curve = getCubicCurve3(0, 0, 0, -5, -5, -5);
-
-	  return new Line(
-	    new BufferGeometry().setFromPoints(curve.getPoints(50)),
-	    new LineBasicMaterial({ color: 0xff0000 })
-	  );
+	    const curve = getCubicCurve3(0, 0, 0, -5, -5, -5);
+	    return new Line(new BufferGeometry().setFromPoints(curve.getPoints(50)), new LineBasicMaterial({ color: 0xff0000 }));
 	};
-
 	class Teleportation {
-	  ray = null;
-	  target = null;
-	  curve = null;
-	  gamepadReady = false;
-	  step = 0.05;
-	  rotationStep = 0.03;
-	  rotationThreshold = 0.15;
-	  progress = 0;
-	  controllerIndex = 1;
-
-	  constructor({ scene, observer, controllers, params }) {
-	    this.scene = scene;
-	    this.params = params;
-	    this.observer = observer;
-	    this.controllers = controllers;
-
-	    this.raycaster = new Raycaster();
-	    this.tempMatrix = new Matrix4();
-
-	    controllers.on(
-	      this.controllerIndex,
-	      'selectstart',
-	      this.fly,
-	      params.targets
-	    );
-	    controllers.onGamepadConnected(
-	      this.controllerIndex,
-	      () => (this.gamepadReady = true)
-	    );
-	  }
-
-	  fly = () => {
-	    if (this.ray && this.target) {
-	      this.progress += this.step;
+	    params;
+	    targets = [];
+	    scene;
+	    observer;
+	    controllers;
+	    raycaster = new Raycaster();
+	    tempMatrix = new Matrix4();
+	    ray = null;
+	    curve = null;
+	    target = null;
+	    gamepadReady = false;
+	    step = 0.05;
+	    rotationStep = 0.03;
+	    rotationThreshold = 0.15;
+	    progress = 0;
+	    controllerIndex = 1;
+	    constructor({ scene, observer, controllers, params }) {
+	        this.scene = scene;
+	        this.observer = observer;
+	        this.controllers = controllers;
+	        this.params = params;
+	        this.updateTargets(params.targets);
+	        controllers.onGamepadConnected(this.controllerIndex, () => (this.gamepadReady = true));
 	    }
-	  };
-
-	  getGamepad() {
-	    return this.controllers.gamepads[this.controllerIndex]; // right gamepad
-	  }
-
-	  updateTeleportGeometry = () => {
-	    const intersects = getIntersections(
-	      this.controllers.controllers[this.controllerIndex],
-	      this.params.targets,
-	      this.raycaster,
-	      this.tempMatrix
-	    );
-	    const intersected = intersects[0];
-
-	    if (!intersected) return;
-
-	    this.updateRayGeometry();
-	    this.updateTargetGeometry(intersected);
-	  };
-
-	  updateRayGeometry() {
-	    const curve = getCubicCurve3(
-	      this.observer.position.x,
-	      this.observer.position.y,
-	      this.observer.position.z,
-	      this.target.position.x,
-	      this.target.position.y,
-	      this.target.position.z
-	    );
-	    const points = curve.getPoints(50);
-
-	    this.ray.geometry = new BufferGeometry().setFromPoints(points);
-	    this.ray.geometry.buffersNeedUpdate = true;
-
-	    this.curve = curve;
-	  }
-
-	  updateTargetGeometry({ point }) {
-	    this.target.position.set(point.x, point.y + 0.02, point.z);
-	  }
-
-	  updateObserverPosition = () => {
-	    if (this.progress >= 1) {
-	      this.progress = 0;
-	      return;
+	    fly = () => {
+	        if (this.ray && this.target) {
+	            this.progress += this.step;
+	        }
+	    };
+	    getGamepad() {
+	        return this.controllers.gamepads[this.controllerIndex]; // right gamepad
 	    }
-
-	    this.observer.position.copy(this.curve.getPointAt(this.progress));
-	    this.progress += this.step;
-	  };
-
-	  updateObserverRotation() {
-	    if (!this.gamepadReady) return;
-
-	    const { buttons, axes } = this.getGamepad();
-	    const stickButton = buttons?.[3];
-
-	    if (!stickButton?.touched) return;
-
-	    const [, , xAmplitude] = axes;
-	    const { rotation } = this.observer;
-
-	    if (xAmplitude > this.rotationThreshold) rotation.y -= this.rotationStep;
-	    if (xAmplitude < -this.rotationThreshold) rotation.y += this.rotationStep;
-	  }
-
-	  showTeleportGeometry = () => {
-	    if (this.ray && this.target) return;
-
-	    this.target = getTeleportTarget();
-	    this.scene.add(this.target);
-
-	    this.ray = getRay();
-	    this.scene.add(this.ray);
-	  };
-
-	  hideTeleportGeometry = () => {
-	    if (!this.ray || !this.target) return;
-
-	    this.scene.remove(this.ray);
-	    this.scene.remove(this.target);
-
-	    this.ray = null;
-	    this.target = null;
-	    this.curve = null;
-	    this.progress = 0;
-	  };
-
-	  updateGeometryVisibility() {
-	    if (!this.gamepadReady) return;
-
-	    const [, , , yAmplitide] = this.getGamepad().axes;
-	    const visible = yAmplitide < -0.5;
-
-	    if (visible) {
-	      this.showTeleportGeometry();
-	    } else {
-	      this.hideTeleportGeometry();
+	    updateTargets(targets) {
+	        this.targets = targets;
+	        this.subscribeToTargets();
 	    }
-	  }
-
-	  update() {
-	    this.updateGeometryVisibility();
-	    this.updateObserverRotation();
-
-	    if (this.ray) {
-	      if (this.progress > 0) {
-	        this.updateObserverPosition();
-	      } else {
-	        // TODO: support selecting next target when flying
-	        this.updateTeleportGeometry();
-	      }
+	    addTargets(targets) {
+	        this.targets = this.targets.concat(targets);
 	    }
-	  }
+	    subscribeToTargets() {
+	        this.controllers.off(this.controllerIndex, 'selectstart', this.fly);
+	        this.controllers.on(this.controllerIndex, 'selectstart', this.fly, this.targets);
+	    }
+	    updateTeleportGeometry = () => {
+	        const intersected = getIntersections(this.controllers.controllers[this.controllerIndex], this.targets, this.raycaster, this.tempMatrix)[0];
+	        if (!intersected)
+	            return;
+	        this.updateRayGeometry();
+	        this.updateTargetGeometry(intersected);
+	    };
+	    updateRayGeometry() {
+	        const curve = getCubicCurve3(this.observer.position.x, this.observer.position.y, this.observer.position.z, this.target.position.x, this.target.position.y, this.target.position.z);
+	        const points = curve.getPoints(50);
+	        this.ray.geometry = new BufferGeometry().setFromPoints(points);
+	        this.ray.geometry.buffersNeedUpdate = true;
+	        this.curve = curve;
+	    }
+	    updateTargetGeometry({ point }) {
+	        this.target.position.set(point.x, point.y + 0.02, point.z);
+	    }
+	    updateObserverPosition = () => {
+	        if (this.progress >= 1) {
+	            this.progress = 0;
+	            return;
+	        }
+	        this.observer.position.copy(this.curve.getPointAt(this.progress));
+	        this.progress += this.step;
+	    };
+	    updateObserverRotation() {
+	        if (!this.gamepadReady)
+	            return;
+	        const { buttons, axes } = this.getGamepad();
+	        const stickButton = buttons?.[3];
+	        if (!stickButton?.touched)
+	            return;
+	        const [, , xAmplitude] = axes;
+	        const { rotation } = this.observer;
+	        if (xAmplitude > this.rotationThreshold)
+	            rotation.y -= this.rotationStep;
+	        if (xAmplitude < -this.rotationThreshold)
+	            rotation.y += this.rotationStep;
+	    }
+	    showTeleportGeometry = () => {
+	        if (this.ray && this.target)
+	            return;
+	        this.target = getTeleportTarget();
+	        this.scene.add(this.target);
+	        this.ray = getRay();
+	        this.scene.add(this.ray);
+	    };
+	    hideTeleportGeometry = () => {
+	        if (!this.ray || !this.target)
+	            return;
+	        this.scene.remove(this.ray);
+	        this.scene.remove(this.target);
+	        this.ray = null;
+	        this.target = null;
+	        this.curve = null;
+	        this.progress = 0;
+	    };
+	    updateGeometryVisibility() {
+	        if (!this.gamepadReady)
+	            return;
+	        const [, , , yAmplitide] = this.getGamepad().axes;
+	        const visible = yAmplitide < -0.5;
+	        if (visible) {
+	            this.showTeleportGeometry();
+	        }
+	        else {
+	            this.hideTeleportGeometry();
+	        }
+	    }
+	    update() {
+	        this.updateGeometryVisibility();
+	        this.updateObserverRotation();
+	        if (this.ray) {
+	            if (this.progress > 0) {
+	                this.updateObserverPosition();
+	            }
+	            else {
+	                // TODO: support selecting next target when flying
+	                this.updateTeleportGeometry();
+	            }
+	        }
+	    }
 	}
 
 	class DefaultScene {
@@ -50223,12 +50188,6 @@
 	    observer;
 	    orbitControls;
 	    gltfLoader;
-	    updaters = [];
-	    callbacks = {
-	        onSelectStart: [],
-	        onSelectEnd: [],
-	        onSticksEvents: [],
-	    };
 	    constructor(params = {}) {
 	        this.params = params;
 	        this.initRenderer();
@@ -50334,22 +50293,14 @@
 	            this.camera.updateProjectionMatrix();
 	        }
 	    }
-	    onSelectStart = e => {
-	        this.callbacks.onSelectStart?.forEach(callback => callback(e));
-	    };
-	    onSelectEnd = e => {
-	        this.callbacks.onSelectEnd?.forEach(callback => callback(e));
-	    };
 	    update = time => {
 	        time *= 0.0005;
 	        this.setAspect();
 	        this.params.update(time);
 	        this.controllers.update();
 	        this.teleportation?.update();
-	        this.updaters.forEach(u => u(time));
-	        if (!this.isXREnabled) {
+	        if (!this.isXREnabled)
 	            requestAnimationFrame(this.update);
-	        }
 	        this.renderer.render(this.scene, this.camera);
 	    };
 	}
@@ -50511,6 +50462,7 @@
 	        box.position.y = 0.5;
 	        smallBox.position.y = 1.5;
 	        smallBox.position.x = 0.1;
+	        DS.teleportation.addTargets([floor, box]);
 	        const model = await DS.loadModel({
 	            url: '/public/360_sphere_robot/scene.gltf',
 	            position: [0, 2, 0],

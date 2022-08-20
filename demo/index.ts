@@ -200,6 +200,8 @@ new DefaultScene({
     smallBox.position.y = 1.5;
     smallBox.position.x = 0.1;
 
+    DS.teleportation.addTargets([floor, box]);
+
     const model = await DS.loadModel({
       url: '/public/360_sphere_robot/scene.gltf',
       position: [0, 2, 0],
