@@ -1,4 +1,8 @@
 import * as THREE from 'three';
+import { GUI } from 'dat.gui';
+import { InteractiveGroup } from 'three/examples/jsm/interactive/InteractiveGroup.js';
+import { HTMLMesh } from 'three/examples/jsm/interactive/HTMLMesh.js';
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 
 export function getFloor(color, x, y, z) {
   const mesh = new THREE.Mesh(
@@ -138,4 +142,42 @@ export function createMenu() {
   });
 
   return group;
+}
+
+export function setGUI({ model, renderer, camera, observer }) {
+  const gui = new GUI({ width: 300 });
+
+  const cubeFolder = gui.addFolder('Cube');
+  cubeFolder.add(model.position, 'x', -2, 3, 0.01);
+  cubeFolder.add(model.position, 'y', -2, 3, 0.01);
+  cubeFolder.add(model.position, 'z', -2, 3, 0.01);
+  cubeFolder.open();
+
+  gui.domElement.style.visibility = 'hidden';
+
+  const group = new InteractiveGroup(renderer, camera);
+
+  const mesh = new HTMLMesh(gui.domElement);
+  mesh.position.x = -0.75;
+  mesh.position.y = 1.5;
+  mesh.position.z = -0.5;
+  mesh.rotation.y = Math.PI / 4;
+  mesh.scale.setScalar(2);
+  group.add(mesh);
+
+  // Add stats.js
+  const stats = new Stats();
+  stats.dom.style.width = '80px';
+  stats.dom.style.height = '48px';
+  document.body.appendChild(stats.dom);
+
+  const statsMesh = new HTMLMesh(stats.dom);
+  statsMesh.position.x = -0.65;
+  statsMesh.position.y = 1.7;
+  statsMesh.position.z = -0.5;
+  statsMesh.rotation.y = Math.PI / 4;
+  statsMesh.scale.setScalar(2.5);
+  group.add(statsMesh);
+
+  observer.add(group);
 }
