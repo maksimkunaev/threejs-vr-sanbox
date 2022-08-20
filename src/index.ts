@@ -103,7 +103,12 @@ export default class DefaultScene {
       return;
     }
 
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 120);
+    this.camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      120
+    );
     this.camera.position.set(1.2, 3, 14);
     this.camera.lookAt(0, 0, 0);
 
@@ -125,18 +130,18 @@ export default class DefaultScene {
     });
   }
 
-  loadModel({ url, onProgress, onError, position, scale }) {
+  loadModel({ url, onProgress, onError, position, castShadow, scale }) {
     if (!this.gltfLoader) this.gltfLoader = new GLTFLoader();
 
     return new Promise(resolve => {
       this.gltfLoader.load(
         url,
         gltf => {
-
           if (position) gltf.scene.position.set(...position);
           if (scale) gltf.scene.scale.set(...scale);
+          if (castShadow) gltf.scene.castShadow = true;
 
-          const obj = gltf.scene
+          const obj = gltf.scene;
 
           this.scene.add(obj);
           resolve(obj);
