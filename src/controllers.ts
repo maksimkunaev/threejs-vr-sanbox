@@ -108,7 +108,7 @@ export default class Controllers {
         if (!map)
           map = this.intersectionsObjectCallbacks[controllerIndex] = new Map();
 
-        if (!map.get(obj)) {
+        if (!map.has(obj)) {
           map.set(obj, {
             pointerenter: [],
             pointerleave: [],
@@ -119,12 +119,15 @@ export default class Controllers {
 
         items[event].push(callback);
 
-        if (!this.pointerUnsubscribers[controllerIndex][event]) {
-          this.pointerUnsubscribers[controllerIndex][event] = [];
-        }
-        this.pointerUnsubscribers[controllerIndex][event].push(() => {
-          items[event].splice(items[event].indexOf(callback), 1);
-        });
+        const controllerMap = this.pointerUnsubscribers[controllerIndex];
+
+        if (!controllerMap[event]) controllerMap[event] = {};
+
+        const eventCallbacks = controllerMap[event];
+
+        if (!eventCallbacks[callback]) eventCallbacks[callback] = [];
+
+        eventCallbacks[callback].push(obj);
       });
 
       return;
@@ -136,7 +139,15 @@ export default class Controllers {
 
   off(controllerIndex, event, callback) {
     if (this.isPointerEvent(event)) {
-      this.pointerUnsubscribers[controllerIndex][event];
+      this.pointerUnsubscribers[controllerIndex][event][callback].forEach(
+        obj => {
+          const map = this.intersectionsObjectCallbacks[controllerIndex];
+          const callbacks = map.get(obj)[event];
+          callbacks.splice(callbacks.indexOf(callback), 1);
+        }
+      );
+
+      return;
     }
 
     this.controllers.forEach(c => c.removeEventListener(event, callback));

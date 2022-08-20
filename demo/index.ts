@@ -86,12 +86,12 @@ function getLight(type, position) {
 }
 
 function createMenu() {
-  const loader = new THREE.TextureLoader();
+  // const loader = new THREE.TextureLoader();
   const group = new THREE.Group();
 
-  MENU_CONFIG.forEach(({ image, position, size, name }) => {
-    const texture = loader.load(image);
-    const material = new THREE.MeshBasicMaterial({ map: texture });
+  MENU_CONFIG.forEach(({ image, position, size, background }) => {
+    // const texture = loader.load(image);
+    const material = new THREE.MeshBasicMaterial({ color: background });
     const geometry = new THREE.PlaneGeometry(size[0], size[1] * 0.5);
     const mesh = new THREE.Mesh(geometry, material);
 
@@ -151,7 +151,7 @@ new DefaultScene({
   // }
 
   async onReady(DS) {
-    const { scene } = DS;
+    const { scene, controllers } = DS;
     const { light, floor, box, smallBox } = globalState.objects;
 
     // floor
@@ -175,19 +175,25 @@ new DefaultScene({
     scene.add(menu);
 
     MENU_CONFIG.map(({ name, background }, i) => {
-      DS.controllers.on(
-        1,
-        'selectstart',
-        () => {
-          const light = getLight(name, [0, 10, 0]);
+      const item = menu.children[i];
+      const objects = [item];
 
-          scene.remove(globalState.objects.light);
-          globalState.objects.light = light;
-          scene.add(light);
-          scene.background = new THREE.Color(background);
-        },
-        [menu.children[i]]
-      );
+      const onPointerEnter = () => item.material.color.set(0x00ffff);
+      const onPointerLeave = () => item.material.color.set(background);
+      const onSelectStart = () => {
+        const light = getLight(name, [0, 10, 0]);
+
+        scene.remove(globalState.objects.light);
+        globalState.objects.light = light;
+        scene.add(light);
+        scene.background = new THREE.Color(background);
+
+        controllers.off(1, 'pointerenter', onPointerEnter, objects);
+      };
+
+      controllers.on(1, 'pointerenter', onPointerEnter, objects);
+      controllers.on(1, 'pointerleave', onPointerLeave, objects);
+      controllers.on(1, 'selectstart', onSelectStart, objects);
     });
 
     box.position.y = 0.5;

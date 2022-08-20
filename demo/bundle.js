@@ -49924,10 +49924,7 @@
 	    gmapadConnectedListeners = [[], []];
 	    lastIntersected = null;
 	    intersectionsObjectCallbacks = []; // by controller index
-	    listeners = {
-	        pointerenter: [],
-	        pointerleave: [],
-	    };
+	    pointerUnsubscribers = [{}, {}];
 	    constructor(renderer, observer, params) {
 	        this.renderer = renderer;
 	        this.observer = observer;
@@ -49981,13 +49978,14 @@
 	                cb(intersections[0]);
 	        };
 	    };
+	    isPointerEvent = event => /pointerenter|pointerleave/.test(event);
 	    on(controllerIndex, event, callback, objects) {
-	        if (event === 'pointerenter' || event === 'pointerleave') {
+	        if (this.isPointerEvent(event)) {
 	            objects.forEach(obj => {
 	                let map = this.intersectionsObjectCallbacks[controllerIndex];
 	                if (!map)
 	                    map = this.intersectionsObjectCallbacks[controllerIndex] = new Map();
-	                if (!map.get(obj)) {
+	                if (!map.has(obj)) {
 	                    map.set(obj, {
 	                        pointerenter: [],
 	                        pointerleave: [],
@@ -49995,18 +49993,28 @@
 	                }
 	                const items = map.get(obj);
 	                items[event].push(callback);
+	                const controllerMap = this.pointerUnsubscribers[controllerIndex];
+	                if (!controllerMap[event])
+	                    controllerMap[event] = {};
+	                const eventCallbacks = controllerMap[event];
+	                if (!eventCallbacks[callback])
+	                    eventCallbacks[callback] = [];
+	                eventCallbacks[callback].push(obj);
 	            });
 	            return;
 	        }
-	        // if (/pointerenter|pointerleave/.test(event)) {
-	        //   const items = this.listeners[event];
-	        //   if (!items.includes(cb)) items.push(cb);
-	        //   return;
-	        // }
 	        const cb = this.createListener(callback, controllerIndex, objects);
 	        this.controllers[controllerIndex].addEventListener(event, cb);
 	    }
-	    off(event, callback) {
+	    off(controllerIndex, event, callback) {
+	        if (this.isPointerEvent(event)) {
+	            this.pointerUnsubscribers[controllerIndex][event][callback].forEach(obj => {
+	                const map = this.intersectionsObjectCallbacks[controllerIndex];
+	                const callbacks = map.get(obj)[event];
+	                callbacks.splice(callbacks.indexOf(callback), 1);
+	            });
+	            return;
+	        }
 	        this.controllers.forEach(c => c.removeEventListener(event, callback));
 	    }
 	    updateIntersections() {
@@ -50416,11 +50424,11 @@
 	    return light;
 	}
 	function createMenu() {
-	    const loader = new TextureLoader();
+	    // const loader = new THREE.TextureLoader();
 	    const group = new Group();
-	    MENU_CONFIG.forEach(({ image, position, size, name }) => {
-	        const texture = loader.load(image);
-	        const material = new MeshBasicMaterial({ map: texture });
+	    MENU_CONFIG.forEach(({ image, position, size, background }) => {
+	        // const texture = loader.load(image);
+	        const material = new MeshBasicMaterial({ color: background });
 	        const geometry = new PlaneGeometry(size[0], size[1] * 0.5);
 	        const mesh = new Mesh(geometry, material);
 	        mesh.position.set(...position);
@@ -50466,7 +50474,7 @@
 	    //   return camera;
 	    // }
 	    async onReady(DS) {
-	        const { scene } = DS;
+	        const { scene, controllers } = DS;
 	        const { light, floor, box, smallBox } = globalState.objects;
 	        // floor
 	        scene.add(floor);
@@ -50484,13 +50492,21 @@
 	        const menu = createMenu();
 	        scene.add(menu);
 	        MENU_CONFIG.map(({ name, background }, i) => {
-	            DS.controllers.on(1, 'selectstart', () => {
+	            const item = menu.children[i];
+	            const objects = [item];
+	            const onPointerEnter = () => item.material.color.set(0x00ffff);
+	            const onPointerLeave = () => item.material.color.set(background);
+	            const onSelectStart = () => {
 	                const light = getLight(name, [0, 10, 0]);
 	                scene.remove(globalState.objects.light);
 	                globalState.objects.light = light;
 	                scene.add(light);
 	                scene.background = new Color(background);
-	            }, [menu.children[i]]);
+	                controllers.off(1, 'pointerenter', onPointerEnter, objects);
+	            };
+	            controllers.on(1, 'pointerenter', onPointerEnter, objects);
+	            controllers.on(1, 'pointerleave', onPointerLeave, objects);
+	            controllers.on(1, 'selectstart', onSelectStart, objects);
 	        });
 	        box.position.y = 0.5;
 	        smallBox.position.y = 1.5;

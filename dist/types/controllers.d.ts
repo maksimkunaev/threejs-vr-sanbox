@@ -12,10 +12,7 @@ export default class Controllers {
     gmapadConnectedListeners: any[][];
     lastIntersected: THREE.Object3D | null;
     intersectionsObjectCallbacks: any[];
-    listeners: {
-        pointerenter: any[];
-        pointerleave: any[];
-    };
+    pointerUnsubscribers: {}[];
     constructor(renderer: any, observer: any, params: any);
     private initLine;
     get showRay(): boolean;
@@ -23,8 +20,9 @@ export default class Controllers {
     onGamepadConnected(index: any, callback: any): void;
     getIntersections(controllerIndex: number, objects: THREE.Object3D[]): any;
     private createListener;
+    isPointerEvent: (event: any) => boolean;
     on(controllerIndex: number, event: any, callback: any, objects?: any): void;
-    off(event: any, callback: any): void;
+    off(controllerIndex: any, event: any, callback: any): void;
     private updateIntersections;
     update(): void;
 }
