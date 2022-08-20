@@ -1,43 +1,68 @@
 import * as THREE from 'three';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 
-import { getIntersections } from './helpers';
-import Teleportation from './teleport';
+import { isVR } from './helpers';
+import DefaultScene from './';
 
+const pointer = new THREE.Vector2();
 const controllerModelFactory = new XRControllerModelFactory();
 
-type EventSubscribeParams = {
-  objects?: THREE.Object3D[];
-  index?: number;
+const KEY_CODES_MAP = {
+  87: 'w',
+  65: 'a',
+  83: 's',
+  68: 'd',
+  37: 'left',
+  38: 'up',
+  39: 'right',
+  40: 'down',
 };
 
+type Keys = typeof KEY_CODES_MAP[keyof typeof KEY_CODES_MAP];
+
 export default class Controllers {
-  params;
-  renderer: THREE.WebGLRenderer;
-  scene: THREE.Scene;
-  observer: THREE.Object3D;
-  line: THREE.Line;
+  private _: DefaultScene;
+  private params;
+
+  private line: THREE.Line;
   raycaster = new THREE.Raycaster();
   tempMatrix = new THREE.Matrix4();
 
   controllers: any[] = [];
   gamepads: any[] = [];
+  pressedKeys: Record<Keys, boolean> = {};
 
-  gmapadConnectedListeners = [[], []];
-  lastIntersected: THREE.Object3D | null = null;
-  intersectionsObjectCallbacks = []; // by controller index
-  pointerUnsubscribers = [{}, {}];
+  private gamepadConnectedListeners = [[], []];
+  private lastIntersected: THREE.Object3D | null = null;
+  private intersectionsObjectCallbacks = []; // by controller index
+  private pointerUnsubscribers = [{}, {}];
 
-  constructor(renderer, observer, params) {
-    this.renderer = renderer;
-    this.observer = observer;
+  constructor(root, params) {
+    this._ = root;
     this.params = params;
 
-    this.initLine();
+    if (isVR) {
+      this.initLine();
+      this.createController(0);
+      this.createController(1);
+    } else {
+      this._.renderer.domElement.addEventListener('pointermove', e => {
+        pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+        pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      });
 
-    this.createController(0);
-    this.createController(1);
+      window.addEventListener('keydown', this.onKeyDown);
+      window.addEventListener('keyup', this.onKeyUp);
+    }
   }
+
+  private onKeyDown = e => {
+    this.pressedKeys[KEY_CODES_MAP[e.keyCode]] = true;
+  };
+
+  private onKeyUp = e => {
+    delete this.pressedKeys[KEY_CODES_MAP[e.keyCode]];
+  };
 
   private initLine() {
     const geometry = new THREE.BufferGeometry().setFromPoints([
@@ -55,8 +80,8 @@ export default class Controllers {
   }
 
   private createController(index) {
-    const controller = this.renderer.xr.getController(index);
-    const grip = this.renderer.xr.getControllerGrip(index);
+    const controller = this._.renderer.xr.getController(index);
+    const grip = this._.renderer.xr.getControllerGrip(index);
 
     if (this.showRay) controller.add(this.line.clone());
 
@@ -66,47 +91,58 @@ export default class Controllers {
     grip.addEventListener('connected', e => {
       const { gamepad } = e.data;
       this.gamepads[index] = gamepad;
-      this.gmapadConnectedListeners[index].forEach(l => l(gamepad));
-      this.gmapadConnectedListeners[index] = [];
+      this.gamepadConnectedListeners[index].forEach(l => l(gamepad));
+      this.gamepadConnectedListeners[index] = [];
     });
 
-    this.observer.add(controller);
-    this.observer.add(grip);
+    this._.observer.add(controller);
+    this._.observer.add(grip);
   }
 
   onGamepadConnected(index, callback) {
-    this.gmapadConnectedListeners[index].push(callback);
+    if (!isVR) return;
+    this.gamepadConnectedListeners[index].push(callback);
   }
 
   getIntersections(controllerIndex: number, objects: THREE.Object3D[]) {
     if (!objects.length) return [];
 
-    return getIntersections(
-      this.controllers[controllerIndex],
-      objects,
-      this.raycaster,
-      this.tempMatrix
-    );
+    if (isVR) {
+      const controller = this.controllers[controllerIndex];
+      this.tempMatrix.identity().extractRotation(controller.matrixWorld);
+      this.raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+      this.raycaster.ray.direction.set(0, 0, -1).applyMatrix4(this.tempMatrix);
+    } else {
+      this.raycaster.setFromCamera(pointer, this._.camera);
+    }
+
+    return this.raycaster.intersectObjects(objects, true); // TODO: optimize recursive search
   }
 
   private createListener = (cb, controllerIndex: number, objects?) => {
     if (!objects) return cb;
 
+    const index = this.getIndex(controllerIndex);
+
     return () => {
-      const intersections = this.getIntersections(controllerIndex, objects);
+      const intersections = this.getIntersections(index, objects);
 
       if (intersections[0]) cb(intersections[0]);
     };
   };
 
-  isPointerEvent = event => /pointerenter|pointerleave/.test(event);
+  isHoverEvent = event => /pointerenter|pointerleave/.test(event);
+
+  getIndex = index => (isVR ? index : 0);
 
   on(controllerIndex: number, event, callback, objects?) {
-    if (this.isPointerEvent(event)) {
+    const index = this.getIndex(controllerIndex);
+
+    if (this.isHoverEvent(event)) {
       objects.forEach(obj => {
-        let map = this.intersectionsObjectCallbacks[controllerIndex];
-        if (!map)
-          map = this.intersectionsObjectCallbacks[controllerIndex] = new Map();
+        let map = this.intersectionsObjectCallbacks[index];
+
+        if (!map) map = this.intersectionsObjectCallbacks[index] = new Map();
 
         if (!map.has(obj)) {
           map.set(obj, {
@@ -119,7 +155,7 @@ export default class Controllers {
 
         items[event].push(callback);
 
-        const controllerMap = this.pointerUnsubscribers[controllerIndex];
+        const controllerMap = this.pointerUnsubscribers[index];
 
         if (!controllerMap[event]) controllerMap[event] = {};
 
@@ -133,24 +169,46 @@ export default class Controllers {
       return;
     }
 
-    const cb = this.createListener(callback, controllerIndex, objects);
-    this.controllers[controllerIndex].addEventListener(event, cb);
+    const cb = this.createListener(callback, index, objects);
+
+    if (isVR) {
+      this.controllers[index].addEventListener(event, cb);
+    } else {
+      switch (event) {
+        case 'selectstart':
+          this._.renderer.domElement.addEventListener('pointerdown', cb);
+        case 'selectend':
+          this._.renderer.domElement.addEventListener('pointerup', cb);
+      }
+    }
   }
 
   off(controllerIndex, event, callback) {
-    if (this.isPointerEvent(event)) {
-      this.pointerUnsubscribers[controllerIndex][event][callback].forEach(
-        obj => {
-          const map = this.intersectionsObjectCallbacks[controllerIndex];
-          const callbacks = map.get(obj)[event];
-          callbacks.splice(callbacks.indexOf(callback), 1);
-        }
-      );
+    const index = this.getIndex(controllerIndex);
+
+    if (this.isHoverEvent(event)) {
+      this.pointerUnsubscribers[index][event][callback].forEach(obj => {
+        const map = this.intersectionsObjectCallbacks[index];
+        const callbacks = map.get(obj)[event];
+        callbacks.splice(callbacks.indexOf(callback), 1);
+      });
 
       return;
     }
 
-    this.controllers.forEach(c => c.removeEventListener(event, callback));
+    if (isVR) {
+      this.controllers.forEach(c => c.removeEventListener(event, callback));
+    } else {
+      switch (event) {
+        case 'selectstart':
+          this._.renderer.domElement.removeEventListener(
+            'pointerdown',
+            callback
+          );
+        case 'selectend':
+          this._.renderer.domElement.removeEventListener('pointerup', callback);
+      }
+    }
   }
 
   private updateIntersections() {

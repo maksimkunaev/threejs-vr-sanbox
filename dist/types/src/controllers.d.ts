@@ -1,0 +1,42 @@
+import * as THREE from 'three';
+declare const KEY_CODES_MAP: {
+    87: string;
+    65: string;
+    83: string;
+    68: string;
+    37: string;
+    38: string;
+    39: string;
+    40: string;
+};
+declare type Keys = typeof KEY_CODES_MAP[keyof typeof KEY_CODES_MAP];
+export default class Controllers {
+    private _;
+    private params;
+    private line;
+    raycaster: any;
+    tempMatrix: any;
+    controllers: any[];
+    gamepads: any[];
+    pressedKeys: Record<Keys, boolean>;
+    private gamepadConnectedListeners;
+    private lastIntersected;
+    private intersectionsObjectCallbacks;
+    private pointerUnsubscribers;
+    constructor(root: any, params: any);
+    private onKeyDown;
+    private onKeyUp;
+    private initLine;
+    get showRay(): boolean;
+    private createController;
+    onGamepadConnected(index: any, callback: any): void;
+    getIntersections(controllerIndex: number, objects: THREE.Object3D[]): any;
+    private createListener;
+    isHoverEvent: (event: any) => boolean;
+    getIndex: (index: any) => any;
+    on(controllerIndex: number, event: any, callback: any, objects?: any): void;
+    off(controllerIndex: any, event: any, callback: any): void;
+    private updateIntersections;
+    update(): void;
+}
+export {};

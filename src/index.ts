@@ -7,13 +7,13 @@ import * as H from './helpers.js';
 import Controllers from './controllers.js';
 import Teleportation from './teleport.js';
 
+const { isVR } = H;
+
 type Params = Record<string, any> & {
   // onReady: (DS: DefaultScene) => void;
 };
 
 export default class DefaultScene {
-  isXREnabled = true; //'xr' in window.navigator;
-
   params: Params;
   renderer: THREE.WebGLRenderer;
   scene: THREE.Scene;
@@ -27,7 +27,7 @@ export default class DefaultScene {
   constructor(params: Params = {}) {
     this.params = params;
 
-    this.initRenderer();
+    this.initRenderer(params.renderer);
     this.initScene();
     this.initObserver();
     this.initCamera();
@@ -37,42 +37,37 @@ export default class DefaultScene {
 
     params.onReady?.(this);
 
-    if (this.isXREnabled) {
+    if (isVR) {
       this.renderer.xr.enabled = true;
       document.body.appendChild(VRButton.createButton(this.renderer));
     }
 
-    if (this.isXREnabled) {
-      this.renderer.setAnimationLoop(this.update);
-    }
-
-    if (!this.isXREnabled) {
-      requestAnimationFrame(this.update);
-    }
+    this.renderer.setAnimationLoop(this.update);
   }
 
-  initRenderer() {
+  private initRenderer(params: any = {}) {
     const {
       configure,
-      pixelRatio,
+      pixelRatio = window.devicePixelRatio,
       size = H.getDefaultSize(),
       ...rest
-    } = this.params.renderer || {};
+    } = params;
 
     this.renderer = new THREE.WebGLRenderer(rest);
-    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setPixelRatio(pixelRatio);
     this.renderer.setSize(size.width, size.height);
-    this.renderer.outputEncoding = THREE.sRGBEncoding;
+    // this.renderer.outputEncoding = THREE.sRGBEncoding;
+    document.body.appendChild(this.renderer.domElement);
 
     configure?.(this.renderer);
   }
 
-  initScene() {
+  private initScene() {
     this.scene = new THREE.Scene();
     this.params.scene?.configure?.(this.scene);
   }
 
-  initObserver() {
+  private initObserver() {
     const { configure } = this.params.observer || {};
 
     this.observer = H.createObserver();
@@ -81,7 +76,7 @@ export default class DefaultScene {
     this.scene.add(this.observer);
   }
 
-  initOrbitControls(params = this.params.orbitControls) {
+  private initOrbitControls(params = this.params.orbitControls) {
     if (!params) return;
 
     const { configure } = (typeof params === 'object' && params) || {};
@@ -91,13 +86,13 @@ export default class DefaultScene {
       this.renderer.domElement
     );
 
-    this.orbitControls.target.set(0, 1.6, 0);
+    // this.orbitControls.target.set(this.observer.geometry.vertices);
     this.orbitControls.update();
 
     configure?.(this.orbitControls);
   }
 
-  initCamera(params = this.params.camera) {
+  private initCamera(params = this.params.camera) {
     if (typeof params === 'function') {
       this.camera = params();
       return;
@@ -109,25 +104,22 @@ export default class DefaultScene {
       0.1,
       120
     );
-    this.camera.position.set(1.2, 3, 14);
-    this.camera.lookAt(0, 0, 0);
+
+    this.camera.position.y = 2;
+    // this.camera.position.set(1.2, 3, 14);
+    // this.camera.lookAt(0, 0, 0);
 
     this.observer.add(this.camera);
   }
 
   private initControllers(params) {
-    this.controllers = new Controllers(this.renderer, this.observer, params);
+    this.controllers = new Controllers(this, params);
   }
 
   private initTeleportation(params) {
     if (!params) return;
 
-    this.teleportation = new Teleportation({
-      scene: this.scene,
-      observer: this.observer,
-      controllers: this.controllers,
-      params,
-    });
+    this.teleportation = new Teleportation(this, params);
   }
 
   loadModel({ url, onProgress, onError, position, castShadow, scale }) {
@@ -184,8 +176,8 @@ export default class DefaultScene {
     this.controllers.update();
     this.teleportation?.update();
 
-    if (!this.isXREnabled) requestAnimationFrame(this.update);
-
     this.renderer.render(this.scene, this.camera);
+
+    // if (!isVR) requestAnimationFrame(this.update);
   };
 }

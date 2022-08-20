@@ -16,11 +16,11 @@ export default class DefaultScene {
     orbitControls: OrbitControls;
     gltfLoader: GLTFLoader;
     constructor(params?: Params);
-    initRenderer(): void;
-    initScene(): void;
-    initObserver(): void;
-    initOrbitControls(params?: any): void;
-    initCamera(params?: any): void;
+    private initRenderer;
+    private initScene;
+    private initObserver;
+    private initOrbitControls;
+    private initCamera;
     private initControllers;
     private initTeleportation;
     loadModel({ url, onProgress, onError, position, scale }: {

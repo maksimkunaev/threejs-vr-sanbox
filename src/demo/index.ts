@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import DefaultScene from '../src/index.js';
+import DefaultScene from '../index.js';
 import {
   createMenu,
   getFloor,
@@ -8,7 +8,7 @@ import {
   LIGHT_TYPES,
   MENU_CONFIG,
   setGUI,
-} from './utils.js';
+} from './utils';
 
 const globalState = {
   objects: {
@@ -41,15 +41,16 @@ new DefaultScene({
   // controllers: {
   //   showRay: false,
   // },
-  orbitControls: true,
+  // orbitControls: true,
   teleportation: {
     targets: [globalState.objects.floor],
   },
   // camera: () => {
-  //   const camera = new THREE.OrthographicCamera( -10, 10, 10, -10, 1, 1000 );
+  //   const camera = new THREE.OrthographicCamera(-10, 10, 10, -10, 1, 1000);
   //   camera.position.set(0, 0, 10);
   //   return camera;
-  // }
+  // },
+
   async onReady(DS) {
     const { scene, controllers } = DS;
     const { light, light2, floor, box } = globalState.objects;
@@ -60,10 +61,14 @@ new DefaultScene({
     scene.add(floor);
     scene.add(light);
     scene.add(light2);
-    scene.add(box);
 
     const grid = new THREE.GridHelper(10, 10, 0x888888, 0x444444);
     scene.add(grid);
+
+    // const camera = new THREE.PerspectiveCamera();
+    // camera.position.set(-5, 5, 5);
+    // camera.lookAt(0, 0, 0);
+    // DS.camera = camera;
 
     const menu = createMenu();
     scene.add(menu);
@@ -90,8 +95,6 @@ new DefaultScene({
       controllers.on(1, 'selectstart', onSelectStart, objects);
     });
 
-    box.position.y = 0.5;
-
     const model = await DS.loadModel({
       url: '/public/360_sphere_robot/scene.gltf',
       // position: [2, 0, 2],
@@ -99,35 +102,35 @@ new DefaultScene({
       // scale: [1, 1, 1],
     });
 
-    DS.teleportation.addTargets([box, model]);
+    // DS.teleportation.addTargets([box, model]);
 
     box.castShadow = true;
     box.receiveShadow = true;
     floor.receiveShadow = true;
 
-    setGUI({
-      model,
-      renderer: DS.renderer,
-      camera: DS.camera,
-      observer: DS.observer,
-    });
+    // setGUI({
+    //   model,
+    //   renderer: DS.renderer,
+    //   camera: DS.camera,
+    //   observer: DS.observer,
+    // });
 
-    DS.loadAudio({
-      url: '/public/guitar.mp3',
-      targetMesh: DS.scene,
-      listenerMeshes: [DS.observer],
-      onLoad(sound, listener) {
-        sound.setRefDistance(20);
-        sound.setLoop(true);
-        sound.setVolume(0.5);
-        sound.onend = () => {
-          sound.stop();
-          DS.scene.remove(sound);
-          listener.remove(DS.scene);
-        };
-        // sound.play();
-      },
-    });
+    // DS.loadAudio({
+    //   url: '/public/guitar.mp3',
+    //   targetMesh: DS.scene,
+    //   listenerMeshes: [DS.observer],
+    //   onLoad(sound, listener) {
+    //     sound.setRefDistance(20);
+    //     sound.setLoop(true);
+    //     sound.setVolume(0.5);
+    //     sound.onend = () => {
+    //       sound.stop();
+    //       DS.scene.remove(sound);
+    //       listener.remove(DS.scene);
+    //     };
+    //     // sound.play();
+    //   },
+    // });
   },
   update(time) {
     // globalState.objects.light.position.x = 3 * Math.sin(time);
