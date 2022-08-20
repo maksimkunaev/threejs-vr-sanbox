@@ -1,14 +1,28 @@
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import helpers from './helpers.js';
-import Controllers from './controllers.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-const { getDefaultSize, addObserver, initOrbits, needUpdateRenderSize } =
-  helpers;
+import * as H from './helpers.js';
+import Controllers from './controllers.js';
+import Teleportation from './teleport.js';
+
+type Params = Record<string, any> & {
+  // onReady: (DS: DefaultScene) => void;
+};
 
 export default class DefaultScene {
-  isXREnabled = 'xr' in window.navigator;
+  isXREnabled = true; //'xr' in window.navigator;
+
+  params: Params;
+  renderer: THREE.WebGLRenderer;
+  scene: THREE.Scene;
+  camera: THREE.Camera;
+  controllers: Controllers;
+  teleportation: Teleportation;
+  observer: THREE.Mesh;
+  orbitControls: OrbitControls;
+  gltfLoader: GLTFLoader;
 
   updaters = [];
   callbacks = {
@@ -17,20 +31,18 @@ export default class DefaultScene {
     onSticksEvents: [],
   };
 
-  constructor(params = {}) {
+  constructor(params: Params = {}) {
     this.params = params;
 
     this.initRenderer();
     this.initScene();
     this.initObserver();
-    this.initOrbitControls();
     this.initCamera();
-
-    this.controllers = new Controllers(this.scene, this.renderer);
+    this.initOrbitControls();
+    this.initControllers(params.controllers);
+    this.initTeleportation(params.teleportation);
 
     params.onReady?.(this);
-
-    // run //
 
     if (this.isXREnabled) {
       this.renderer.xr.enabled = true;
@@ -50,9 +62,9 @@ export default class DefaultScene {
     const {
       configure,
       pixelRatio,
-      size = getDefaultSize(),
+      size = H.getDefaultSize(),
       ...rest
-    } = this.params.render || {};
+    } = this.params.renderer || {};
 
     this.renderer = new THREE.WebGLRenderer(rest);
     this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -69,14 +81,13 @@ export default class DefaultScene {
   initObserver() {
     const { configure } = this.params.observer || {};
 
-    this.observer = addObserver(new THREE.Object3D());
-    this.observer.position.set(0, 0, 0);
+    this.observer = H.createObserver();
     configure?.(this.observer);
 
     this.scene.add(this.observer);
   }
 
-  initOrbitControls(params = this.params.orbits) {
+  initOrbitControls(params = this.params.orbitControls) {
     if (!params) return;
 
     const { configure } = (typeof params === 'object' && params) || {};
@@ -101,30 +112,49 @@ export default class DefaultScene {
     this.camera = new THREE.PerspectiveCamera(75, 2, 0.1, 120);
     this.camera.position.set(1.2, 3, 14);
     this.camera.lookAt(0, 0, 0);
+
+    this.observer.add(this.camera);
   }
 
-  loadModel({ url, onSuccess, onProgress, onError, position, scale }) {
+  private initControllers(params) {
+    this.controllers = new Controllers(this.renderer, this.observer, params);
+  }
+
+  private initTeleportation(params) {
+    if (!params) return;
+
+    this.teleportation = new Teleportation({
+      scene: this.scene,
+      observer: this.observer,
+      controllers: this.controllers,
+      params,
+    });
+  }
+
+  loadModel({ url, onProgress, onError, position, scale }) {
     if (!this.gltfLoader) this.gltfLoader = new GLTFLoader();
 
-    this.gltfLoader.load(
-      url,
-      gltf => {
-        const obj = new THREE.Object3D();
+    return new Promise(resolve => {
+      this.gltfLoader.load(
+        url,
+        gltf => {
+          const obj = new THREE.Object3D();
 
-        if (position) gltf.scene.position.set(...position);
-        if (scale) gltf.scene.scale.set(...scale);
+          if (position) gltf.scene.position.set(...position);
+          if (scale) gltf.scene.scale.set(...scale);
 
-        obj.add(gltf.scene);
-        this.scene.add(obj);
+          obj.add(gltf.scene);
+          this.scene.add(obj);
 
-        onSuccess?.(gltf);
-      },
-      onProgress,
-      onError
-    );
+          resolve(obj);
+        },
+        onProgress,
+        onError
+      );
+    });
   }
 
-  addAudio({ url, targetMesh, listenerMeshes, onLoad }) {
+  loadAudio({ url, targetMesh, listenerMeshes, onLoad }) {
     const listener = new THREE.AudioListener();
     const sound = new THREE.PositionalAudio(listener);
     const audioLoader = new THREE.AudioLoader();
@@ -138,8 +168,11 @@ export default class DefaultScene {
   }
 
   setAspect() {
-    if (needUpdateRenderSize(this.renderer)) {
-      const { clientWidth, clientHeight } = this.params.canvas;
+    if (H.needUpdateRenderSize(this.renderer)) {
+      const { clientWidth, clientHeight } = this.renderer.domElement;
+
+      this.renderer.setSize(clientWidth, clientHeight, false);
+
       this.camera.aspect = clientWidth / clientHeight;
       this.camera.updateProjectionMatrix();
     }
@@ -153,40 +186,13 @@ export default class DefaultScene {
     this.callbacks.onSelectEnd?.forEach(callback => callback(e));
   };
 
-  checkSticksPressed = () => {
-    const stickButtonLeft = this?.gamepad1?.buttons[3];
-    const stickButtonRight = this?.gamepad2?.buttons[3];
-    const axesLeft = this?.gamepad1?.axes;
-    const axesRight = this?.gamepad2?.axes;
-
-    this.updateObserverRotation(stickButtonLeft, axesLeft);
-    this.callbacks.onSticksEvents?.forEach(callback =>
-      callback(stickButtonRight, axesRight)
-    );
-  };
-
-  updateObserverRotation = (stickButton, axes) => {
-    if (stickButton?.touched) {
-      const [, , xAmplitude] = axes;
-
-      if (xAmplitude > 0.15) {
-        this.observer.rotation.y -= 0.015;
-      }
-
-      if (xAmplitude < -0.15) {
-        this.observer.rotation.y += 0.015;
-      }
-    }
-  };
-
   update = time => {
     time *= 0.0005;
 
     this.setAspect();
-    this.checkSticksPressed();
-
     this.params.update(time);
-    this.intersectListeners.forEach(l => l());
+    this.controllers.update();
+    this.teleportation?.update();
     this.updaters.forEach(u => u(time));
 
     if (!this.isXREnabled) {

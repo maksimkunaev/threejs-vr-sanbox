@@ -8298,7 +8298,7 @@
 
 	}
 
-	class Color$1 {
+	class Color {
 
 		constructor( r, g, b ) {
 
@@ -8841,12 +8841,12 @@
 
 	}
 
-	Color$1.NAMES = _colorKeywords;
+	Color.NAMES = _colorKeywords;
 
-	Color$1.prototype.isColor = true;
-	Color$1.prototype.r = 1;
-	Color$1.prototype.g = 1;
-	Color$1.prototype.b = 1;
+	Color.prototype.isColor = true;
+	Color.prototype.r = 1;
+	Color.prototype.g = 1;
+	Color.prototype.b = 1;
 
 	/**
 	 * parameters = {
@@ -8885,7 +8885,7 @@
 
 			this.type = 'MeshBasicMaterial';
 
-			this.color = new Color$1( 0xffffff ); // emissive
+			this.color = new Color( 0xffffff ); // emissive
 
 			this.map = null;
 
@@ -9041,7 +9041,7 @@
 				if ( color === undefined ) {
 
 					console.warn( 'THREE.BufferAttribute.copyColorsArray(): color is undefined', i );
-					color = new Color$1();
+					color = new Color();
 
 				}
 
@@ -13011,7 +13011,7 @@
 
 		common: {
 
-			diffuse: { value: new Color$1( 0xffffff ) },
+			diffuse: { value: new Color( 0xffffff ) },
 			opacity: { value: 1.0 },
 
 			map: { value: null },
@@ -13105,7 +13105,7 @@
 			fogDensity: { value: 0.00025 },
 			fogNear: { value: 1 },
 			fogFar: { value: 2000 },
-			fogColor: { value: new Color$1( 0xffffff ) }
+			fogColor: { value: new Color( 0xffffff ) }
 
 		},
 
@@ -13190,7 +13190,7 @@
 
 		points: {
 
-			diffuse: { value: new Color$1( 0xffffff ) },
+			diffuse: { value: new Color( 0xffffff ) },
 			opacity: { value: 1.0 },
 			size: { value: 1.0 },
 			scale: { value: 1.0 },
@@ -13203,7 +13203,7 @@
 
 		sprite: {
 
-			diffuse: { value: new Color$1( 0xffffff ) },
+			diffuse: { value: new Color( 0xffffff ) },
 			opacity: { value: 1.0 },
 			center: { value: new Vector2( 0.5, 0.5 ) },
 			rotation: { value: 0.0 },
@@ -13246,7 +13246,7 @@
 				UniformsLib.fog,
 				UniformsLib.lights,
 				{
-					emissive: { value: new Color$1( 0x000000 ) }
+					emissive: { value: new Color( 0x000000 ) }
 				}
 			] ),
 
@@ -13270,8 +13270,8 @@
 				UniformsLib.fog,
 				UniformsLib.lights,
 				{
-					emissive: { value: new Color$1( 0x000000 ) },
-					specular: { value: new Color$1( 0x111111 ) },
+					emissive: { value: new Color( 0x000000 ) },
+					specular: { value: new Color( 0x111111 ) },
 					shininess: { value: 30 }
 				}
 			] ),
@@ -13297,7 +13297,7 @@
 				UniformsLib.fog,
 				UniformsLib.lights,
 				{
-					emissive: { value: new Color$1( 0x000000 ) },
+					emissive: { value: new Color( 0x000000 ) },
 					roughness: { value: 1.0 },
 					metalness: { value: 0.0 },
 					envMapIntensity: { value: 1 } // temporary
@@ -13323,7 +13323,7 @@
 				UniformsLib.fog,
 				UniformsLib.lights,
 				{
-					emissive: { value: new Color$1( 0x000000 ) }
+					emissive: { value: new Color( 0x000000 ) }
 				}
 			] ),
 
@@ -13483,7 +13483,7 @@
 				UniformsLib.lights,
 				UniformsLib.fog,
 				{
-					color: { value: new Color$1( 0x00000 ) },
+					color: { value: new Color( 0x00000 ) },
 					opacity: { value: 1.0 }
 				},
 			] ),
@@ -13507,7 +13507,7 @@
 				clearcoatNormalScale: { value: new Vector2( 1, 1 ) },
 				clearcoatNormalMap: { value: null },
 				sheen: { value: 0 },
-				sheenTint: { value: new Color$1( 0x000000 ) },
+				sheenTint: { value: new Color( 0x000000 ) },
 				sheenRoughness: { value: 0 },
 				transmission: { value: 0 },
 				transmissionMap: { value: null },
@@ -13516,10 +13516,10 @@
 				thickness: { value: 0 },
 				thicknessMap: { value: null },
 				attenuationDistance: { value: 0 },
-				attenuationTint: { value: new Color$1( 0x000000 ) },
+				attenuationTint: { value: new Color( 0x000000 ) },
 				specularIntensity: { value: 0 },
 				specularIntensityMap: { value: null },
-				specularTint: { value: new Color$1( 1, 1, 1 ) },
+				specularTint: { value: new Color( 1, 1, 1 ) },
 				specularTintMap: { value: null },
 			}
 		] ),
@@ -13531,7 +13531,7 @@
 
 	function WebGLBackground( renderer, cubemaps, state, objects, premultipliedAlpha ) {
 
-		const clearColor = new Color$1( 0x000000 );
+		const clearColor = new Color( 0x000000 );
 		let clearAlpha = 0;
 
 		let planeMesh;
@@ -14952,7 +14952,7 @@
 
 	const _flatCamera = /*@__PURE__*/ new OrthographicCamera();
 	const { _lodPlanes, _sizeLods, _sigmas } = /*@__PURE__*/ _createPlanes();
-	const _clearColor = /*@__PURE__*/ new Color$1();
+	const _clearColor = /*@__PURE__*/ new Color();
 	let _oldTarget = null;
 
 	// Golden Ratio
@@ -19438,7 +19438,7 @@
 					case 'DirectionalLight':
 						uniforms = {
 							direction: new Vector3(),
-							color: new Color$1()
+							color: new Color()
 						};
 						break;
 
@@ -19446,7 +19446,7 @@
 						uniforms = {
 							position: new Vector3(),
 							direction: new Vector3(),
-							color: new Color$1(),
+							color: new Color(),
 							distance: 0,
 							coneCos: 0,
 							penumbraCos: 0,
@@ -19457,7 +19457,7 @@
 					case 'PointLight':
 						uniforms = {
 							position: new Vector3(),
-							color: new Color$1(),
+							color: new Color(),
 							distance: 0,
 							decay: 0
 						};
@@ -19466,14 +19466,14 @@
 					case 'HemisphereLight':
 						uniforms = {
 							direction: new Vector3(),
-							skyColor: new Color$1(),
-							groundColor: new Color$1()
+							skyColor: new Color(),
+							groundColor: new Color()
 						};
 						break;
 
 					case 'RectAreaLight':
 						uniforms = {
-							color: new Color$1(),
+							color: new Color(),
 							position: new Vector3(),
 							halfWidth: new Vector3(),
 							halfHeight: new Vector3()
@@ -27722,7 +27722,7 @@
 
 			this.type = 'SpriteMaterial';
 
-			this.color = new Color$1( 0xffffff );
+			this.color = new Color( 0xffffff );
 
 			this.map = null;
 
@@ -28571,7 +28571,7 @@
 
 			this.type = 'LineBasicMaterial';
 
-			this.color = new Color$1( 0xffffff );
+			this.color = new Color( 0xffffff );
 
 			this.linewidth = 1;
 			this.linecap = 'round';
@@ -28935,7 +28935,7 @@
 
 			this.type = 'PointsMaterial';
 
-			this.color = new Color$1( 0xffffff );
+			this.color = new Color( 0xffffff );
 
 			this.map = null;
 
@@ -33653,7 +33653,7 @@
 
 			this.type = 'ShadowMaterial';
 
-			this.color = new Color$1( 0x000000 );
+			this.color = new Color( 0x000000 );
 			this.transparent = true;
 
 			this.setValues( parameters );
@@ -33732,7 +33732,7 @@
 
 			this.type = 'MeshStandardMaterial';
 
-			this.color = new Color$1( 0xffffff ); // diffuse
+			this.color = new Color( 0xffffff ); // diffuse
 			this.roughness = 1.0;
 			this.metalness = 0.0;
 
@@ -33744,7 +33744,7 @@
 			this.aoMap = null;
 			this.aoMapIntensity = 1.0;
 
-			this.emissive = new Color$1( 0x000000 );
+			this.emissive = new Color( 0x000000 );
 			this.emissiveIntensity = 1.0;
 			this.emissiveMap = null;
 
@@ -33907,7 +33907,7 @@
 				}
 			} );
 
-			this.sheenTint = new Color$1( 0x000000 );
+			this.sheenTint = new Color( 0x000000 );
 			this.sheenRoughness = 1.0;
 
 			this.transmissionMap = null;
@@ -33915,11 +33915,11 @@
 			this.thickness = 0.01;
 			this.thicknessMap = null;
 			this.attenuationDistance = 0.0;
-			this.attenuationTint = new Color$1( 1, 1, 1 );
+			this.attenuationTint = new Color( 1, 1, 1 );
 
 			this.specularIntensity = 1.0;
 			this.specularIntensityMap = null;
-			this.specularTint = new Color$1( 1, 1, 1 );
+			this.specularTint = new Color( 1, 1, 1 );
 			this.specularTintMap = null;
 
 			this._sheen = 0.0;
@@ -34083,8 +34083,8 @@
 
 			this.type = 'MeshPhongMaterial';
 
-			this.color = new Color$1( 0xffffff ); // diffuse
-			this.specular = new Color$1( 0x111111 );
+			this.color = new Color( 0xffffff ); // diffuse
+			this.specular = new Color( 0x111111 );
 			this.shininess = 30;
 
 			this.map = null;
@@ -34095,7 +34095,7 @@
 			this.aoMap = null;
 			this.aoMapIntensity = 1.0;
 
-			this.emissive = new Color$1( 0x000000 );
+			this.emissive = new Color( 0x000000 );
 			this.emissiveIntensity = 1.0;
 			this.emissiveMap = null;
 
@@ -34231,7 +34231,7 @@
 
 			this.type = 'MeshToonMaterial';
 
-			this.color = new Color$1( 0xffffff );
+			this.color = new Color( 0xffffff );
 
 			this.map = null;
 			this.gradientMap = null;
@@ -34242,7 +34242,7 @@
 			this.aoMap = null;
 			this.aoMapIntensity = 1.0;
 
-			this.emissive = new Color$1( 0x000000 );
+			this.emissive = new Color( 0x000000 );
 			this.emissiveIntensity = 1.0;
 			this.emissiveMap = null;
 
@@ -34433,7 +34433,7 @@
 
 			this.type = 'MeshLambertMaterial';
 
-			this.color = new Color$1( 0xffffff ); // diffuse
+			this.color = new Color( 0xffffff ); // diffuse
 
 			this.map = null;
 
@@ -34443,7 +34443,7 @@
 			this.aoMap = null;
 			this.aoMapIntensity = 1.0;
 
-			this.emissive = new Color$1( 0x000000 );
+			this.emissive = new Color( 0x000000 );
 			this.emissiveIntensity = 1.0;
 			this.emissiveMap = null;
 
@@ -34541,7 +34541,7 @@
 
 			this.type = 'MeshMatcapMaterial';
 
-			this.color = new Color$1( 0xffffff ); // diffuse
+			this.color = new Color( 0xffffff ); // diffuse
 
 			this.matcap = null;
 
@@ -37166,7 +37166,7 @@
 
 			this.type = 'Light';
 
-			this.color = new Color$1( color );
+			this.color = new Color( color );
 			this.intensity = intensity;
 
 		}
@@ -37223,7 +37223,7 @@
 			this.position.copy( Object3D.DefaultUp );
 			this.updateMatrix();
 
-			this.groundColor = new Color$1( groundColor );
+			this.groundColor = new Color( groundColor );
 
 		}
 
@@ -38302,8 +38302,8 @@
 
 			super( undefined, intensity );
 
-			const color1 = new Color$1().set( skyColor );
-			const color2 = new Color$1().set( groundColor );
+			const color1 = new Color().set( skyColor );
+			const color2 = new Color().set( groundColor );
 
 			const sky = new Vector3( color1.r, color1.g, color1.b );
 			const ground = new Vector3( color2.r, color2.g, color2.b );
@@ -38327,7 +38327,7 @@
 
 			super( undefined, intensity );
 
-			const color1 = new Color$1().set( color );
+			const color1 = new Color().set( color );
 
 			// without extra factor of PI in the shader, would be 2 / Math.sqrt( Math.PI );
 			this.sh.coefficients[ 0 ].set( color1.r, color1.g, color1.b ).multiplyScalar( 2 * Math.sqrt( Math.PI ) );
@@ -41798,8 +41798,8 @@
 			const vertices = [];
 			const colors = [];
 
-			const color1 = new Color$1( 0, 0, 1 );
-			const color2 = new Color$1( 0, 1, 0 );
+			const color1 = new Color( 0, 0, 1 );
+			const color2 = new Color( 0, 1, 0 );
 
 			for ( let i = 0; i < bones.length; i ++ ) {
 
@@ -41896,8 +41896,8 @@
 
 		constructor( size = 10, divisions = 10, color1 = 0x444444, color2 = 0x888888 ) {
 
-			color1 = new Color$1( color1 );
-			color2 = new Color$1( color2 );
+			color1 = new Color( color1 );
+			color2 = new Color( color2 );
 
 			const center = divisions / 2;
 			const step = size / divisions;
@@ -41963,7 +41963,7 @@
 
 		setColors( xAxisColor, yAxisColor, zAxisColor ) {
 
-			const color = new Color$1();
+			const color = new Color();
 			const array = this.geometry.attributes.color.array;
 
 			color.set( xAxisColor );
@@ -41988,294 +41988,6 @@
 
 			this.geometry.dispose();
 			this.material.dispose();
-
-		}
-
-	}
-
-	class ShapePath {
-
-		constructor() {
-
-			this.type = 'ShapePath';
-
-			this.color = new Color$1();
-
-			this.subPaths = [];
-			this.currentPath = null;
-
-		}
-
-		moveTo( x, y ) {
-
-			this.currentPath = new Path();
-			this.subPaths.push( this.currentPath );
-			this.currentPath.moveTo( x, y );
-
-			return this;
-
-		}
-
-		lineTo( x, y ) {
-
-			this.currentPath.lineTo( x, y );
-
-			return this;
-
-		}
-
-		quadraticCurveTo( aCPx, aCPy, aX, aY ) {
-
-			this.currentPath.quadraticCurveTo( aCPx, aCPy, aX, aY );
-
-			return this;
-
-		}
-
-		bezierCurveTo( aCP1x, aCP1y, aCP2x, aCP2y, aX, aY ) {
-
-			this.currentPath.bezierCurveTo( aCP1x, aCP1y, aCP2x, aCP2y, aX, aY );
-
-			return this;
-
-		}
-
-		splineThru( pts ) {
-
-			this.currentPath.splineThru( pts );
-
-			return this;
-
-		}
-
-		toShapes( isCCW, noHoles ) {
-
-			function toShapesNoHoles( inSubpaths ) {
-
-				const shapes = [];
-
-				for ( let i = 0, l = inSubpaths.length; i < l; i ++ ) {
-
-					const tmpPath = inSubpaths[ i ];
-
-					const tmpShape = new Shape();
-					tmpShape.curves = tmpPath.curves;
-
-					shapes.push( tmpShape );
-
-				}
-
-				return shapes;
-
-			}
-
-			function isPointInsidePolygon( inPt, inPolygon ) {
-
-				const polyLen = inPolygon.length;
-
-				// inPt on polygon contour => immediate success    or
-				// toggling of inside/outside at every single! intersection point of an edge
-				//  with the horizontal line through inPt, left of inPt
-				//  not counting lowerY endpoints of edges and whole edges on that line
-				let inside = false;
-				for ( let p = polyLen - 1, q = 0; q < polyLen; p = q ++ ) {
-
-					let edgeLowPt = inPolygon[ p ];
-					let edgeHighPt = inPolygon[ q ];
-
-					let edgeDx = edgeHighPt.x - edgeLowPt.x;
-					let edgeDy = edgeHighPt.y - edgeLowPt.y;
-
-					if ( Math.abs( edgeDy ) > Number.EPSILON ) {
-
-						// not parallel
-						if ( edgeDy < 0 ) {
-
-							edgeLowPt = inPolygon[ q ]; edgeDx = - edgeDx;
-							edgeHighPt = inPolygon[ p ]; edgeDy = - edgeDy;
-
-						}
-
-						if ( ( inPt.y < edgeLowPt.y ) || ( inPt.y > edgeHighPt.y ) ) 		continue;
-
-						if ( inPt.y === edgeLowPt.y ) {
-
-							if ( inPt.x === edgeLowPt.x )		return	true;		// inPt is on contour ?
-							// continue;				// no intersection or edgeLowPt => doesn't count !!!
-
-						} else {
-
-							const perpEdge = edgeDy * ( inPt.x - edgeLowPt.x ) - edgeDx * ( inPt.y - edgeLowPt.y );
-							if ( perpEdge === 0 )				return	true;		// inPt is on contour ?
-							if ( perpEdge < 0 ) 				continue;
-							inside = ! inside;		// true intersection left of inPt
-
-						}
-
-					} else {
-
-						// parallel or collinear
-						if ( inPt.y !== edgeLowPt.y ) 		continue;			// parallel
-						// edge lies on the same horizontal line as inPt
-						if ( ( ( edgeHighPt.x <= inPt.x ) && ( inPt.x <= edgeLowPt.x ) ) ||
-							 ( ( edgeLowPt.x <= inPt.x ) && ( inPt.x <= edgeHighPt.x ) ) )		return	true;	// inPt: Point on contour !
-						// continue;
-
-					}
-
-				}
-
-				return	inside;
-
-			}
-
-			const isClockWise = ShapeUtils.isClockWise;
-
-			const subPaths = this.subPaths;
-			if ( subPaths.length === 0 ) return [];
-
-			if ( noHoles === true )	return	toShapesNoHoles( subPaths );
-
-
-			let solid, tmpPath, tmpShape;
-			const shapes = [];
-
-			if ( subPaths.length === 1 ) {
-
-				tmpPath = subPaths[ 0 ];
-				tmpShape = new Shape();
-				tmpShape.curves = tmpPath.curves;
-				shapes.push( tmpShape );
-				return shapes;
-
-			}
-
-			let holesFirst = ! isClockWise( subPaths[ 0 ].getPoints() );
-			holesFirst = isCCW ? ! holesFirst : holesFirst;
-
-			// console.log("Holes first", holesFirst);
-
-			const betterShapeHoles = [];
-			const newShapes = [];
-			let newShapeHoles = [];
-			let mainIdx = 0;
-			let tmpPoints;
-
-			newShapes[ mainIdx ] = undefined;
-			newShapeHoles[ mainIdx ] = [];
-
-			for ( let i = 0, l = subPaths.length; i < l; i ++ ) {
-
-				tmpPath = subPaths[ i ];
-				tmpPoints = tmpPath.getPoints();
-				solid = isClockWise( tmpPoints );
-				solid = isCCW ? ! solid : solid;
-
-				if ( solid ) {
-
-					if ( ( ! holesFirst ) && ( newShapes[ mainIdx ] ) )	mainIdx ++;
-
-					newShapes[ mainIdx ] = { s: new Shape(), p: tmpPoints };
-					newShapes[ mainIdx ].s.curves = tmpPath.curves;
-
-					if ( holesFirst )	mainIdx ++;
-					newShapeHoles[ mainIdx ] = [];
-
-					//console.log('cw', i);
-
-				} else {
-
-					newShapeHoles[ mainIdx ].push( { h: tmpPath, p: tmpPoints[ 0 ] } );
-
-					//console.log('ccw', i);
-
-				}
-
-			}
-
-			// only Holes? -> probably all Shapes with wrong orientation
-			if ( ! newShapes[ 0 ] )	return	toShapesNoHoles( subPaths );
-
-
-			if ( newShapes.length > 1 ) {
-
-				let ambiguous = false;
-				const toChange = [];
-
-				for ( let sIdx = 0, sLen = newShapes.length; sIdx < sLen; sIdx ++ ) {
-
-					betterShapeHoles[ sIdx ] = [];
-
-				}
-
-				for ( let sIdx = 0, sLen = newShapes.length; sIdx < sLen; sIdx ++ ) {
-
-					const sho = newShapeHoles[ sIdx ];
-
-					for ( let hIdx = 0; hIdx < sho.length; hIdx ++ ) {
-
-						const ho = sho[ hIdx ];
-						let hole_unassigned = true;
-
-						for ( let s2Idx = 0; s2Idx < newShapes.length; s2Idx ++ ) {
-
-							if ( isPointInsidePolygon( ho.p, newShapes[ s2Idx ].p ) ) {
-
-								if ( sIdx !== s2Idx )	toChange.push( { froms: sIdx, tos: s2Idx, hole: hIdx } );
-								if ( hole_unassigned ) {
-
-									hole_unassigned = false;
-									betterShapeHoles[ s2Idx ].push( ho );
-
-								} else {
-
-									ambiguous = true;
-
-								}
-
-							}
-
-						}
-
-						if ( hole_unassigned ) {
-
-							betterShapeHoles[ sIdx ].push( ho );
-
-						}
-
-					}
-
-				}
-				// console.log("ambiguous: ", ambiguous);
-
-				if ( toChange.length > 0 ) {
-
-					// console.log("to change: ", toChange);
-					if ( ! ambiguous )	newShapeHoles = betterShapeHoles;
-
-				}
-
-			}
-
-			let tmpHoles;
-
-			for ( let i = 0, il = newShapes.length; i < il; i ++ ) {
-
-				tmpShape = newShapes[ i ].s;
-				shapes.push( tmpShape );
-				tmpHoles = newShapeHoles[ i ];
-
-				for ( let j = 0, jl = tmpHoles.length; j < jl; j ++ ) {
-
-					tmpShape.holes.push( tmpHoles[ j ].h );
-
-				}
-
-			}
-
-			//console.log("shape", shapes);
-
-			return shapes;
 
 		}
 
@@ -43227,7 +42939,7 @@
 			get: function () {
 
 				console.warn( 'THREE.Material: .wrapRGB has been removed.' );
-				return new Color$1();
+				return new Color();
 
 			}
 		},
@@ -43855,2500 +43567,173 @@
 
 	}
 
-	/**
-	 * dat-gui JavaScript Controller Library
-	 * https://github.com/dataarts/dat.gui
-	 *
-	 * Copyright 2011 Data Arts Team, Google Creative Lab
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 */
+	class VRButton {
 
-	function ___$insertStyle(css) {
-	  if (!css) {
-	    return;
-	  }
-	  if (typeof window === 'undefined') {
-	    return;
-	  }
+		static createButton( renderer, options ) {
 
-	  var style = document.createElement('style');
+			if ( options ) {
 
-	  style.setAttribute('type', 'text/css');
-	  style.innerHTML = css;
-	  document.head.appendChild(style);
+				console.error( 'THREE.VRButton: The "options" parameter has been removed. Please set the reference space type via renderer.xr.setReferenceSpaceType() instead.' );
 
-	  return css;
+			}
+
+			const button = document.createElement( 'button' );
+
+			function showEnterVR( /*device*/ ) {
+
+				let currentSession = null;
+
+				async function onSessionStarted( session ) {
+
+					session.addEventListener( 'end', onSessionEnded );
+
+					await renderer.xr.setSession( session );
+					button.textContent = 'EXIT VR';
+
+					currentSession = session;
+
+				}
+
+				function onSessionEnded( /*event*/ ) {
+
+					currentSession.removeEventListener( 'end', onSessionEnded );
+
+					button.textContent = 'ENTER VR';
+
+					currentSession = null;
+
+				}
+
+				//
+
+				button.style.display = '';
+
+				button.style.cursor = 'pointer';
+				button.style.left = 'calc(50% - 50px)';
+				button.style.width = '100px';
+
+				button.textContent = 'ENTER VR';
+
+				button.onmouseenter = function () {
+
+					button.style.opacity = '1.0';
+
+				};
+
+				button.onmouseleave = function () {
+
+					button.style.opacity = '0.5';
+
+				};
+
+				button.onclick = function () {
+
+					if ( currentSession === null ) {
+
+						// WebXR's requestReferenceSpace only works if the corresponding feature
+						// was requested at session creation time. For simplicity, just ask for
+						// the interesting ones as optional features, but be aware that the
+						// requestReferenceSpace call will fail if it turns out to be unavailable.
+						// ('local' is always available for immersive sessions and doesn't need to
+						// be requested separately.)
+
+						const sessionInit = { optionalFeatures: [ 'local-floor', 'bounded-floor', 'hand-tracking', 'layers' ] };
+						navigator.xr.requestSession( 'immersive-vr', sessionInit ).then( onSessionStarted );
+
+					} else {
+
+						currentSession.end();
+
+					}
+
+				};
+
+			}
+
+			function disableButton() {
+
+				button.style.display = '';
+
+				button.style.cursor = 'auto';
+				button.style.left = 'calc(50% - 75px)';
+				button.style.width = '150px';
+
+				button.onmouseenter = null;
+				button.onmouseleave = null;
+
+				button.onclick = null;
+
+			}
+
+			function showWebXRNotFound() {
+
+				disableButton();
+
+				button.textContent = 'VR NOT SUPPORTED';
+
+			}
+
+			function stylizeElement( element ) {
+
+				element.style.position = 'absolute';
+				element.style.bottom = '20px';
+				element.style.padding = '12px 6px';
+				element.style.border = '1px solid #fff';
+				element.style.borderRadius = '4px';
+				element.style.background = 'rgba(0,0,0,0.1)';
+				element.style.color = '#fff';
+				element.style.font = 'normal 13px sans-serif';
+				element.style.textAlign = 'center';
+				element.style.opacity = '0.5';
+				element.style.outline = 'none';
+				element.style.zIndex = '999';
+
+			}
+
+			if ( 'xr' in navigator ) {
+
+				button.id = 'VRButton';
+				button.style.display = 'none';
+
+				stylizeElement( button );
+
+				navigator.xr.isSessionSupported( 'immersive-vr' ).then( function ( supported ) {
+
+					supported ? showEnterVR() : showWebXRNotFound();
+
+				} );
+
+				return button;
+
+			} else {
+
+				const message = document.createElement( 'a' );
+
+				if ( window.isSecureContext === false ) {
+
+					message.href = document.location.href.replace( /^http:/, 'https:' );
+					message.innerHTML = 'WEBXR NEEDS HTTPS'; // TODO Improve message
+
+				} else {
+
+					message.href = 'https://immersiveweb.dev/';
+					message.innerHTML = 'WEBXR NOT AVAILABLE';
+
+				}
+
+				message.style.left = 'calc(50% - 90px)';
+				message.style.width = '180px';
+				message.style.textDecoration = 'none';
+
+				stylizeElement( message );
+
+				return message;
+
+			}
+
+		}
+
 	}
-
-	function colorToString (color, forceCSSHex) {
-	  var colorFormat = color.__state.conversionName.toString();
-	  var r = Math.round(color.r);
-	  var g = Math.round(color.g);
-	  var b = Math.round(color.b);
-	  var a = color.a;
-	  var h = Math.round(color.h);
-	  var s = color.s.toFixed(1);
-	  var v = color.v.toFixed(1);
-	  if (forceCSSHex || colorFormat === 'THREE_CHAR_HEX' || colorFormat === 'SIX_CHAR_HEX') {
-	    var str = color.hex.toString(16);
-	    while (str.length < 6) {
-	      str = '0' + str;
-	    }
-	    return '#' + str;
-	  } else if (colorFormat === 'CSS_RGB') {
-	    return 'rgb(' + r + ',' + g + ',' + b + ')';
-	  } else if (colorFormat === 'CSS_RGBA') {
-	    return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
-	  } else if (colorFormat === 'HEX') {
-	    return '0x' + color.hex.toString(16);
-	  } else if (colorFormat === 'RGB_ARRAY') {
-	    return '[' + r + ',' + g + ',' + b + ']';
-	  } else if (colorFormat === 'RGBA_ARRAY') {
-	    return '[' + r + ',' + g + ',' + b + ',' + a + ']';
-	  } else if (colorFormat === 'RGB_OBJ') {
-	    return '{r:' + r + ',g:' + g + ',b:' + b + '}';
-	  } else if (colorFormat === 'RGBA_OBJ') {
-	    return '{r:' + r + ',g:' + g + ',b:' + b + ',a:' + a + '}';
-	  } else if (colorFormat === 'HSV_OBJ') {
-	    return '{h:' + h + ',s:' + s + ',v:' + v + '}';
-	  } else if (colorFormat === 'HSVA_OBJ') {
-	    return '{h:' + h + ',s:' + s + ',v:' + v + ',a:' + a + '}';
-	  }
-	  return 'unknown format';
-	}
-
-	var ARR_EACH = Array.prototype.forEach;
-	var ARR_SLICE = Array.prototype.slice;
-	var Common = {
-	  BREAK: {},
-	  extend: function extend(target) {
-	    this.each(ARR_SLICE.call(arguments, 1), function (obj) {
-	      var keys = this.isObject(obj) ? Object.keys(obj) : [];
-	      keys.forEach(function (key) {
-	        if (!this.isUndefined(obj[key])) {
-	          target[key] = obj[key];
-	        }
-	      }.bind(this));
-	    }, this);
-	    return target;
-	  },
-	  defaults: function defaults(target) {
-	    this.each(ARR_SLICE.call(arguments, 1), function (obj) {
-	      var keys = this.isObject(obj) ? Object.keys(obj) : [];
-	      keys.forEach(function (key) {
-	        if (this.isUndefined(target[key])) {
-	          target[key] = obj[key];
-	        }
-	      }.bind(this));
-	    }, this);
-	    return target;
-	  },
-	  compose: function compose() {
-	    var toCall = ARR_SLICE.call(arguments);
-	    return function () {
-	      var args = ARR_SLICE.call(arguments);
-	      for (var i = toCall.length - 1; i >= 0; i--) {
-	        args = [toCall[i].apply(this, args)];
-	      }
-	      return args[0];
-	    };
-	  },
-	  each: function each(obj, itr, scope) {
-	    if (!obj) {
-	      return;
-	    }
-	    if (ARR_EACH && obj.forEach && obj.forEach === ARR_EACH) {
-	      obj.forEach(itr, scope);
-	    } else if (obj.length === obj.length + 0) {
-	      var key = void 0;
-	      var l = void 0;
-	      for (key = 0, l = obj.length; key < l; key++) {
-	        if (key in obj && itr.call(scope, obj[key], key) === this.BREAK) {
-	          return;
-	        }
-	      }
-	    } else {
-	      for (var _key in obj) {
-	        if (itr.call(scope, obj[_key], _key) === this.BREAK) {
-	          return;
-	        }
-	      }
-	    }
-	  },
-	  defer: function defer(fnc) {
-	    setTimeout(fnc, 0);
-	  },
-	  debounce: function debounce(func, threshold, callImmediately) {
-	    var timeout = void 0;
-	    return function () {
-	      var obj = this;
-	      var args = arguments;
-	      function delayed() {
-	        timeout = null;
-	        if (!callImmediately) func.apply(obj, args);
-	      }
-	      var callNow = callImmediately || !timeout;
-	      clearTimeout(timeout);
-	      timeout = setTimeout(delayed, threshold);
-	      if (callNow) {
-	        func.apply(obj, args);
-	      }
-	    };
-	  },
-	  toArray: function toArray(obj) {
-	    if (obj.toArray) return obj.toArray();
-	    return ARR_SLICE.call(obj);
-	  },
-	  isUndefined: function isUndefined(obj) {
-	    return obj === undefined;
-	  },
-	  isNull: function isNull(obj) {
-	    return obj === null;
-	  },
-	  isNaN: function (_isNaN) {
-	    function isNaN(_x) {
-	      return _isNaN.apply(this, arguments);
-	    }
-	    isNaN.toString = function () {
-	      return _isNaN.toString();
-	    };
-	    return isNaN;
-	  }(function (obj) {
-	    return isNaN(obj);
-	  }),
-	  isArray: Array.isArray || function (obj) {
-	    return obj.constructor === Array;
-	  },
-	  isObject: function isObject(obj) {
-	    return obj === Object(obj);
-	  },
-	  isNumber: function isNumber(obj) {
-	    return obj === obj + 0;
-	  },
-	  isString: function isString(obj) {
-	    return obj === obj + '';
-	  },
-	  isBoolean: function isBoolean(obj) {
-	    return obj === false || obj === true;
-	  },
-	  isFunction: function isFunction(obj) {
-	    return obj instanceof Function;
-	  }
-	};
-
-	var INTERPRETATIONS = [
-	{
-	  litmus: Common.isString,
-	  conversions: {
-	    THREE_CHAR_HEX: {
-	      read: function read(original) {
-	        var test = original.match(/^#([A-F0-9])([A-F0-9])([A-F0-9])$/i);
-	        if (test === null) {
-	          return false;
-	        }
-	        return {
-	          space: 'HEX',
-	          hex: parseInt('0x' + test[1].toString() + test[1].toString() + test[2].toString() + test[2].toString() + test[3].toString() + test[3].toString(), 0)
-	        };
-	      },
-	      write: colorToString
-	    },
-	    SIX_CHAR_HEX: {
-	      read: function read(original) {
-	        var test = original.match(/^#([A-F0-9]{6})$/i);
-	        if (test === null) {
-	          return false;
-	        }
-	        return {
-	          space: 'HEX',
-	          hex: parseInt('0x' + test[1].toString(), 0)
-	        };
-	      },
-	      write: colorToString
-	    },
-	    CSS_RGB: {
-	      read: function read(original) {
-	        var test = original.match(/^rgb\(\s*(\S+)\s*,\s*(\S+)\s*,\s*(\S+)\s*\)/);
-	        if (test === null) {
-	          return false;
-	        }
-	        return {
-	          space: 'RGB',
-	          r: parseFloat(test[1]),
-	          g: parseFloat(test[2]),
-	          b: parseFloat(test[3])
-	        };
-	      },
-	      write: colorToString
-	    },
-	    CSS_RGBA: {
-	      read: function read(original) {
-	        var test = original.match(/^rgba\(\s*(\S+)\s*,\s*(\S+)\s*,\s*(\S+)\s*,\s*(\S+)\s*\)/);
-	        if (test === null) {
-	          return false;
-	        }
-	        return {
-	          space: 'RGB',
-	          r: parseFloat(test[1]),
-	          g: parseFloat(test[2]),
-	          b: parseFloat(test[3]),
-	          a: parseFloat(test[4])
-	        };
-	      },
-	      write: colorToString
-	    }
-	  }
-	},
-	{
-	  litmus: Common.isNumber,
-	  conversions: {
-	    HEX: {
-	      read: function read(original) {
-	        return {
-	          space: 'HEX',
-	          hex: original,
-	          conversionName: 'HEX'
-	        };
-	      },
-	      write: function write(color) {
-	        return color.hex;
-	      }
-	    }
-	  }
-	},
-	{
-	  litmus: Common.isArray,
-	  conversions: {
-	    RGB_ARRAY: {
-	      read: function read(original) {
-	        if (original.length !== 3) {
-	          return false;
-	        }
-	        return {
-	          space: 'RGB',
-	          r: original[0],
-	          g: original[1],
-	          b: original[2]
-	        };
-	      },
-	      write: function write(color) {
-	        return [color.r, color.g, color.b];
-	      }
-	    },
-	    RGBA_ARRAY: {
-	      read: function read(original) {
-	        if (original.length !== 4) return false;
-	        return {
-	          space: 'RGB',
-	          r: original[0],
-	          g: original[1],
-	          b: original[2],
-	          a: original[3]
-	        };
-	      },
-	      write: function write(color) {
-	        return [color.r, color.g, color.b, color.a];
-	      }
-	    }
-	  }
-	},
-	{
-	  litmus: Common.isObject,
-	  conversions: {
-	    RGBA_OBJ: {
-	      read: function read(original) {
-	        if (Common.isNumber(original.r) && Common.isNumber(original.g) && Common.isNumber(original.b) && Common.isNumber(original.a)) {
-	          return {
-	            space: 'RGB',
-	            r: original.r,
-	            g: original.g,
-	            b: original.b,
-	            a: original.a
-	          };
-	        }
-	        return false;
-	      },
-	      write: function write(color) {
-	        return {
-	          r: color.r,
-	          g: color.g,
-	          b: color.b,
-	          a: color.a
-	        };
-	      }
-	    },
-	    RGB_OBJ: {
-	      read: function read(original) {
-	        if (Common.isNumber(original.r) && Common.isNumber(original.g) && Common.isNumber(original.b)) {
-	          return {
-	            space: 'RGB',
-	            r: original.r,
-	            g: original.g,
-	            b: original.b
-	          };
-	        }
-	        return false;
-	      },
-	      write: function write(color) {
-	        return {
-	          r: color.r,
-	          g: color.g,
-	          b: color.b
-	        };
-	      }
-	    },
-	    HSVA_OBJ: {
-	      read: function read(original) {
-	        if (Common.isNumber(original.h) && Common.isNumber(original.s) && Common.isNumber(original.v) && Common.isNumber(original.a)) {
-	          return {
-	            space: 'HSV',
-	            h: original.h,
-	            s: original.s,
-	            v: original.v,
-	            a: original.a
-	          };
-	        }
-	        return false;
-	      },
-	      write: function write(color) {
-	        return {
-	          h: color.h,
-	          s: color.s,
-	          v: color.v,
-	          a: color.a
-	        };
-	      }
-	    },
-	    HSV_OBJ: {
-	      read: function read(original) {
-	        if (Common.isNumber(original.h) && Common.isNumber(original.s) && Common.isNumber(original.v)) {
-	          return {
-	            space: 'HSV',
-	            h: original.h,
-	            s: original.s,
-	            v: original.v
-	          };
-	        }
-	        return false;
-	      },
-	      write: function write(color) {
-	        return {
-	          h: color.h,
-	          s: color.s,
-	          v: color.v
-	        };
-	      }
-	    }
-	  }
-	}];
-	var result = void 0;
-	var toReturn = void 0;
-	var interpret = function interpret() {
-	  toReturn = false;
-	  var original = arguments.length > 1 ? Common.toArray(arguments) : arguments[0];
-	  Common.each(INTERPRETATIONS, function (family) {
-	    if (family.litmus(original)) {
-	      Common.each(family.conversions, function (conversion, conversionName) {
-	        result = conversion.read(original);
-	        if (toReturn === false && result !== false) {
-	          toReturn = result;
-	          result.conversionName = conversionName;
-	          result.conversion = conversion;
-	          return Common.BREAK;
-	        }
-	      });
-	      return Common.BREAK;
-	    }
-	  });
-	  return toReturn;
-	};
-
-	var tmpComponent = void 0;
-	var ColorMath = {
-	  hsv_to_rgb: function hsv_to_rgb(h, s, v) {
-	    var hi = Math.floor(h / 60) % 6;
-	    var f = h / 60 - Math.floor(h / 60);
-	    var p = v * (1.0 - s);
-	    var q = v * (1.0 - f * s);
-	    var t = v * (1.0 - (1.0 - f) * s);
-	    var c = [[v, t, p], [q, v, p], [p, v, t], [p, q, v], [t, p, v], [v, p, q]][hi];
-	    return {
-	      r: c[0] * 255,
-	      g: c[1] * 255,
-	      b: c[2] * 255
-	    };
-	  },
-	  rgb_to_hsv: function rgb_to_hsv(r, g, b) {
-	    var min = Math.min(r, g, b);
-	    var max = Math.max(r, g, b);
-	    var delta = max - min;
-	    var h = void 0;
-	    var s = void 0;
-	    if (max !== 0) {
-	      s = delta / max;
-	    } else {
-	      return {
-	        h: NaN,
-	        s: 0,
-	        v: 0
-	      };
-	    }
-	    if (r === max) {
-	      h = (g - b) / delta;
-	    } else if (g === max) {
-	      h = 2 + (b - r) / delta;
-	    } else {
-	      h = 4 + (r - g) / delta;
-	    }
-	    h /= 6;
-	    if (h < 0) {
-	      h += 1;
-	    }
-	    return {
-	      h: h * 360,
-	      s: s,
-	      v: max / 255
-	    };
-	  },
-	  rgb_to_hex: function rgb_to_hex(r, g, b) {
-	    var hex = this.hex_with_component(0, 2, r);
-	    hex = this.hex_with_component(hex, 1, g);
-	    hex = this.hex_with_component(hex, 0, b);
-	    return hex;
-	  },
-	  component_from_hex: function component_from_hex(hex, componentIndex) {
-	    return hex >> componentIndex * 8 & 0xFF;
-	  },
-	  hex_with_component: function hex_with_component(hex, componentIndex, value) {
-	    return value << (tmpComponent = componentIndex * 8) | hex & ~(0xFF << tmpComponent);
-	  }
-	};
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-	  return typeof obj;
-	} : function (obj) {
-	  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-	};
-
-
-
-
-
-
-
-
-
-
-
-	var classCallCheck = function (instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError("Cannot call a class as a function");
-	  }
-	};
-
-	var createClass = function () {
-	  function defineProperties(target, props) {
-	    for (var i = 0; i < props.length; i++) {
-	      var descriptor = props[i];
-	      descriptor.enumerable = descriptor.enumerable || false;
-	      descriptor.configurable = true;
-	      if ("value" in descriptor) descriptor.writable = true;
-	      Object.defineProperty(target, descriptor.key, descriptor);
-	    }
-	  }
-
-	  return function (Constructor, protoProps, staticProps) {
-	    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-	    if (staticProps) defineProperties(Constructor, staticProps);
-	    return Constructor;
-	  };
-	}();
-
-
-
-
-
-
-
-	var get = function get(object, property, receiver) {
-	  if (object === null) object = Function.prototype;
-	  var desc = Object.getOwnPropertyDescriptor(object, property);
-
-	  if (desc === undefined) {
-	    var parent = Object.getPrototypeOf(object);
-
-	    if (parent === null) {
-	      return undefined;
-	    } else {
-	      return get(parent, property, receiver);
-	    }
-	  } else if ("value" in desc) {
-	    return desc.value;
-	  } else {
-	    var getter = desc.get;
-
-	    if (getter === undefined) {
-	      return undefined;
-	    }
-
-	    return getter.call(receiver);
-	  }
-	};
-
-	var inherits = function (subClass, superClass) {
-	  if (typeof superClass !== "function" && superClass !== null) {
-	    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-	  }
-
-	  subClass.prototype = Object.create(superClass && superClass.prototype, {
-	    constructor: {
-	      value: subClass,
-	      enumerable: false,
-	      writable: true,
-	      configurable: true
-	    }
-	  });
-	  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-	};
-
-
-
-
-
-
-
-
-
-
-
-	var possibleConstructorReturn = function (self, call) {
-	  if (!self) {
-	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-	  }
-
-	  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-	};
-
-	var Color = function () {
-	  function Color() {
-	    classCallCheck(this, Color);
-	    this.__state = interpret.apply(this, arguments);
-	    if (this.__state === false) {
-	      throw new Error('Failed to interpret color arguments');
-	    }
-	    this.__state.a = this.__state.a || 1;
-	  }
-	  createClass(Color, [{
-	    key: 'toString',
-	    value: function toString() {
-	      return colorToString(this);
-	    }
-	  }, {
-	    key: 'toHexString',
-	    value: function toHexString() {
-	      return colorToString(this, true);
-	    }
-	  }, {
-	    key: 'toOriginal',
-	    value: function toOriginal() {
-	      return this.__state.conversion.write(this);
-	    }
-	  }]);
-	  return Color;
-	}();
-	function defineRGBComponent(target, component, componentHexIndex) {
-	  Object.defineProperty(target, component, {
-	    get: function get$$1() {
-	      if (this.__state.space === 'RGB') {
-	        return this.__state[component];
-	      }
-	      Color.recalculateRGB(this, component, componentHexIndex);
-	      return this.__state[component];
-	    },
-	    set: function set$$1(v) {
-	      if (this.__state.space !== 'RGB') {
-	        Color.recalculateRGB(this, component, componentHexIndex);
-	        this.__state.space = 'RGB';
-	      }
-	      this.__state[component] = v;
-	    }
-	  });
-	}
-	function defineHSVComponent(target, component) {
-	  Object.defineProperty(target, component, {
-	    get: function get$$1() {
-	      if (this.__state.space === 'HSV') {
-	        return this.__state[component];
-	      }
-	      Color.recalculateHSV(this);
-	      return this.__state[component];
-	    },
-	    set: function set$$1(v) {
-	      if (this.__state.space !== 'HSV') {
-	        Color.recalculateHSV(this);
-	        this.__state.space = 'HSV';
-	      }
-	      this.__state[component] = v;
-	    }
-	  });
-	}
-	Color.recalculateRGB = function (color, component, componentHexIndex) {
-	  if (color.__state.space === 'HEX') {
-	    color.__state[component] = ColorMath.component_from_hex(color.__state.hex, componentHexIndex);
-	  } else if (color.__state.space === 'HSV') {
-	    Common.extend(color.__state, ColorMath.hsv_to_rgb(color.__state.h, color.__state.s, color.__state.v));
-	  } else {
-	    throw new Error('Corrupted color state');
-	  }
-	};
-	Color.recalculateHSV = function (color) {
-	  var result = ColorMath.rgb_to_hsv(color.r, color.g, color.b);
-	  Common.extend(color.__state, {
-	    s: result.s,
-	    v: result.v
-	  });
-	  if (!Common.isNaN(result.h)) {
-	    color.__state.h = result.h;
-	  } else if (Common.isUndefined(color.__state.h)) {
-	    color.__state.h = 0;
-	  }
-	};
-	Color.COMPONENTS = ['r', 'g', 'b', 'h', 's', 'v', 'hex', 'a'];
-	defineRGBComponent(Color.prototype, 'r', 2);
-	defineRGBComponent(Color.prototype, 'g', 1);
-	defineRGBComponent(Color.prototype, 'b', 0);
-	defineHSVComponent(Color.prototype, 'h');
-	defineHSVComponent(Color.prototype, 's');
-	defineHSVComponent(Color.prototype, 'v');
-	Object.defineProperty(Color.prototype, 'a', {
-	  get: function get$$1() {
-	    return this.__state.a;
-	  },
-	  set: function set$$1(v) {
-	    this.__state.a = v;
-	  }
-	});
-	Object.defineProperty(Color.prototype, 'hex', {
-	  get: function get$$1() {
-	    if (this.__state.space !== 'HEX') {
-	      this.__state.hex = ColorMath.rgb_to_hex(this.r, this.g, this.b);
-	      this.__state.space = 'HEX';
-	    }
-	    return this.__state.hex;
-	  },
-	  set: function set$$1(v) {
-	    this.__state.space = 'HEX';
-	    this.__state.hex = v;
-	  }
-	});
-
-	var Controller = function () {
-	  function Controller(object, property) {
-	    classCallCheck(this, Controller);
-	    this.initialValue = object[property];
-	    this.domElement = document.createElement('div');
-	    this.object = object;
-	    this.property = property;
-	    this.__onChange = undefined;
-	    this.__onFinishChange = undefined;
-	  }
-	  createClass(Controller, [{
-	    key: 'onChange',
-	    value: function onChange(fnc) {
-	      this.__onChange = fnc;
-	      return this;
-	    }
-	  }, {
-	    key: 'onFinishChange',
-	    value: function onFinishChange(fnc) {
-	      this.__onFinishChange = fnc;
-	      return this;
-	    }
-	  }, {
-	    key: 'setValue',
-	    value: function setValue(newValue) {
-	      this.object[this.property] = newValue;
-	      if (this.__onChange) {
-	        this.__onChange.call(this, newValue);
-	      }
-	      this.updateDisplay();
-	      return this;
-	    }
-	  }, {
-	    key: 'getValue',
-	    value: function getValue() {
-	      return this.object[this.property];
-	    }
-	  }, {
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
-	      return this;
-	    }
-	  }, {
-	    key: 'isModified',
-	    value: function isModified() {
-	      return this.initialValue !== this.getValue();
-	    }
-	  }]);
-	  return Controller;
-	}();
-
-	var EVENT_MAP = {
-	  HTMLEvents: ['change'],
-	  MouseEvents: ['click', 'mousemove', 'mousedown', 'mouseup', 'mouseover'],
-	  KeyboardEvents: ['keydown']
-	};
-	var EVENT_MAP_INV = {};
-	Common.each(EVENT_MAP, function (v, k) {
-	  Common.each(v, function (e) {
-	    EVENT_MAP_INV[e] = k;
-	  });
-	});
-	var CSS_VALUE_PIXELS = /(\d+(\.\d+)?)px/;
-	function cssValueToPixels(val) {
-	  if (val === '0' || Common.isUndefined(val)) {
-	    return 0;
-	  }
-	  var match = val.match(CSS_VALUE_PIXELS);
-	  if (!Common.isNull(match)) {
-	    return parseFloat(match[1]);
-	  }
-	  return 0;
-	}
-	var dom = {
-	  makeSelectable: function makeSelectable(elem, selectable) {
-	    if (elem === undefined || elem.style === undefined) return;
-	    elem.onselectstart = selectable ? function () {
-	      return false;
-	    } : function () {};
-	    elem.style.MozUserSelect = selectable ? 'auto' : 'none';
-	    elem.style.KhtmlUserSelect = selectable ? 'auto' : 'none';
-	    elem.unselectable = selectable ? 'on' : 'off';
-	  },
-	  makeFullscreen: function makeFullscreen(elem, hor, vert) {
-	    var vertical = vert;
-	    var horizontal = hor;
-	    if (Common.isUndefined(horizontal)) {
-	      horizontal = true;
-	    }
-	    if (Common.isUndefined(vertical)) {
-	      vertical = true;
-	    }
-	    elem.style.position = 'absolute';
-	    if (horizontal) {
-	      elem.style.left = 0;
-	      elem.style.right = 0;
-	    }
-	    if (vertical) {
-	      elem.style.top = 0;
-	      elem.style.bottom = 0;
-	    }
-	  },
-	  fakeEvent: function fakeEvent(elem, eventType, pars, aux) {
-	    var params = pars || {};
-	    var className = EVENT_MAP_INV[eventType];
-	    if (!className) {
-	      throw new Error('Event type ' + eventType + ' not supported.');
-	    }
-	    var evt = document.createEvent(className);
-	    switch (className) {
-	      case 'MouseEvents':
-	        {
-	          var clientX = params.x || params.clientX || 0;
-	          var clientY = params.y || params.clientY || 0;
-	          evt.initMouseEvent(eventType, params.bubbles || false, params.cancelable || true, window, params.clickCount || 1, 0,
-	          0,
-	          clientX,
-	          clientY,
-	          false, false, false, false, 0, null);
-	          break;
-	        }
-	      case 'KeyboardEvents':
-	        {
-	          var init = evt.initKeyboardEvent || evt.initKeyEvent;
-	          Common.defaults(params, {
-	            cancelable: true,
-	            ctrlKey: false,
-	            altKey: false,
-	            shiftKey: false,
-	            metaKey: false,
-	            keyCode: undefined,
-	            charCode: undefined
-	          });
-	          init(eventType, params.bubbles || false, params.cancelable, window, params.ctrlKey, params.altKey, params.shiftKey, params.metaKey, params.keyCode, params.charCode);
-	          break;
-	        }
-	      default:
-	        {
-	          evt.initEvent(eventType, params.bubbles || false, params.cancelable || true);
-	          break;
-	        }
-	    }
-	    Common.defaults(evt, aux);
-	    elem.dispatchEvent(evt);
-	  },
-	  bind: function bind(elem, event, func, newBool) {
-	    var bool = newBool || false;
-	    if (elem.addEventListener) {
-	      elem.addEventListener(event, func, bool);
-	    } else if (elem.attachEvent) {
-	      elem.attachEvent('on' + event, func);
-	    }
-	    return dom;
-	  },
-	  unbind: function unbind(elem, event, func, newBool) {
-	    var bool = newBool || false;
-	    if (elem.removeEventListener) {
-	      elem.removeEventListener(event, func, bool);
-	    } else if (elem.detachEvent) {
-	      elem.detachEvent('on' + event, func);
-	    }
-	    return dom;
-	  },
-	  addClass: function addClass(elem, className) {
-	    if (elem.className === undefined) {
-	      elem.className = className;
-	    } else if (elem.className !== className) {
-	      var classes = elem.className.split(/ +/);
-	      if (classes.indexOf(className) === -1) {
-	        classes.push(className);
-	        elem.className = classes.join(' ').replace(/^\s+/, '').replace(/\s+$/, '');
-	      }
-	    }
-	    return dom;
-	  },
-	  removeClass: function removeClass(elem, className) {
-	    if (className) {
-	      if (elem.className === className) {
-	        elem.removeAttribute('class');
-	      } else {
-	        var classes = elem.className.split(/ +/);
-	        var index = classes.indexOf(className);
-	        if (index !== -1) {
-	          classes.splice(index, 1);
-	          elem.className = classes.join(' ');
-	        }
-	      }
-	    } else {
-	      elem.className = undefined;
-	    }
-	    return dom;
-	  },
-	  hasClass: function hasClass(elem, className) {
-	    return new RegExp('(?:^|\\s+)' + className + '(?:\\s+|$)').test(elem.className) || false;
-	  },
-	  getWidth: function getWidth(elem) {
-	    var style = getComputedStyle(elem);
-	    return cssValueToPixels(style['border-left-width']) + cssValueToPixels(style['border-right-width']) + cssValueToPixels(style['padding-left']) + cssValueToPixels(style['padding-right']) + cssValueToPixels(style.width);
-	  },
-	  getHeight: function getHeight(elem) {
-	    var style = getComputedStyle(elem);
-	    return cssValueToPixels(style['border-top-width']) + cssValueToPixels(style['border-bottom-width']) + cssValueToPixels(style['padding-top']) + cssValueToPixels(style['padding-bottom']) + cssValueToPixels(style.height);
-	  },
-	  getOffset: function getOffset(el) {
-	    var elem = el;
-	    var offset = { left: 0, top: 0 };
-	    if (elem.offsetParent) {
-	      do {
-	        offset.left += elem.offsetLeft;
-	        offset.top += elem.offsetTop;
-	        elem = elem.offsetParent;
-	      } while (elem);
-	    }
-	    return offset;
-	  },
-	  isActive: function isActive(elem) {
-	    return elem === document.activeElement && (elem.type || elem.href);
-	  }
-	};
-
-	var BooleanController = function (_Controller) {
-	  inherits(BooleanController, _Controller);
-	  function BooleanController(object, property) {
-	    classCallCheck(this, BooleanController);
-	    var _this2 = possibleConstructorReturn(this, (BooleanController.__proto__ || Object.getPrototypeOf(BooleanController)).call(this, object, property));
-	    var _this = _this2;
-	    _this2.__prev = _this2.getValue();
-	    _this2.__checkbox = document.createElement('input');
-	    _this2.__checkbox.setAttribute('type', 'checkbox');
-	    function onChange() {
-	      _this.setValue(!_this.__prev);
-	    }
-	    dom.bind(_this2.__checkbox, 'change', onChange, false);
-	    _this2.domElement.appendChild(_this2.__checkbox);
-	    _this2.updateDisplay();
-	    return _this2;
-	  }
-	  createClass(BooleanController, [{
-	    key: 'setValue',
-	    value: function setValue(v) {
-	      var toReturn = get(BooleanController.prototype.__proto__ || Object.getPrototypeOf(BooleanController.prototype), 'setValue', this).call(this, v);
-	      if (this.__onFinishChange) {
-	        this.__onFinishChange.call(this, this.getValue());
-	      }
-	      this.__prev = this.getValue();
-	      return toReturn;
-	    }
-	  }, {
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
-	      if (this.getValue() === true) {
-	        this.__checkbox.setAttribute('checked', 'checked');
-	        this.__checkbox.checked = true;
-	        this.__prev = true;
-	      } else {
-	        this.__checkbox.checked = false;
-	        this.__prev = false;
-	      }
-	      return get(BooleanController.prototype.__proto__ || Object.getPrototypeOf(BooleanController.prototype), 'updateDisplay', this).call(this);
-	    }
-	  }]);
-	  return BooleanController;
-	}(Controller);
-
-	var OptionController = function (_Controller) {
-	  inherits(OptionController, _Controller);
-	  function OptionController(object, property, opts) {
-	    classCallCheck(this, OptionController);
-	    var _this2 = possibleConstructorReturn(this, (OptionController.__proto__ || Object.getPrototypeOf(OptionController)).call(this, object, property));
-	    var options = opts;
-	    var _this = _this2;
-	    _this2.__select = document.createElement('select');
-	    if (Common.isArray(options)) {
-	      var map = {};
-	      Common.each(options, function (element) {
-	        map[element] = element;
-	      });
-	      options = map;
-	    }
-	    Common.each(options, function (value, key) {
-	      var opt = document.createElement('option');
-	      opt.innerHTML = key;
-	      opt.setAttribute('value', value);
-	      _this.__select.appendChild(opt);
-	    });
-	    _this2.updateDisplay();
-	    dom.bind(_this2.__select, 'change', function () {
-	      var desiredValue = this.options[this.selectedIndex].value;
-	      _this.setValue(desiredValue);
-	    });
-	    _this2.domElement.appendChild(_this2.__select);
-	    return _this2;
-	  }
-	  createClass(OptionController, [{
-	    key: 'setValue',
-	    value: function setValue(v) {
-	      var toReturn = get(OptionController.prototype.__proto__ || Object.getPrototypeOf(OptionController.prototype), 'setValue', this).call(this, v);
-	      if (this.__onFinishChange) {
-	        this.__onFinishChange.call(this, this.getValue());
-	      }
-	      return toReturn;
-	    }
-	  }, {
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
-	      if (dom.isActive(this.__select)) return this;
-	      this.__select.value = this.getValue();
-	      return get(OptionController.prototype.__proto__ || Object.getPrototypeOf(OptionController.prototype), 'updateDisplay', this).call(this);
-	    }
-	  }]);
-	  return OptionController;
-	}(Controller);
-
-	var StringController = function (_Controller) {
-	  inherits(StringController, _Controller);
-	  function StringController(object, property) {
-	    classCallCheck(this, StringController);
-	    var _this2 = possibleConstructorReturn(this, (StringController.__proto__ || Object.getPrototypeOf(StringController)).call(this, object, property));
-	    var _this = _this2;
-	    function onChange() {
-	      _this.setValue(_this.__input.value);
-	    }
-	    function onBlur() {
-	      if (_this.__onFinishChange) {
-	        _this.__onFinishChange.call(_this, _this.getValue());
-	      }
-	    }
-	    _this2.__input = document.createElement('input');
-	    _this2.__input.setAttribute('type', 'text');
-	    dom.bind(_this2.__input, 'keyup', onChange);
-	    dom.bind(_this2.__input, 'change', onChange);
-	    dom.bind(_this2.__input, 'blur', onBlur);
-	    dom.bind(_this2.__input, 'keydown', function (e) {
-	      if (e.keyCode === 13) {
-	        this.blur();
-	      }
-	    });
-	    _this2.updateDisplay();
-	    _this2.domElement.appendChild(_this2.__input);
-	    return _this2;
-	  }
-	  createClass(StringController, [{
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
-	      if (!dom.isActive(this.__input)) {
-	        this.__input.value = this.getValue();
-	      }
-	      return get(StringController.prototype.__proto__ || Object.getPrototypeOf(StringController.prototype), 'updateDisplay', this).call(this);
-	    }
-	  }]);
-	  return StringController;
-	}(Controller);
-
-	function numDecimals(x) {
-	  var _x = x.toString();
-	  if (_x.indexOf('.') > -1) {
-	    return _x.length - _x.indexOf('.') - 1;
-	  }
-	  return 0;
-	}
-	var NumberController = function (_Controller) {
-	  inherits(NumberController, _Controller);
-	  function NumberController(object, property, params) {
-	    classCallCheck(this, NumberController);
-	    var _this = possibleConstructorReturn(this, (NumberController.__proto__ || Object.getPrototypeOf(NumberController)).call(this, object, property));
-	    var _params = params || {};
-	    _this.__min = _params.min;
-	    _this.__max = _params.max;
-	    _this.__step = _params.step;
-	    if (Common.isUndefined(_this.__step)) {
-	      if (_this.initialValue === 0) {
-	        _this.__impliedStep = 1;
-	      } else {
-	        _this.__impliedStep = Math.pow(10, Math.floor(Math.log(Math.abs(_this.initialValue)) / Math.LN10)) / 10;
-	      }
-	    } else {
-	      _this.__impliedStep = _this.__step;
-	    }
-	    _this.__precision = numDecimals(_this.__impliedStep);
-	    return _this;
-	  }
-	  createClass(NumberController, [{
-	    key: 'setValue',
-	    value: function setValue(v) {
-	      var _v = v;
-	      if (this.__min !== undefined && _v < this.__min) {
-	        _v = this.__min;
-	      } else if (this.__max !== undefined && _v > this.__max) {
-	        _v = this.__max;
-	      }
-	      if (this.__step !== undefined && _v % this.__step !== 0) {
-	        _v = Math.round(_v / this.__step) * this.__step;
-	      }
-	      return get(NumberController.prototype.__proto__ || Object.getPrototypeOf(NumberController.prototype), 'setValue', this).call(this, _v);
-	    }
-	  }, {
-	    key: 'min',
-	    value: function min(minValue) {
-	      this.__min = minValue;
-	      return this;
-	    }
-	  }, {
-	    key: 'max',
-	    value: function max(maxValue) {
-	      this.__max = maxValue;
-	      return this;
-	    }
-	  }, {
-	    key: 'step',
-	    value: function step(stepValue) {
-	      this.__step = stepValue;
-	      this.__impliedStep = stepValue;
-	      this.__precision = numDecimals(stepValue);
-	      return this;
-	    }
-	  }]);
-	  return NumberController;
-	}(Controller);
-
-	function roundToDecimal(value, decimals) {
-	  var tenTo = Math.pow(10, decimals);
-	  return Math.round(value * tenTo) / tenTo;
-	}
-	var NumberControllerBox = function (_NumberController) {
-	  inherits(NumberControllerBox, _NumberController);
-	  function NumberControllerBox(object, property, params) {
-	    classCallCheck(this, NumberControllerBox);
-	    var _this2 = possibleConstructorReturn(this, (NumberControllerBox.__proto__ || Object.getPrototypeOf(NumberControllerBox)).call(this, object, property, params));
-	    _this2.__truncationSuspended = false;
-	    var _this = _this2;
-	    var prevY = void 0;
-	    function onChange() {
-	      var attempted = parseFloat(_this.__input.value);
-	      if (!Common.isNaN(attempted)) {
-	        _this.setValue(attempted);
-	      }
-	    }
-	    function onFinish() {
-	      if (_this.__onFinishChange) {
-	        _this.__onFinishChange.call(_this, _this.getValue());
-	      }
-	    }
-	    function onBlur() {
-	      onFinish();
-	    }
-	    function onMouseDrag(e) {
-	      var diff = prevY - e.clientY;
-	      _this.setValue(_this.getValue() + diff * _this.__impliedStep);
-	      prevY = e.clientY;
-	    }
-	    function onMouseUp() {
-	      dom.unbind(window, 'mousemove', onMouseDrag);
-	      dom.unbind(window, 'mouseup', onMouseUp);
-	      onFinish();
-	    }
-	    function onMouseDown(e) {
-	      dom.bind(window, 'mousemove', onMouseDrag);
-	      dom.bind(window, 'mouseup', onMouseUp);
-	      prevY = e.clientY;
-	    }
-	    _this2.__input = document.createElement('input');
-	    _this2.__input.setAttribute('type', 'text');
-	    dom.bind(_this2.__input, 'change', onChange);
-	    dom.bind(_this2.__input, 'blur', onBlur);
-	    dom.bind(_this2.__input, 'mousedown', onMouseDown);
-	    dom.bind(_this2.__input, 'keydown', function (e) {
-	      if (e.keyCode === 13) {
-	        _this.__truncationSuspended = true;
-	        this.blur();
-	        _this.__truncationSuspended = false;
-	        onFinish();
-	      }
-	    });
-	    _this2.updateDisplay();
-	    _this2.domElement.appendChild(_this2.__input);
-	    return _this2;
-	  }
-	  createClass(NumberControllerBox, [{
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
-	      this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
-	      return get(NumberControllerBox.prototype.__proto__ || Object.getPrototypeOf(NumberControllerBox.prototype), 'updateDisplay', this).call(this);
-	    }
-	  }]);
-	  return NumberControllerBox;
-	}(NumberController);
-
-	function map(v, i1, i2, o1, o2) {
-	  return o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
-	}
-	var NumberControllerSlider = function (_NumberController) {
-	  inherits(NumberControllerSlider, _NumberController);
-	  function NumberControllerSlider(object, property, min, max, step) {
-	    classCallCheck(this, NumberControllerSlider);
-	    var _this2 = possibleConstructorReturn(this, (NumberControllerSlider.__proto__ || Object.getPrototypeOf(NumberControllerSlider)).call(this, object, property, { min: min, max: max, step: step }));
-	    var _this = _this2;
-	    _this2.__background = document.createElement('div');
-	    _this2.__foreground = document.createElement('div');
-	    dom.bind(_this2.__background, 'mousedown', onMouseDown);
-	    dom.bind(_this2.__background, 'touchstart', onTouchStart);
-	    dom.addClass(_this2.__background, 'slider');
-	    dom.addClass(_this2.__foreground, 'slider-fg');
-	    function onMouseDown(e) {
-	      document.activeElement.blur();
-	      dom.bind(window, 'mousemove', onMouseDrag);
-	      dom.bind(window, 'mouseup', onMouseUp);
-	      onMouseDrag(e);
-	    }
-	    function onMouseDrag(e) {
-	      e.preventDefault();
-	      var bgRect = _this.__background.getBoundingClientRect();
-	      _this.setValue(map(e.clientX, bgRect.left, bgRect.right, _this.__min, _this.__max));
-	      return false;
-	    }
-	    function onMouseUp() {
-	      dom.unbind(window, 'mousemove', onMouseDrag);
-	      dom.unbind(window, 'mouseup', onMouseUp);
-	      if (_this.__onFinishChange) {
-	        _this.__onFinishChange.call(_this, _this.getValue());
-	      }
-	    }
-	    function onTouchStart(e) {
-	      if (e.touches.length !== 1) {
-	        return;
-	      }
-	      dom.bind(window, 'touchmove', onTouchMove);
-	      dom.bind(window, 'touchend', onTouchEnd);
-	      onTouchMove(e);
-	    }
-	    function onTouchMove(e) {
-	      var clientX = e.touches[0].clientX;
-	      var bgRect = _this.__background.getBoundingClientRect();
-	      _this.setValue(map(clientX, bgRect.left, bgRect.right, _this.__min, _this.__max));
-	    }
-	    function onTouchEnd() {
-	      dom.unbind(window, 'touchmove', onTouchMove);
-	      dom.unbind(window, 'touchend', onTouchEnd);
-	      if (_this.__onFinishChange) {
-	        _this.__onFinishChange.call(_this, _this.getValue());
-	      }
-	    }
-	    _this2.updateDisplay();
-	    _this2.__background.appendChild(_this2.__foreground);
-	    _this2.domElement.appendChild(_this2.__background);
-	    return _this2;
-	  }
-	  createClass(NumberControllerSlider, [{
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
-	      var pct = (this.getValue() - this.__min) / (this.__max - this.__min);
-	      this.__foreground.style.width = pct * 100 + '%';
-	      return get(NumberControllerSlider.prototype.__proto__ || Object.getPrototypeOf(NumberControllerSlider.prototype), 'updateDisplay', this).call(this);
-	    }
-	  }]);
-	  return NumberControllerSlider;
-	}(NumberController);
-
-	var FunctionController = function (_Controller) {
-	  inherits(FunctionController, _Controller);
-	  function FunctionController(object, property, text) {
-	    classCallCheck(this, FunctionController);
-	    var _this2 = possibleConstructorReturn(this, (FunctionController.__proto__ || Object.getPrototypeOf(FunctionController)).call(this, object, property));
-	    var _this = _this2;
-	    _this2.__button = document.createElement('div');
-	    _this2.__button.innerHTML = text === undefined ? 'Fire' : text;
-	    dom.bind(_this2.__button, 'click', function (e) {
-	      e.preventDefault();
-	      _this.fire();
-	      return false;
-	    });
-	    dom.addClass(_this2.__button, 'button');
-	    _this2.domElement.appendChild(_this2.__button);
-	    return _this2;
-	  }
-	  createClass(FunctionController, [{
-	    key: 'fire',
-	    value: function fire() {
-	      if (this.__onChange) {
-	        this.__onChange.call(this);
-	      }
-	      this.getValue().call(this.object);
-	      if (this.__onFinishChange) {
-	        this.__onFinishChange.call(this, this.getValue());
-	      }
-	    }
-	  }]);
-	  return FunctionController;
-	}(Controller);
-
-	var ColorController = function (_Controller) {
-	  inherits(ColorController, _Controller);
-	  function ColorController(object, property) {
-	    classCallCheck(this, ColorController);
-	    var _this2 = possibleConstructorReturn(this, (ColorController.__proto__ || Object.getPrototypeOf(ColorController)).call(this, object, property));
-	    _this2.__color = new Color(_this2.getValue());
-	    _this2.__temp = new Color(0);
-	    var _this = _this2;
-	    _this2.domElement = document.createElement('div');
-	    dom.makeSelectable(_this2.domElement, false);
-	    _this2.__selector = document.createElement('div');
-	    _this2.__selector.className = 'selector';
-	    _this2.__saturation_field = document.createElement('div');
-	    _this2.__saturation_field.className = 'saturation-field';
-	    _this2.__field_knob = document.createElement('div');
-	    _this2.__field_knob.className = 'field-knob';
-	    _this2.__field_knob_border = '2px solid ';
-	    _this2.__hue_knob = document.createElement('div');
-	    _this2.__hue_knob.className = 'hue-knob';
-	    _this2.__hue_field = document.createElement('div');
-	    _this2.__hue_field.className = 'hue-field';
-	    _this2.__input = document.createElement('input');
-	    _this2.__input.type = 'text';
-	    _this2.__input_textShadow = '0 1px 1px ';
-	    dom.bind(_this2.__input, 'keydown', function (e) {
-	      if (e.keyCode === 13) {
-	        onBlur.call(this);
-	      }
-	    });
-	    dom.bind(_this2.__input, 'blur', onBlur);
-	    dom.bind(_this2.__selector, 'mousedown', function () {
-	      dom.addClass(this, 'drag').bind(window, 'mouseup', function () {
-	        dom.removeClass(_this.__selector, 'drag');
-	      });
-	    });
-	    dom.bind(_this2.__selector, 'touchstart', function () {
-	      dom.addClass(this, 'drag').bind(window, 'touchend', function () {
-	        dom.removeClass(_this.__selector, 'drag');
-	      });
-	    });
-	    var valueField = document.createElement('div');
-	    Common.extend(_this2.__selector.style, {
-	      width: '122px',
-	      height: '102px',
-	      padding: '3px',
-	      backgroundColor: '#222',
-	      boxShadow: '0px 1px 3px rgba(0,0,0,0.3)'
-	    });
-	    Common.extend(_this2.__field_knob.style, {
-	      position: 'absolute',
-	      width: '12px',
-	      height: '12px',
-	      border: _this2.__field_knob_border + (_this2.__color.v < 0.5 ? '#fff' : '#000'),
-	      boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
-	      borderRadius: '12px',
-	      zIndex: 1
-	    });
-	    Common.extend(_this2.__hue_knob.style, {
-	      position: 'absolute',
-	      width: '15px',
-	      height: '2px',
-	      borderRight: '4px solid #fff',
-	      zIndex: 1
-	    });
-	    Common.extend(_this2.__saturation_field.style, {
-	      width: '100px',
-	      height: '100px',
-	      border: '1px solid #555',
-	      marginRight: '3px',
-	      display: 'inline-block',
-	      cursor: 'pointer'
-	    });
-	    Common.extend(valueField.style, {
-	      width: '100%',
-	      height: '100%',
-	      background: 'none'
-	    });
-	    linearGradient(valueField, 'top', 'rgba(0,0,0,0)', '#000');
-	    Common.extend(_this2.__hue_field.style, {
-	      width: '15px',
-	      height: '100px',
-	      border: '1px solid #555',
-	      cursor: 'ns-resize',
-	      position: 'absolute',
-	      top: '3px',
-	      right: '3px'
-	    });
-	    hueGradient(_this2.__hue_field);
-	    Common.extend(_this2.__input.style, {
-	      outline: 'none',
-	      textAlign: 'center',
-	      color: '#fff',
-	      border: 0,
-	      fontWeight: 'bold',
-	      textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
-	    });
-	    dom.bind(_this2.__saturation_field, 'mousedown', fieldDown);
-	    dom.bind(_this2.__saturation_field, 'touchstart', fieldDown);
-	    dom.bind(_this2.__field_knob, 'mousedown', fieldDown);
-	    dom.bind(_this2.__field_knob, 'touchstart', fieldDown);
-	    dom.bind(_this2.__hue_field, 'mousedown', fieldDownH);
-	    dom.bind(_this2.__hue_field, 'touchstart', fieldDownH);
-	    function fieldDown(e) {
-	      setSV(e);
-	      dom.bind(window, 'mousemove', setSV);
-	      dom.bind(window, 'touchmove', setSV);
-	      dom.bind(window, 'mouseup', fieldUpSV);
-	      dom.bind(window, 'touchend', fieldUpSV);
-	    }
-	    function fieldDownH(e) {
-	      setH(e);
-	      dom.bind(window, 'mousemove', setH);
-	      dom.bind(window, 'touchmove', setH);
-	      dom.bind(window, 'mouseup', fieldUpH);
-	      dom.bind(window, 'touchend', fieldUpH);
-	    }
-	    function fieldUpSV() {
-	      dom.unbind(window, 'mousemove', setSV);
-	      dom.unbind(window, 'touchmove', setSV);
-	      dom.unbind(window, 'mouseup', fieldUpSV);
-	      dom.unbind(window, 'touchend', fieldUpSV);
-	      onFinish();
-	    }
-	    function fieldUpH() {
-	      dom.unbind(window, 'mousemove', setH);
-	      dom.unbind(window, 'touchmove', setH);
-	      dom.unbind(window, 'mouseup', fieldUpH);
-	      dom.unbind(window, 'touchend', fieldUpH);
-	      onFinish();
-	    }
-	    function onBlur() {
-	      var i = interpret(this.value);
-	      if (i !== false) {
-	        _this.__color.__state = i;
-	        _this.setValue(_this.__color.toOriginal());
-	      } else {
-	        this.value = _this.__color.toString();
-	      }
-	    }
-	    function onFinish() {
-	      if (_this.__onFinishChange) {
-	        _this.__onFinishChange.call(_this, _this.__color.toOriginal());
-	      }
-	    }
-	    _this2.__saturation_field.appendChild(valueField);
-	    _this2.__selector.appendChild(_this2.__field_knob);
-	    _this2.__selector.appendChild(_this2.__saturation_field);
-	    _this2.__selector.appendChild(_this2.__hue_field);
-	    _this2.__hue_field.appendChild(_this2.__hue_knob);
-	    _this2.domElement.appendChild(_this2.__input);
-	    _this2.domElement.appendChild(_this2.__selector);
-	    _this2.updateDisplay();
-	    function setSV(e) {
-	      if (e.type.indexOf('touch') === -1) {
-	        e.preventDefault();
-	      }
-	      var fieldRect = _this.__saturation_field.getBoundingClientRect();
-	      var _ref = e.touches && e.touches[0] || e,
-	          clientX = _ref.clientX,
-	          clientY = _ref.clientY;
-	      var s = (clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
-	      var v = 1 - (clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
-	      if (v > 1) {
-	        v = 1;
-	      } else if (v < 0) {
-	        v = 0;
-	      }
-	      if (s > 1) {
-	        s = 1;
-	      } else if (s < 0) {
-	        s = 0;
-	      }
-	      _this.__color.v = v;
-	      _this.__color.s = s;
-	      _this.setValue(_this.__color.toOriginal());
-	      return false;
-	    }
-	    function setH(e) {
-	      if (e.type.indexOf('touch') === -1) {
-	        e.preventDefault();
-	      }
-	      var fieldRect = _this.__hue_field.getBoundingClientRect();
-	      var _ref2 = e.touches && e.touches[0] || e,
-	          clientY = _ref2.clientY;
-	      var h = 1 - (clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
-	      if (h > 1) {
-	        h = 1;
-	      } else if (h < 0) {
-	        h = 0;
-	      }
-	      _this.__color.h = h * 360;
-	      _this.setValue(_this.__color.toOriginal());
-	      return false;
-	    }
-	    return _this2;
-	  }
-	  createClass(ColorController, [{
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
-	      var i = interpret(this.getValue());
-	      if (i !== false) {
-	        var mismatch = false;
-	        Common.each(Color.COMPONENTS, function (component) {
-	          if (!Common.isUndefined(i[component]) && !Common.isUndefined(this.__color.__state[component]) && i[component] !== this.__color.__state[component]) {
-	            mismatch = true;
-	            return {};
-	          }
-	        }, this);
-	        if (mismatch) {
-	          Common.extend(this.__color.__state, i);
-	        }
-	      }
-	      Common.extend(this.__temp.__state, this.__color.__state);
-	      this.__temp.a = 1;
-	      var flip = this.__color.v < 0.5 || this.__color.s > 0.5 ? 255 : 0;
-	      var _flip = 255 - flip;
-	      Common.extend(this.__field_knob.style, {
-	        marginLeft: 100 * this.__color.s - 7 + 'px',
-	        marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
-	        backgroundColor: this.__temp.toHexString(),
-	        border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
-	      });
-	      this.__hue_knob.style.marginTop = (1 - this.__color.h / 360) * 100 + 'px';
-	      this.__temp.s = 1;
-	      this.__temp.v = 1;
-	      linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toHexString());
-	      this.__input.value = this.__color.toString();
-	      Common.extend(this.__input.style, {
-	        backgroundColor: this.__color.toHexString(),
-	        color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
-	        textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
-	      });
-	    }
-	  }]);
-	  return ColorController;
-	}(Controller);
-	var vendors = ['-moz-', '-o-', '-webkit-', '-ms-', ''];
-	function linearGradient(elem, x, a, b) {
-	  elem.style.background = '';
-	  Common.each(vendors, function (vendor) {
-	    elem.style.cssText += 'background: ' + vendor + 'linear-gradient(' + x + ', ' + a + ' 0%, ' + b + ' 100%); ';
-	  });
-	}
-	function hueGradient(elem) {
-	  elem.style.background = '';
-	  elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);';
-	  elem.style.cssText += 'background: -webkit-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
-	  elem.style.cssText += 'background: -o-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
-	  elem.style.cssText += 'background: -ms-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
-	  elem.style.cssText += 'background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
-	}
-
-	var css = {
-	  load: function load(url, indoc) {
-	    var doc = indoc || document;
-	    var link = doc.createElement('link');
-	    link.type = 'text/css';
-	    link.rel = 'stylesheet';
-	    link.href = url;
-	    doc.getElementsByTagName('head')[0].appendChild(link);
-	  },
-	  inject: function inject(cssContent, indoc) {
-	    var doc = indoc || document;
-	    var injected = document.createElement('style');
-	    injected.type = 'text/css';
-	    injected.innerHTML = cssContent;
-	    var head = doc.getElementsByTagName('head')[0];
-	    try {
-	      head.appendChild(injected);
-	    } catch (e) {
-	    }
-	  }
-	};
-
-	var saveDialogContents = "<div id=\"dg-save\" class=\"dg dialogue\">\n\n  Here's the new load parameter for your <code>GUI</code>'s constructor:\n\n  <textarea id=\"dg-new-constructor\"></textarea>\n\n  <div id=\"dg-save-locally\">\n\n    <input id=\"dg-local-storage\" type=\"checkbox\"/> Automatically save\n    values to <code>localStorage</code> on exit.\n\n    <div id=\"dg-local-explain\">The values saved to <code>localStorage</code> will\n      override those passed to <code>dat.GUI</code>'s constructor. This makes it\n      easier to work incrementally, but <code>localStorage</code> is fragile,\n      and your friends may not see the same values you do.\n\n    </div>\n\n  </div>\n\n</div>";
-
-	var ControllerFactory = function ControllerFactory(object, property) {
-	  var initialValue = object[property];
-	  if (Common.isArray(arguments[2]) || Common.isObject(arguments[2])) {
-	    return new OptionController(object, property, arguments[2]);
-	  }
-	  if (Common.isNumber(initialValue)) {
-	    if (Common.isNumber(arguments[2]) && Common.isNumber(arguments[3])) {
-	      if (Common.isNumber(arguments[4])) {
-	        return new NumberControllerSlider(object, property, arguments[2], arguments[3], arguments[4]);
-	      }
-	      return new NumberControllerSlider(object, property, arguments[2], arguments[3]);
-	    }
-	    if (Common.isNumber(arguments[4])) {
-	      return new NumberControllerBox(object, property, { min: arguments[2], max: arguments[3], step: arguments[4] });
-	    }
-	    return new NumberControllerBox(object, property, { min: arguments[2], max: arguments[3] });
-	  }
-	  if (Common.isString(initialValue)) {
-	    return new StringController(object, property);
-	  }
-	  if (Common.isFunction(initialValue)) {
-	    return new FunctionController(object, property, '');
-	  }
-	  if (Common.isBoolean(initialValue)) {
-	    return new BooleanController(object, property);
-	  }
-	  return null;
-	};
-
-	function requestAnimationFrame$1(callback) {
-	  setTimeout(callback, 1000 / 60);
-	}
-	var requestAnimationFrame$1$1 = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || requestAnimationFrame$1;
-
-	var CenteredDiv = function () {
-	  function CenteredDiv() {
-	    classCallCheck(this, CenteredDiv);
-	    this.backgroundElement = document.createElement('div');
-	    Common.extend(this.backgroundElement.style, {
-	      backgroundColor: 'rgba(0,0,0,0.8)',
-	      top: 0,
-	      left: 0,
-	      display: 'none',
-	      zIndex: '1000',
-	      opacity: 0,
-	      WebkitTransition: 'opacity 0.2s linear',
-	      transition: 'opacity 0.2s linear'
-	    });
-	    dom.makeFullscreen(this.backgroundElement);
-	    this.backgroundElement.style.position = 'fixed';
-	    this.domElement = document.createElement('div');
-	    Common.extend(this.domElement.style, {
-	      position: 'fixed',
-	      display: 'none',
-	      zIndex: '1001',
-	      opacity: 0,
-	      WebkitTransition: '-webkit-transform 0.2s ease-out, opacity 0.2s linear',
-	      transition: 'transform 0.2s ease-out, opacity 0.2s linear'
-	    });
-	    document.body.appendChild(this.backgroundElement);
-	    document.body.appendChild(this.domElement);
-	    var _this = this;
-	    dom.bind(this.backgroundElement, 'click', function () {
-	      _this.hide();
-	    });
-	  }
-	  createClass(CenteredDiv, [{
-	    key: 'show',
-	    value: function show() {
-	      var _this = this;
-	      this.backgroundElement.style.display = 'block';
-	      this.domElement.style.display = 'block';
-	      this.domElement.style.opacity = 0;
-	      this.domElement.style.webkitTransform = 'scale(1.1)';
-	      this.layout();
-	      Common.defer(function () {
-	        _this.backgroundElement.style.opacity = 1;
-	        _this.domElement.style.opacity = 1;
-	        _this.domElement.style.webkitTransform = 'scale(1)';
-	      });
-	    }
-	  }, {
-	    key: 'hide',
-	    value: function hide() {
-	      var _this = this;
-	      var hide = function hide() {
-	        _this.domElement.style.display = 'none';
-	        _this.backgroundElement.style.display = 'none';
-	        dom.unbind(_this.domElement, 'webkitTransitionEnd', hide);
-	        dom.unbind(_this.domElement, 'transitionend', hide);
-	        dom.unbind(_this.domElement, 'oTransitionEnd', hide);
-	      };
-	      dom.bind(this.domElement, 'webkitTransitionEnd', hide);
-	      dom.bind(this.domElement, 'transitionend', hide);
-	      dom.bind(this.domElement, 'oTransitionEnd', hide);
-	      this.backgroundElement.style.opacity = 0;
-	      this.domElement.style.opacity = 0;
-	      this.domElement.style.webkitTransform = 'scale(1.1)';
-	    }
-	  }, {
-	    key: 'layout',
-	    value: function layout() {
-	      this.domElement.style.left = window.innerWidth / 2 - dom.getWidth(this.domElement) / 2 + 'px';
-	      this.domElement.style.top = window.innerHeight / 2 - dom.getHeight(this.domElement) / 2 + 'px';
-	    }
-	  }]);
-	  return CenteredDiv;
-	}();
-
-	var styleSheet = ___$insertStyle(".dg ul{list-style:none;margin:0;padding:0;width:100%;clear:both}.dg.ac{position:fixed;top:0;left:0;right:0;height:0;z-index:0}.dg:not(.ac) .main{overflow:hidden}.dg.main{-webkit-transition:opacity .1s linear;-o-transition:opacity .1s linear;-moz-transition:opacity .1s linear;transition:opacity .1s linear}.dg.main.taller-than-window{overflow-y:auto}.dg.main.taller-than-window .close-button{opacity:1;margin-top:-1px;border-top:1px solid #2c2c2c}.dg.main ul.closed .close-button{opacity:1 !important}.dg.main:hover .close-button,.dg.main .close-button.drag{opacity:1}.dg.main .close-button{-webkit-transition:opacity .1s linear;-o-transition:opacity .1s linear;-moz-transition:opacity .1s linear;transition:opacity .1s linear;border:0;line-height:19px;height:20px;cursor:pointer;text-align:center;background-color:#000}.dg.main .close-button.close-top{position:relative}.dg.main .close-button.close-bottom{position:absolute}.dg.main .close-button:hover{background-color:#111}.dg.a{float:right;margin-right:15px;overflow-y:visible}.dg.a.has-save>ul.close-top{margin-top:0}.dg.a.has-save>ul.close-bottom{margin-top:27px}.dg.a.has-save>ul.closed{margin-top:0}.dg.a .save-row{top:0;z-index:1002}.dg.a .save-row.close-top{position:relative}.dg.a .save-row.close-bottom{position:fixed}.dg li{-webkit-transition:height .1s ease-out;-o-transition:height .1s ease-out;-moz-transition:height .1s ease-out;transition:height .1s ease-out;-webkit-transition:overflow .1s linear;-o-transition:overflow .1s linear;-moz-transition:overflow .1s linear;transition:overflow .1s linear}.dg li:not(.folder){cursor:auto;height:27px;line-height:27px;padding:0 4px 0 5px}.dg li.folder{padding:0;border-left:4px solid rgba(0,0,0,0)}.dg li.title{cursor:pointer;margin-left:-4px}.dg .closed li:not(.title),.dg .closed ul li,.dg .closed ul li>*{height:0;overflow:hidden;border:0}.dg .cr{clear:both;padding-left:3px;height:27px;overflow:hidden}.dg .property-name{cursor:default;float:left;clear:left;width:40%;overflow:hidden;text-overflow:ellipsis}.dg .cr.function .property-name{width:100%}.dg .c{float:left;width:60%;position:relative}.dg .c input[type=text]{border:0;margin-top:4px;padding:3px;width:100%;float:right}.dg .has-slider input[type=text]{width:30%;margin-left:0}.dg .slider{float:left;width:66%;margin-left:-5px;margin-right:0;height:19px;margin-top:4px}.dg .slider-fg{height:100%}.dg .c input[type=checkbox]{margin-top:7px}.dg .c select{margin-top:5px}.dg .cr.function,.dg .cr.function .property-name,.dg .cr.function *,.dg .cr.boolean,.dg .cr.boolean *{cursor:pointer}.dg .cr.color{overflow:visible}.dg .selector{display:none;position:absolute;margin-left:-9px;margin-top:23px;z-index:10}.dg .c:hover .selector,.dg .selector.drag{display:block}.dg li.save-row{padding:0}.dg li.save-row .button{display:inline-block;padding:0px 6px}.dg.dialogue{background-color:#222;width:460px;padding:15px;font-size:13px;line-height:15px}#dg-new-constructor{padding:10px;color:#222;font-family:Monaco, monospace;font-size:10px;border:0;resize:none;box-shadow:inset 1px 1px 1px #888;word-wrap:break-word;margin:12px 0;display:block;width:440px;overflow-y:scroll;height:100px;position:relative}#dg-local-explain{display:none;font-size:11px;line-height:17px;border-radius:3px;background-color:#333;padding:8px;margin-top:10px}#dg-local-explain code{font-size:10px}#dat-gui-save-locally{display:none}.dg{color:#eee;font:11px 'Lucida Grande', sans-serif;text-shadow:0 -1px 0 #111}.dg.main::-webkit-scrollbar{width:5px;background:#1a1a1a}.dg.main::-webkit-scrollbar-corner{height:0;display:none}.dg.main::-webkit-scrollbar-thumb{border-radius:5px;background:#676767}.dg li:not(.folder){background:#1a1a1a;border-bottom:1px solid #2c2c2c}.dg li.save-row{line-height:25px;background:#dad5cb;border:0}.dg li.save-row select{margin-left:5px;width:108px}.dg li.save-row .button{margin-left:5px;margin-top:1px;border-radius:2px;font-size:9px;line-height:7px;padding:4px 4px 5px 4px;background:#c5bdad;color:#fff;text-shadow:0 1px 0 #b0a58f;box-shadow:0 -1px 0 #b0a58f;cursor:pointer}.dg li.save-row .button.gears{background:#c5bdad url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQJJREFUeNpiYKAU/P//PwGIC/ApCABiBSAW+I8AClAcgKxQ4T9hoMAEUrxx2QSGN6+egDX+/vWT4e7N82AMYoPAx/evwWoYoSYbACX2s7KxCxzcsezDh3evFoDEBYTEEqycggWAzA9AuUSQQgeYPa9fPv6/YWm/Acx5IPb7ty/fw+QZblw67vDs8R0YHyQhgObx+yAJkBqmG5dPPDh1aPOGR/eugW0G4vlIoTIfyFcA+QekhhHJhPdQxbiAIguMBTQZrPD7108M6roWYDFQiIAAv6Aow/1bFwXgis+f2LUAynwoIaNcz8XNx3Dl7MEJUDGQpx9gtQ8YCueB+D26OECAAQDadt7e46D42QAAAABJRU5ErkJggg==) 2px 1px no-repeat;height:7px;width:8px}.dg li.save-row .button:hover{background-color:#bab19e;box-shadow:0 -1px 0 #b0a58f}.dg li.folder{border-bottom:0}.dg li.title{padding-left:16px;background:#000 url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.2)}.dg .closed li.title{background-image:url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlGIWqMCbWAEAOw==)}.dg .cr.boolean{border-left:3px solid #806787}.dg .cr.color{border-left:3px solid}.dg .cr.function{border-left:3px solid #e61d5f}.dg .cr.number{border-left:3px solid #2FA1D6}.dg .cr.number input[type=text]{color:#2FA1D6}.dg .cr.string{border-left:3px solid #1ed36f}.dg .cr.string input[type=text]{color:#1ed36f}.dg .cr.function:hover,.dg .cr.boolean:hover{background:#111}.dg .c input[type=text]{background:#303030;outline:none}.dg .c input[type=text]:hover{background:#3c3c3c}.dg .c input[type=text]:focus{background:#494949;color:#fff}.dg .c .slider{background:#303030;cursor:ew-resize}.dg .c .slider-fg{background:#2FA1D6;max-width:100%}.dg .c .slider:hover{background:#3c3c3c}.dg .c .slider:hover .slider-fg{background:#44abda}\n");
-
-	css.inject(styleSheet);
-	var CSS_NAMESPACE = 'dg';
-	var HIDE_KEY_CODE = 72;
-	var CLOSE_BUTTON_HEIGHT = 20;
-	var DEFAULT_DEFAULT_PRESET_NAME = 'Default';
-	var SUPPORTS_LOCAL_STORAGE = function () {
-	  try {
-	    return !!window.localStorage;
-	  } catch (e) {
-	    return false;
-	  }
-	}();
-	var SAVE_DIALOGUE = void 0;
-	var autoPlaceVirgin = true;
-	var autoPlaceContainer = void 0;
-	var hide = false;
-	var hideableGuis = [];
-	var GUI = function GUI(pars) {
-	  var _this = this;
-	  var params = pars || {};
-	  this.domElement = document.createElement('div');
-	  this.__ul = document.createElement('ul');
-	  this.domElement.appendChild(this.__ul);
-	  dom.addClass(this.domElement, CSS_NAMESPACE);
-	  this.__folders = {};
-	  this.__controllers = [];
-	  this.__rememberedObjects = [];
-	  this.__rememberedObjectIndecesToControllers = [];
-	  this.__listening = [];
-	  params = Common.defaults(params, {
-	    closeOnTop: false,
-	    autoPlace: true,
-	    width: GUI.DEFAULT_WIDTH
-	  });
-	  params = Common.defaults(params, {
-	    resizable: params.autoPlace,
-	    hideable: params.autoPlace
-	  });
-	  if (!Common.isUndefined(params.load)) {
-	    if (params.preset) {
-	      params.load.preset = params.preset;
-	    }
-	  } else {
-	    params.load = { preset: DEFAULT_DEFAULT_PRESET_NAME };
-	  }
-	  if (Common.isUndefined(params.parent) && params.hideable) {
-	    hideableGuis.push(this);
-	  }
-	  params.resizable = Common.isUndefined(params.parent) && params.resizable;
-	  if (params.autoPlace && Common.isUndefined(params.scrollable)) {
-	    params.scrollable = true;
-	  }
-	  var useLocalStorage = SUPPORTS_LOCAL_STORAGE && localStorage.getItem(getLocalStorageHash(this, 'isLocal')) === 'true';
-	  var saveToLocalStorage = void 0;
-	  var titleRow = void 0;
-	  Object.defineProperties(this,
-	  {
-	    parent: {
-	      get: function get$$1() {
-	        return params.parent;
-	      }
-	    },
-	    scrollable: {
-	      get: function get$$1() {
-	        return params.scrollable;
-	      }
-	    },
-	    autoPlace: {
-	      get: function get$$1() {
-	        return params.autoPlace;
-	      }
-	    },
-	    closeOnTop: {
-	      get: function get$$1() {
-	        return params.closeOnTop;
-	      }
-	    },
-	    preset: {
-	      get: function get$$1() {
-	        if (_this.parent) {
-	          return _this.getRoot().preset;
-	        }
-	        return params.load.preset;
-	      },
-	      set: function set$$1(v) {
-	        if (_this.parent) {
-	          _this.getRoot().preset = v;
-	        } else {
-	          params.load.preset = v;
-	        }
-	        setPresetSelectIndex(this);
-	        _this.revert();
-	      }
-	    },
-	    width: {
-	      get: function get$$1() {
-	        return params.width;
-	      },
-	      set: function set$$1(v) {
-	        params.width = v;
-	        setWidth(_this, v);
-	      }
-	    },
-	    name: {
-	      get: function get$$1() {
-	        return params.name;
-	      },
-	      set: function set$$1(v) {
-	        params.name = v;
-	        if (titleRow) {
-	          titleRow.innerHTML = params.name;
-	        }
-	      }
-	    },
-	    closed: {
-	      get: function get$$1() {
-	        return params.closed;
-	      },
-	      set: function set$$1(v) {
-	        params.closed = v;
-	        if (params.closed) {
-	          dom.addClass(_this.__ul, GUI.CLASS_CLOSED);
-	        } else {
-	          dom.removeClass(_this.__ul, GUI.CLASS_CLOSED);
-	        }
-	        this.onResize();
-	        if (_this.__closeButton) {
-	          _this.__closeButton.innerHTML = v ? GUI.TEXT_OPEN : GUI.TEXT_CLOSED;
-	        }
-	      }
-	    },
-	    load: {
-	      get: function get$$1() {
-	        return params.load;
-	      }
-	    },
-	    useLocalStorage: {
-	      get: function get$$1() {
-	        return useLocalStorage;
-	      },
-	      set: function set$$1(bool) {
-	        if (SUPPORTS_LOCAL_STORAGE) {
-	          useLocalStorage = bool;
-	          if (bool) {
-	            dom.bind(window, 'unload', saveToLocalStorage);
-	          } else {
-	            dom.unbind(window, 'unload', saveToLocalStorage);
-	          }
-	          localStorage.setItem(getLocalStorageHash(_this, 'isLocal'), bool);
-	        }
-	      }
-	    }
-	  });
-	  if (Common.isUndefined(params.parent)) {
-	    this.closed = params.closed || false;
-	    dom.addClass(this.domElement, GUI.CLASS_MAIN);
-	    dom.makeSelectable(this.domElement, false);
-	    if (SUPPORTS_LOCAL_STORAGE) {
-	      if (useLocalStorage) {
-	        _this.useLocalStorage = true;
-	        var savedGui = localStorage.getItem(getLocalStorageHash(this, 'gui'));
-	        if (savedGui) {
-	          params.load = JSON.parse(savedGui);
-	        }
-	      }
-	    }
-	    this.__closeButton = document.createElement('div');
-	    this.__closeButton.innerHTML = GUI.TEXT_CLOSED;
-	    dom.addClass(this.__closeButton, GUI.CLASS_CLOSE_BUTTON);
-	    if (params.closeOnTop) {
-	      dom.addClass(this.__closeButton, GUI.CLASS_CLOSE_TOP);
-	      this.domElement.insertBefore(this.__closeButton, this.domElement.childNodes[0]);
-	    } else {
-	      dom.addClass(this.__closeButton, GUI.CLASS_CLOSE_BOTTOM);
-	      this.domElement.appendChild(this.__closeButton);
-	    }
-	    dom.bind(this.__closeButton, 'click', function () {
-	      _this.closed = !_this.closed;
-	    });
-	  } else {
-	    if (params.closed === undefined) {
-	      params.closed = true;
-	    }
-	    var titleRowName = document.createTextNode(params.name);
-	    dom.addClass(titleRowName, 'controller-name');
-	    titleRow = addRow(_this, titleRowName);
-	    var onClickTitle = function onClickTitle(e) {
-	      e.preventDefault();
-	      _this.closed = !_this.closed;
-	      return false;
-	    };
-	    dom.addClass(this.__ul, GUI.CLASS_CLOSED);
-	    dom.addClass(titleRow, 'title');
-	    dom.bind(titleRow, 'click', onClickTitle);
-	    if (!params.closed) {
-	      this.closed = false;
-	    }
-	  }
-	  if (params.autoPlace) {
-	    if (Common.isUndefined(params.parent)) {
-	      if (autoPlaceVirgin) {
-	        autoPlaceContainer = document.createElement('div');
-	        dom.addClass(autoPlaceContainer, CSS_NAMESPACE);
-	        dom.addClass(autoPlaceContainer, GUI.CLASS_AUTO_PLACE_CONTAINER);
-	        document.body.appendChild(autoPlaceContainer);
-	        autoPlaceVirgin = false;
-	      }
-	      autoPlaceContainer.appendChild(this.domElement);
-	      dom.addClass(this.domElement, GUI.CLASS_AUTO_PLACE);
-	    }
-	    if (!this.parent) {
-	      setWidth(_this, params.width);
-	    }
-	  }
-	  this.__resizeHandler = function () {
-	    _this.onResizeDebounced();
-	  };
-	  dom.bind(window, 'resize', this.__resizeHandler);
-	  dom.bind(this.__ul, 'webkitTransitionEnd', this.__resizeHandler);
-	  dom.bind(this.__ul, 'transitionend', this.__resizeHandler);
-	  dom.bind(this.__ul, 'oTransitionEnd', this.__resizeHandler);
-	  this.onResize();
-	  if (params.resizable) {
-	    addResizeHandle(this);
-	  }
-	  saveToLocalStorage = function saveToLocalStorage() {
-	    if (SUPPORTS_LOCAL_STORAGE && localStorage.getItem(getLocalStorageHash(_this, 'isLocal')) === 'true') {
-	      localStorage.setItem(getLocalStorageHash(_this, 'gui'), JSON.stringify(_this.getSaveObject()));
-	    }
-	  };
-	  this.saveToLocalStorageIfPossible = saveToLocalStorage;
-	  function resetWidth() {
-	    var root = _this.getRoot();
-	    root.width += 1;
-	    Common.defer(function () {
-	      root.width -= 1;
-	    });
-	  }
-	  if (!params.parent) {
-	    resetWidth();
-	  }
-	};
-	GUI.toggleHide = function () {
-	  hide = !hide;
-	  Common.each(hideableGuis, function (gui) {
-	    gui.domElement.style.display = hide ? 'none' : '';
-	  });
-	};
-	GUI.CLASS_AUTO_PLACE = 'a';
-	GUI.CLASS_AUTO_PLACE_CONTAINER = 'ac';
-	GUI.CLASS_MAIN = 'main';
-	GUI.CLASS_CONTROLLER_ROW = 'cr';
-	GUI.CLASS_TOO_TALL = 'taller-than-window';
-	GUI.CLASS_CLOSED = 'closed';
-	GUI.CLASS_CLOSE_BUTTON = 'close-button';
-	GUI.CLASS_CLOSE_TOP = 'close-top';
-	GUI.CLASS_CLOSE_BOTTOM = 'close-bottom';
-	GUI.CLASS_DRAG = 'drag';
-	GUI.DEFAULT_WIDTH = 245;
-	GUI.TEXT_CLOSED = 'Close Controls';
-	GUI.TEXT_OPEN = 'Open Controls';
-	GUI._keydownHandler = function (e) {
-	  if (document.activeElement.type !== 'text' && (e.which === HIDE_KEY_CODE || e.keyCode === HIDE_KEY_CODE)) {
-	    GUI.toggleHide();
-	  }
-	};
-	dom.bind(window, 'keydown', GUI._keydownHandler, false);
-	Common.extend(GUI.prototype,
-	{
-	  add: function add(object, property) {
-	    return _add(this, object, property, {
-	      factoryArgs: Array.prototype.slice.call(arguments, 2)
-	    });
-	  },
-	  addColor: function addColor(object, property) {
-	    return _add(this, object, property, {
-	      color: true
-	    });
-	  },
-	  remove: function remove(controller) {
-	    this.__ul.removeChild(controller.__li);
-	    this.__controllers.splice(this.__controllers.indexOf(controller), 1);
-	    var _this = this;
-	    Common.defer(function () {
-	      _this.onResize();
-	    });
-	  },
-	  destroy: function destroy() {
-	    if (this.parent) {
-	      throw new Error('Only the root GUI should be removed with .destroy(). ' + 'For subfolders, use gui.removeFolder(folder) instead.');
-	    }
-	    if (this.autoPlace) {
-	      autoPlaceContainer.removeChild(this.domElement);
-	    }
-	    var _this = this;
-	    Common.each(this.__folders, function (subfolder) {
-	      _this.removeFolder(subfolder);
-	    });
-	    dom.unbind(window, 'keydown', GUI._keydownHandler, false);
-	    removeListeners(this);
-	  },
-	  addFolder: function addFolder(name) {
-	    if (this.__folders[name] !== undefined) {
-	      throw new Error('You already have a folder in this GUI by the' + ' name "' + name + '"');
-	    }
-	    var newGuiParams = { name: name, parent: this };
-	    newGuiParams.autoPlace = this.autoPlace;
-	    if (this.load &&
-	    this.load.folders &&
-	    this.load.folders[name]) {
-	      newGuiParams.closed = this.load.folders[name].closed;
-	      newGuiParams.load = this.load.folders[name];
-	    }
-	    var gui = new GUI(newGuiParams);
-	    this.__folders[name] = gui;
-	    var li = addRow(this, gui.domElement);
-	    dom.addClass(li, 'folder');
-	    return gui;
-	  },
-	  removeFolder: function removeFolder(folder) {
-	    this.__ul.removeChild(folder.domElement.parentElement);
-	    delete this.__folders[folder.name];
-	    if (this.load &&
-	    this.load.folders &&
-	    this.load.folders[folder.name]) {
-	      delete this.load.folders[folder.name];
-	    }
-	    removeListeners(folder);
-	    var _this = this;
-	    Common.each(folder.__folders, function (subfolder) {
-	      folder.removeFolder(subfolder);
-	    });
-	    Common.defer(function () {
-	      _this.onResize();
-	    });
-	  },
-	  open: function open() {
-	    this.closed = false;
-	  },
-	  close: function close() {
-	    this.closed = true;
-	  },
-	  hide: function hide() {
-	    this.domElement.style.display = 'none';
-	  },
-	  show: function show() {
-	    this.domElement.style.display = '';
-	  },
-	  onResize: function onResize() {
-	    var root = this.getRoot();
-	    if (root.scrollable) {
-	      var top = dom.getOffset(root.__ul).top;
-	      var h = 0;
-	      Common.each(root.__ul.childNodes, function (node) {
-	        if (!(root.autoPlace && node === root.__save_row)) {
-	          h += dom.getHeight(node);
-	        }
-	      });
-	      if (window.innerHeight - top - CLOSE_BUTTON_HEIGHT < h) {
-	        dom.addClass(root.domElement, GUI.CLASS_TOO_TALL);
-	        root.__ul.style.height = window.innerHeight - top - CLOSE_BUTTON_HEIGHT + 'px';
-	      } else {
-	        dom.removeClass(root.domElement, GUI.CLASS_TOO_TALL);
-	        root.__ul.style.height = 'auto';
-	      }
-	    }
-	    if (root.__resize_handle) {
-	      Common.defer(function () {
-	        root.__resize_handle.style.height = root.__ul.offsetHeight + 'px';
-	      });
-	    }
-	    if (root.__closeButton) {
-	      root.__closeButton.style.width = root.width + 'px';
-	    }
-	  },
-	  onResizeDebounced: Common.debounce(function () {
-	    this.onResize();
-	  }, 50),
-	  remember: function remember() {
-	    if (Common.isUndefined(SAVE_DIALOGUE)) {
-	      SAVE_DIALOGUE = new CenteredDiv();
-	      SAVE_DIALOGUE.domElement.innerHTML = saveDialogContents;
-	    }
-	    if (this.parent) {
-	      throw new Error('You can only call remember on a top level GUI.');
-	    }
-	    var _this = this;
-	    Common.each(Array.prototype.slice.call(arguments), function (object) {
-	      if (_this.__rememberedObjects.length === 0) {
-	        addSaveMenu(_this);
-	      }
-	      if (_this.__rememberedObjects.indexOf(object) === -1) {
-	        _this.__rememberedObjects.push(object);
-	      }
-	    });
-	    if (this.autoPlace) {
-	      setWidth(this, this.width);
-	    }
-	  },
-	  getRoot: function getRoot() {
-	    var gui = this;
-	    while (gui.parent) {
-	      gui = gui.parent;
-	    }
-	    return gui;
-	  },
-	  getSaveObject: function getSaveObject() {
-	    var toReturn = this.load;
-	    toReturn.closed = this.closed;
-	    if (this.__rememberedObjects.length > 0) {
-	      toReturn.preset = this.preset;
-	      if (!toReturn.remembered) {
-	        toReturn.remembered = {};
-	      }
-	      toReturn.remembered[this.preset] = getCurrentPreset(this);
-	    }
-	    toReturn.folders = {};
-	    Common.each(this.__folders, function (element, key) {
-	      toReturn.folders[key] = element.getSaveObject();
-	    });
-	    return toReturn;
-	  },
-	  save: function save() {
-	    if (!this.load.remembered) {
-	      this.load.remembered = {};
-	    }
-	    this.load.remembered[this.preset] = getCurrentPreset(this);
-	    markPresetModified(this, false);
-	    this.saveToLocalStorageIfPossible();
-	  },
-	  saveAs: function saveAs(presetName) {
-	    if (!this.load.remembered) {
-	      this.load.remembered = {};
-	      this.load.remembered[DEFAULT_DEFAULT_PRESET_NAME] = getCurrentPreset(this, true);
-	    }
-	    this.load.remembered[presetName] = getCurrentPreset(this);
-	    this.preset = presetName;
-	    addPresetOption(this, presetName, true);
-	    this.saveToLocalStorageIfPossible();
-	  },
-	  revert: function revert(gui) {
-	    Common.each(this.__controllers, function (controller) {
-	      if (!this.getRoot().load.remembered) {
-	        controller.setValue(controller.initialValue);
-	      } else {
-	        recallSavedValue(gui || this.getRoot(), controller);
-	      }
-	      if (controller.__onFinishChange) {
-	        controller.__onFinishChange.call(controller, controller.getValue());
-	      }
-	    }, this);
-	    Common.each(this.__folders, function (folder) {
-	      folder.revert(folder);
-	    });
-	    if (!gui) {
-	      markPresetModified(this.getRoot(), false);
-	    }
-	  },
-	  listen: function listen(controller) {
-	    var init = this.__listening.length === 0;
-	    this.__listening.push(controller);
-	    if (init) {
-	      updateDisplays(this.__listening);
-	    }
-	  },
-	  updateDisplay: function updateDisplay() {
-	    Common.each(this.__controllers, function (controller) {
-	      controller.updateDisplay();
-	    });
-	    Common.each(this.__folders, function (folder) {
-	      folder.updateDisplay();
-	    });
-	  }
-	});
-	function addRow(gui, newDom, liBefore) {
-	  var li = document.createElement('li');
-	  if (newDom) {
-	    li.appendChild(newDom);
-	  }
-	  if (liBefore) {
-	    gui.__ul.insertBefore(li, liBefore);
-	  } else {
-	    gui.__ul.appendChild(li);
-	  }
-	  gui.onResize();
-	  return li;
-	}
-	function removeListeners(gui) {
-	  dom.unbind(window, 'resize', gui.__resizeHandler);
-	  if (gui.saveToLocalStorageIfPossible) {
-	    dom.unbind(window, 'unload', gui.saveToLocalStorageIfPossible);
-	  }
-	}
-	function markPresetModified(gui, modified) {
-	  var opt = gui.__preset_select[gui.__preset_select.selectedIndex];
-	  if (modified) {
-	    opt.innerHTML = opt.value + '*';
-	  } else {
-	    opt.innerHTML = opt.value;
-	  }
-	}
-	function augmentController(gui, li, controller) {
-	  controller.__li = li;
-	  controller.__gui = gui;
-	  Common.extend(controller, {
-	    options: function options(_options) {
-	      if (arguments.length > 1) {
-	        var nextSibling = controller.__li.nextElementSibling;
-	        controller.remove();
-	        return _add(gui, controller.object, controller.property, {
-	          before: nextSibling,
-	          factoryArgs: [Common.toArray(arguments)]
-	        });
-	      }
-	      if (Common.isArray(_options) || Common.isObject(_options)) {
-	        var _nextSibling = controller.__li.nextElementSibling;
-	        controller.remove();
-	        return _add(gui, controller.object, controller.property, {
-	          before: _nextSibling,
-	          factoryArgs: [_options]
-	        });
-	      }
-	    },
-	    name: function name(_name) {
-	      controller.__li.firstElementChild.firstElementChild.innerHTML = _name;
-	      return controller;
-	    },
-	    listen: function listen() {
-	      controller.__gui.listen(controller);
-	      return controller;
-	    },
-	    remove: function remove() {
-	      controller.__gui.remove(controller);
-	      return controller;
-	    }
-	  });
-	  if (controller instanceof NumberControllerSlider) {
-	    var box = new NumberControllerBox(controller.object, controller.property, { min: controller.__min, max: controller.__max, step: controller.__step });
-	    Common.each(['updateDisplay', 'onChange', 'onFinishChange', 'step', 'min', 'max'], function (method) {
-	      var pc = controller[method];
-	      var pb = box[method];
-	      controller[method] = box[method] = function () {
-	        var args = Array.prototype.slice.call(arguments);
-	        pb.apply(box, args);
-	        return pc.apply(controller, args);
-	      };
-	    });
-	    dom.addClass(li, 'has-slider');
-	    controller.domElement.insertBefore(box.domElement, controller.domElement.firstElementChild);
-	  } else if (controller instanceof NumberControllerBox) {
-	    var r = function r(returned) {
-	      if (Common.isNumber(controller.__min) && Common.isNumber(controller.__max)) {
-	        var oldName = controller.__li.firstElementChild.firstElementChild.innerHTML;
-	        var wasListening = controller.__gui.__listening.indexOf(controller) > -1;
-	        controller.remove();
-	        var newController = _add(gui, controller.object, controller.property, {
-	          before: controller.__li.nextElementSibling,
-	          factoryArgs: [controller.__min, controller.__max, controller.__step]
-	        });
-	        newController.name(oldName);
-	        if (wasListening) newController.listen();
-	        return newController;
-	      }
-	      return returned;
-	    };
-	    controller.min = Common.compose(r, controller.min);
-	    controller.max = Common.compose(r, controller.max);
-	  } else if (controller instanceof BooleanController) {
-	    dom.bind(li, 'click', function () {
-	      dom.fakeEvent(controller.__checkbox, 'click');
-	    });
-	    dom.bind(controller.__checkbox, 'click', function (e) {
-	      e.stopPropagation();
-	    });
-	  } else if (controller instanceof FunctionController) {
-	    dom.bind(li, 'click', function () {
-	      dom.fakeEvent(controller.__button, 'click');
-	    });
-	    dom.bind(li, 'mouseover', function () {
-	      dom.addClass(controller.__button, 'hover');
-	    });
-	    dom.bind(li, 'mouseout', function () {
-	      dom.removeClass(controller.__button, 'hover');
-	    });
-	  } else if (controller instanceof ColorController) {
-	    dom.addClass(li, 'color');
-	    controller.updateDisplay = Common.compose(function (val) {
-	      li.style.borderLeftColor = controller.__color.toString();
-	      return val;
-	    }, controller.updateDisplay);
-	    controller.updateDisplay();
-	  }
-	  controller.setValue = Common.compose(function (val) {
-	    if (gui.getRoot().__preset_select && controller.isModified()) {
-	      markPresetModified(gui.getRoot(), true);
-	    }
-	    return val;
-	  }, controller.setValue);
-	}
-	function recallSavedValue(gui, controller) {
-	  var root = gui.getRoot();
-	  var matchedIndex = root.__rememberedObjects.indexOf(controller.object);
-	  if (matchedIndex !== -1) {
-	    var controllerMap = root.__rememberedObjectIndecesToControllers[matchedIndex];
-	    if (controllerMap === undefined) {
-	      controllerMap = {};
-	      root.__rememberedObjectIndecesToControllers[matchedIndex] = controllerMap;
-	    }
-	    controllerMap[controller.property] = controller;
-	    if (root.load && root.load.remembered) {
-	      var presetMap = root.load.remembered;
-	      var preset = void 0;
-	      if (presetMap[gui.preset]) {
-	        preset = presetMap[gui.preset];
-	      } else if (presetMap[DEFAULT_DEFAULT_PRESET_NAME]) {
-	        preset = presetMap[DEFAULT_DEFAULT_PRESET_NAME];
-	      } else {
-	        return;
-	      }
-	      if (preset[matchedIndex] && preset[matchedIndex][controller.property] !== undefined) {
-	        var value = preset[matchedIndex][controller.property];
-	        controller.initialValue = value;
-	        controller.setValue(value);
-	      }
-	    }
-	  }
-	}
-	function _add(gui, object, property, params) {
-	  if (object[property] === undefined) {
-	    throw new Error('Object "' + object + '" has no property "' + property + '"');
-	  }
-	  var controller = void 0;
-	  if (params.color) {
-	    controller = new ColorController(object, property);
-	  } else {
-	    var factoryArgs = [object, property].concat(params.factoryArgs);
-	    controller = ControllerFactory.apply(gui, factoryArgs);
-	  }
-	  if (params.before instanceof Controller) {
-	    params.before = params.before.__li;
-	  }
-	  recallSavedValue(gui, controller);
-	  dom.addClass(controller.domElement, 'c');
-	  var name = document.createElement('span');
-	  dom.addClass(name, 'property-name');
-	  name.innerHTML = controller.property;
-	  var container = document.createElement('div');
-	  container.appendChild(name);
-	  container.appendChild(controller.domElement);
-	  var li = addRow(gui, container, params.before);
-	  dom.addClass(li, GUI.CLASS_CONTROLLER_ROW);
-	  if (controller instanceof ColorController) {
-	    dom.addClass(li, 'color');
-	  } else {
-	    dom.addClass(li, _typeof(controller.getValue()));
-	  }
-	  augmentController(gui, li, controller);
-	  gui.__controllers.push(controller);
-	  return controller;
-	}
-	function getLocalStorageHash(gui, key) {
-	  return document.location.href + '.' + key;
-	}
-	function addPresetOption(gui, name, setSelected) {
-	  var opt = document.createElement('option');
-	  opt.innerHTML = name;
-	  opt.value = name;
-	  gui.__preset_select.appendChild(opt);
-	  if (setSelected) {
-	    gui.__preset_select.selectedIndex = gui.__preset_select.length - 1;
-	  }
-	}
-	function showHideExplain(gui, explain) {
-	  explain.style.display = gui.useLocalStorage ? 'block' : 'none';
-	}
-	function addSaveMenu(gui) {
-	  var div = gui.__save_row = document.createElement('li');
-	  dom.addClass(gui.domElement, 'has-save');
-	  gui.__ul.insertBefore(div, gui.__ul.firstChild);
-	  dom.addClass(div, 'save-row');
-	  var gears = document.createElement('span');
-	  gears.innerHTML = '&nbsp;';
-	  dom.addClass(gears, 'button gears');
-	  var button = document.createElement('span');
-	  button.innerHTML = 'Save';
-	  dom.addClass(button, 'button');
-	  dom.addClass(button, 'save');
-	  var button2 = document.createElement('span');
-	  button2.innerHTML = 'New';
-	  dom.addClass(button2, 'button');
-	  dom.addClass(button2, 'save-as');
-	  var button3 = document.createElement('span');
-	  button3.innerHTML = 'Revert';
-	  dom.addClass(button3, 'button');
-	  dom.addClass(button3, 'revert');
-	  var select = gui.__preset_select = document.createElement('select');
-	  if (gui.load && gui.load.remembered) {
-	    Common.each(gui.load.remembered, function (value, key) {
-	      addPresetOption(gui, key, key === gui.preset);
-	    });
-	  } else {
-	    addPresetOption(gui, DEFAULT_DEFAULT_PRESET_NAME, false);
-	  }
-	  dom.bind(select, 'change', function () {
-	    for (var index = 0; index < gui.__preset_select.length; index++) {
-	      gui.__preset_select[index].innerHTML = gui.__preset_select[index].value;
-	    }
-	    gui.preset = this.value;
-	  });
-	  div.appendChild(select);
-	  div.appendChild(gears);
-	  div.appendChild(button);
-	  div.appendChild(button2);
-	  div.appendChild(button3);
-	  if (SUPPORTS_LOCAL_STORAGE) {
-	    var explain = document.getElementById('dg-local-explain');
-	    var localStorageCheckBox = document.getElementById('dg-local-storage');
-	    var saveLocally = document.getElementById('dg-save-locally');
-	    saveLocally.style.display = 'block';
-	    if (localStorage.getItem(getLocalStorageHash(gui, 'isLocal')) === 'true') {
-	      localStorageCheckBox.setAttribute('checked', 'checked');
-	    }
-	    showHideExplain(gui, explain);
-	    dom.bind(localStorageCheckBox, 'change', function () {
-	      gui.useLocalStorage = !gui.useLocalStorage;
-	      showHideExplain(gui, explain);
-	    });
-	  }
-	  var newConstructorTextArea = document.getElementById('dg-new-constructor');
-	  dom.bind(newConstructorTextArea, 'keydown', function (e) {
-	    if (e.metaKey && (e.which === 67 || e.keyCode === 67)) {
-	      SAVE_DIALOGUE.hide();
-	    }
-	  });
-	  dom.bind(gears, 'click', function () {
-	    newConstructorTextArea.innerHTML = JSON.stringify(gui.getSaveObject(), undefined, 2);
-	    SAVE_DIALOGUE.show();
-	    newConstructorTextArea.focus();
-	    newConstructorTextArea.select();
-	  });
-	  dom.bind(button, 'click', function () {
-	    gui.save();
-	  });
-	  dom.bind(button2, 'click', function () {
-	    var presetName = prompt('Enter a new preset name.');
-	    if (presetName) {
-	      gui.saveAs(presetName);
-	    }
-	  });
-	  dom.bind(button3, 'click', function () {
-	    gui.revert();
-	  });
-	}
-	function addResizeHandle(gui) {
-	  var pmouseX = void 0;
-	  gui.__resize_handle = document.createElement('div');
-	  Common.extend(gui.__resize_handle.style, {
-	    width: '6px',
-	    marginLeft: '-3px',
-	    height: '200px',
-	    cursor: 'ew-resize',
-	    position: 'absolute'
-	  });
-	  function drag(e) {
-	    e.preventDefault();
-	    gui.width += pmouseX - e.clientX;
-	    gui.onResize();
-	    pmouseX = e.clientX;
-	    return false;
-	  }
-	  function dragStop() {
-	    dom.removeClass(gui.__closeButton, GUI.CLASS_DRAG);
-	    dom.unbind(window, 'mousemove', drag);
-	    dom.unbind(window, 'mouseup', dragStop);
-	  }
-	  function dragStart(e) {
-	    e.preventDefault();
-	    pmouseX = e.clientX;
-	    dom.addClass(gui.__closeButton, GUI.CLASS_DRAG);
-	    dom.bind(window, 'mousemove', drag);
-	    dom.bind(window, 'mouseup', dragStop);
-	    return false;
-	  }
-	  dom.bind(gui.__resize_handle, 'mousedown', dragStart);
-	  dom.bind(gui.__closeButton, 'mousedown', dragStart);
-	  gui.domElement.insertBefore(gui.__resize_handle, gui.domElement.firstElementChild);
-	}
-	function setWidth(gui, w) {
-	  gui.domElement.style.width = w + 'px';
-	  if (gui.__save_row && gui.autoPlace) {
-	    gui.__save_row.style.width = w + 'px';
-	  }
-	  if (gui.__closeButton) {
-	    gui.__closeButton.style.width = w + 'px';
-	  }
-	}
-	function getCurrentPreset(gui, useInitialValues) {
-	  var toReturn = {};
-	  Common.each(gui.__rememberedObjects, function (val, index) {
-	    var savedValues = {};
-	    var controllerMap = gui.__rememberedObjectIndecesToControllers[index];
-	    Common.each(controllerMap, function (controller, property) {
-	      savedValues[property] = useInitialValues ? controller.initialValue : controller.getValue();
-	    });
-	    toReturn[index] = savedValues;
-	  });
-	  return toReturn;
-	}
-	function setPresetSelectIndex(gui) {
-	  for (var index = 0; index < gui.__preset_select.length; index++) {
-	    if (gui.__preset_select[index].value === gui.preset) {
-	      gui.__preset_select.selectedIndex = index;
-	    }
-	  }
-	}
-	function updateDisplays(controllerArray) {
-	  if (controllerArray.length !== 0) {
-	    requestAnimationFrame$1$1.call(window, function () {
-	      updateDisplays(controllerArray);
-	    });
-	  }
-	  Common.each(controllerArray, function (c) {
-	    c.updateDisplay();
-	  });
-	}
-	var GUI$1 = GUI;
 
 	class GLTFLoader extends Loader {
 
@@ -46777,7 +44162,7 @@
 			const lightDef = lightDefs[ lightIndex ];
 			let lightNode;
 
-			const color = new Color$1( 0xffffff );
+			const color = new Color( 0xffffff );
 
 			if ( lightDef.color !== undefined ) color.fromArray( lightDef.color );
 
@@ -46876,7 +44261,7 @@
 
 			const pending = [];
 
-			materialParams.color = new Color$1( 1.0, 1.0, 1.0 );
+			materialParams.color = new Color( 1.0, 1.0, 1.0 );
 			materialParams.opacity = 1.0;
 
 			const metallicRoughness = materialDef.pbrMetallicRoughness;
@@ -47100,7 +44485,7 @@
 			materialParams.attenuationDistance = extension.attenuationDistance || 0;
 
 			const colorArray = extension.attenuationColor || [ 1, 1, 1 ];
-			materialParams.attenuationTint = new Color$1( colorArray[ 0 ], colorArray[ 1 ], colorArray[ 2 ] );
+			materialParams.attenuationTint = new Color( colorArray[ 0 ], colorArray[ 1 ], colorArray[ 2 ] );
 
 			return Promise.all( pending );
 
@@ -47203,7 +44588,7 @@
 			}
 
 			const colorArray = extension.specularColorFactor || [ 1, 1, 1 ];
-			materialParams.specularTint = new Color$1( colorArray[ 0 ], colorArray[ 1 ], colorArray[ 2 ] );
+			materialParams.specularTint = new Color( colorArray[ 0 ], colorArray[ 1 ], colorArray[ 2 ] );
 
 			if ( extension.specularColorTexture !== undefined ) {
 
@@ -47698,7 +45083,7 @@
 			].join( '\n' );
 
 			const uniforms = {
-				specular: { value: new Color$1().setHex( 0xffffff ) },
+				specular: { value: new Color().setHex( 0xffffff ) },
 				glossiness: { value: 1 },
 				specularMap: { value: null },
 				glossinessMap: { value: null }
@@ -47876,7 +45261,7 @@
 
 			const pbrSpecularGlossiness = materialDef.extensions[ this.name ];
 
-			materialParams.color = new Color$1( 1.0, 1.0, 1.0 );
+			materialParams.color = new Color( 1.0, 1.0, 1.0 );
 			materialParams.opacity = 1.0;
 
 			const pending = [];
@@ -47896,9 +45281,9 @@
 
 			}
 
-			materialParams.emissive = new Color$1( 0.0, 0.0, 0.0 );
+			materialParams.emissive = new Color( 0.0, 0.0, 0.0 );
 			materialParams.glossiness = pbrSpecularGlossiness.glossinessFactor !== undefined ? pbrSpecularGlossiness.glossinessFactor : 1.0;
-			materialParams.specular = new Color$1( 1.0, 1.0, 1.0 );
+			materialParams.specular = new Color( 1.0, 1.0, 1.0 );
 
 			if ( Array.isArray( pbrSpecularGlossiness.specularFactor ) ) {
 
@@ -49341,7 +46726,7 @@
 
 				const metallicRoughness = materialDef.pbrMetallicRoughness || {};
 
-				materialParams.color = new Color$1( 1.0, 1.0, 1.0 );
+				materialParams.color = new Color( 1.0, 1.0, 1.0 );
 				materialParams.opacity = 1.0;
 
 				if ( Array.isArray( metallicRoughness.baseColorFactor ) ) {
@@ -49441,7 +46826,7 @@
 
 			if ( materialDef.emissiveFactor !== undefined && materialType !== MeshBasicMaterial ) {
 
-				materialParams.emissive = new Color$1().fromArray( materialDef.emissiveFactor );
+				materialParams.emissive = new Color().fromArray( materialDef.emissiveFactor );
 
 			}
 
@@ -50565,924 +47950,6 @@
 		newGeometry.setIndex( newIndices );
 
 		return newGeometry;
-
-	}
-
-	/**
-	 * @webxr-input-profiles/motion-controllers 1.0.0 https://github.com/immersive-web/webxr-input-profiles
-	 */
-
-	const Constants = {
-	  Handedness: Object.freeze({
-	    NONE: 'none',
-	    LEFT: 'left',
-	    RIGHT: 'right'
-	  }),
-
-	  ComponentState: Object.freeze({
-	    DEFAULT: 'default',
-	    TOUCHED: 'touched',
-	    PRESSED: 'pressed'
-	  }),
-
-	  ComponentProperty: Object.freeze({
-	    BUTTON: 'button',
-	    X_AXIS: 'xAxis',
-	    Y_AXIS: 'yAxis',
-	    STATE: 'state'
-	  }),
-
-	  ComponentType: Object.freeze({
-	    TRIGGER: 'trigger',
-	    SQUEEZE: 'squeeze',
-	    TOUCHPAD: 'touchpad',
-	    THUMBSTICK: 'thumbstick',
-	    BUTTON: 'button'
-	  }),
-
-	  ButtonTouchThreshold: 0.05,
-
-	  AxisTouchThreshold: 0.1,
-
-	  VisualResponseProperty: Object.freeze({
-	    TRANSFORM: 'transform',
-	    VISIBILITY: 'visibility'
-	  })
-	};
-
-	/**
-	 * @description Static helper function to fetch a JSON file and turn it into a JS object
-	 * @param {string} path - Path to JSON file to be fetched
-	 */
-	async function fetchJsonFile(path) {
-	  const response = await fetch(path);
-	  if (!response.ok) {
-	    throw new Error(response.statusText);
-	  } else {
-	    return response.json();
-	  }
-	}
-
-	async function fetchProfilesList(basePath) {
-	  if (!basePath) {
-	    throw new Error('No basePath supplied');
-	  }
-
-	  const profileListFileName = 'profilesList.json';
-	  const profilesList = await fetchJsonFile(`${basePath}/${profileListFileName}`);
-	  return profilesList;
-	}
-
-	async function fetchProfile(xrInputSource, basePath, defaultProfile = null, getAssetPath = true) {
-	  if (!xrInputSource) {
-	    throw new Error('No xrInputSource supplied');
-	  }
-
-	  if (!basePath) {
-	    throw new Error('No basePath supplied');
-	  }
-
-	  // Get the list of profiles
-	  const supportedProfilesList = await fetchProfilesList(basePath);
-
-	  // Find the relative path to the first requested profile that is recognized
-	  let match;
-	  xrInputSource.profiles.some((profileId) => {
-	    const supportedProfile = supportedProfilesList[profileId];
-	    if (supportedProfile) {
-	      match = {
-	        profileId,
-	        profilePath: `${basePath}/${supportedProfile.path}`,
-	        deprecated: !!supportedProfile.deprecated
-	      };
-	    }
-	    return !!match;
-	  });
-
-	  if (!match) {
-	    if (!defaultProfile) {
-	      throw new Error('No matching profile name found');
-	    }
-
-	    const supportedProfile = supportedProfilesList[defaultProfile];
-	    if (!supportedProfile) {
-	      throw new Error(`No matching profile name found and default profile "${defaultProfile}" missing.`);
-	    }
-
-	    match = {
-	      profileId: defaultProfile,
-	      profilePath: `${basePath}/${supportedProfile.path}`,
-	      deprecated: !!supportedProfile.deprecated
-	    };
-	  }
-
-	  const profile = await fetchJsonFile(match.profilePath);
-
-	  let assetPath;
-	  if (getAssetPath) {
-	    let layout;
-	    if (xrInputSource.handedness === 'any') {
-	      layout = profile.layouts[Object.keys(profile.layouts)[0]];
-	    } else {
-	      layout = profile.layouts[xrInputSource.handedness];
-	    }
-	    if (!layout) {
-	      throw new Error(
-	        `No matching handedness, ${xrInputSource.handedness}, in profile ${match.profileId}`
-	      );
-	    }
-
-	    if (layout.assetPath) {
-	      assetPath = match.profilePath.replace('profile.json', layout.assetPath);
-	    }
-	  }
-
-	  return { profile, assetPath };
-	}
-
-	/** @constant {Object} */
-	const defaultComponentValues = {
-	  xAxis: 0,
-	  yAxis: 0,
-	  button: 0,
-	  state: Constants.ComponentState.DEFAULT
-	};
-
-	/**
-	 * @description Converts an X, Y coordinate from the range -1 to 1 (as reported by the Gamepad
-	 * API) to the range 0 to 1 (for interpolation). Also caps the X, Y values to be bounded within
-	 * a circle. This ensures that thumbsticks are not animated outside the bounds of their physical
-	 * range of motion and touchpads do not report touch locations off their physical bounds.
-	 * @param {number} x The original x coordinate in the range -1 to 1
-	 * @param {number} y The original y coordinate in the range -1 to 1
-	 */
-	function normalizeAxes(x = 0, y = 0) {
-	  let xAxis = x;
-	  let yAxis = y;
-
-	  // Determine if the point is outside the bounds of the circle
-	  // and, if so, place it on the edge of the circle
-	  const hypotenuse = Math.sqrt((x * x) + (y * y));
-	  if (hypotenuse > 1) {
-	    const theta = Math.atan2(y, x);
-	    xAxis = Math.cos(theta);
-	    yAxis = Math.sin(theta);
-	  }
-
-	  // Scale and move the circle so values are in the interpolation range.  The circle's origin moves
-	  // from (0, 0) to (0.5, 0.5). The circle's radius scales from 1 to be 0.5.
-	  const result = {
-	    normalizedXAxis: (xAxis * 0.5) + 0.5,
-	    normalizedYAxis: (yAxis * 0.5) + 0.5
-	  };
-	  return result;
-	}
-
-	/**
-	 * Contains the description of how the 3D model should visually respond to a specific user input.
-	 * This is accomplished by initializing the object with the name of a node in the 3D model and
-	 * property that need to be modified in response to user input, the name of the nodes representing
-	 * the allowable range of motion, and the name of the input which triggers the change. In response
-	 * to the named input changing, this object computes the appropriate weighting to use for
-	 * interpolating between the range of motion nodes.
-	 */
-	class VisualResponse {
-	  constructor(visualResponseDescription) {
-	    this.componentProperty = visualResponseDescription.componentProperty;
-	    this.states = visualResponseDescription.states;
-	    this.valueNodeName = visualResponseDescription.valueNodeName;
-	    this.valueNodeProperty = visualResponseDescription.valueNodeProperty;
-
-	    if (this.valueNodeProperty === Constants.VisualResponseProperty.TRANSFORM) {
-	      this.minNodeName = visualResponseDescription.minNodeName;
-	      this.maxNodeName = visualResponseDescription.maxNodeName;
-	    }
-
-	    // Initializes the response's current value based on default data
-	    this.value = 0;
-	    this.updateFromComponent(defaultComponentValues);
-	  }
-
-	  /**
-	   * Computes the visual response's interpolation weight based on component state
-	   * @param {Object} componentValues - The component from which to update
-	   * @param {number} xAxis - The reported X axis value of the component
-	   * @param {number} yAxis - The reported Y axis value of the component
-	   * @param {number} button - The reported value of the component's button
-	   * @param {string} state - The component's active state
-	   */
-	  updateFromComponent({
-	    xAxis, yAxis, button, state
-	  }) {
-	    const { normalizedXAxis, normalizedYAxis } = normalizeAxes(xAxis, yAxis);
-	    switch (this.componentProperty) {
-	      case Constants.ComponentProperty.X_AXIS:
-	        this.value = (this.states.includes(state)) ? normalizedXAxis : 0.5;
-	        break;
-	      case Constants.ComponentProperty.Y_AXIS:
-	        this.value = (this.states.includes(state)) ? normalizedYAxis : 0.5;
-	        break;
-	      case Constants.ComponentProperty.BUTTON:
-	        this.value = (this.states.includes(state)) ? button : 0;
-	        break;
-	      case Constants.ComponentProperty.STATE:
-	        if (this.valueNodeProperty === Constants.VisualResponseProperty.VISIBILITY) {
-	          this.value = (this.states.includes(state));
-	        } else {
-	          this.value = this.states.includes(state) ? 1.0 : 0.0;
-	        }
-	        break;
-	      default:
-	        throw new Error(`Unexpected visualResponse componentProperty ${this.componentProperty}`);
-	    }
-	  }
-	}
-
-	class Component {
-	  /**
-	   * @param {Object} componentId - Id of the component
-	   * @param {Object} componentDescription - Description of the component to be created
-	   */
-	  constructor(componentId, componentDescription) {
-	    if (!componentId
-	     || !componentDescription
-	     || !componentDescription.visualResponses
-	     || !componentDescription.gamepadIndices
-	     || Object.keys(componentDescription.gamepadIndices).length === 0) {
-	      throw new Error('Invalid arguments supplied');
-	    }
-
-	    this.id = componentId;
-	    this.type = componentDescription.type;
-	    this.rootNodeName = componentDescription.rootNodeName;
-	    this.touchPointNodeName = componentDescription.touchPointNodeName;
-
-	    // Build all the visual responses for this component
-	    this.visualResponses = {};
-	    Object.keys(componentDescription.visualResponses).forEach((responseName) => {
-	      const visualResponse = new VisualResponse(componentDescription.visualResponses[responseName]);
-	      this.visualResponses[responseName] = visualResponse;
-	    });
-
-	    // Set default values
-	    this.gamepadIndices = Object.assign({}, componentDescription.gamepadIndices);
-
-	    this.values = {
-	      state: Constants.ComponentState.DEFAULT,
-	      button: (this.gamepadIndices.button !== undefined) ? 0 : undefined,
-	      xAxis: (this.gamepadIndices.xAxis !== undefined) ? 0 : undefined,
-	      yAxis: (this.gamepadIndices.yAxis !== undefined) ? 0 : undefined
-	    };
-	  }
-
-	  get data() {
-	    const data = { id: this.id, ...this.values };
-	    return data;
-	  }
-
-	  /**
-	   * @description Poll for updated data based on current gamepad state
-	   * @param {Object} gamepad - The gamepad object from which the component data should be polled
-	   */
-	  updateFromGamepad(gamepad) {
-	    // Set the state to default before processing other data sources
-	    this.values.state = Constants.ComponentState.DEFAULT;
-
-	    // Get and normalize button
-	    if (this.gamepadIndices.button !== undefined
-	        && gamepad.buttons.length > this.gamepadIndices.button) {
-	      const gamepadButton = gamepad.buttons[this.gamepadIndices.button];
-	      this.values.button = gamepadButton.value;
-	      this.values.button = (this.values.button < 0) ? 0 : this.values.button;
-	      this.values.button = (this.values.button > 1) ? 1 : this.values.button;
-
-	      // Set the state based on the button
-	      if (gamepadButton.pressed || this.values.button === 1) {
-	        this.values.state = Constants.ComponentState.PRESSED;
-	      } else if (gamepadButton.touched || this.values.button > Constants.ButtonTouchThreshold) {
-	        this.values.state = Constants.ComponentState.TOUCHED;
-	      }
-	    }
-
-	    // Get and normalize x axis value
-	    if (this.gamepadIndices.xAxis !== undefined
-	        && gamepad.axes.length > this.gamepadIndices.xAxis) {
-	      this.values.xAxis = gamepad.axes[this.gamepadIndices.xAxis];
-	      this.values.xAxis = (this.values.xAxis < -1) ? -1 : this.values.xAxis;
-	      this.values.xAxis = (this.values.xAxis > 1) ? 1 : this.values.xAxis;
-
-	      // If the state is still default, check if the xAxis makes it touched
-	      if (this.values.state === Constants.ComponentState.DEFAULT
-	        && Math.abs(this.values.xAxis) > Constants.AxisTouchThreshold) {
-	        this.values.state = Constants.ComponentState.TOUCHED;
-	      }
-	    }
-
-	    // Get and normalize Y axis value
-	    if (this.gamepadIndices.yAxis !== undefined
-	        && gamepad.axes.length > this.gamepadIndices.yAxis) {
-	      this.values.yAxis = gamepad.axes[this.gamepadIndices.yAxis];
-	      this.values.yAxis = (this.values.yAxis < -1) ? -1 : this.values.yAxis;
-	      this.values.yAxis = (this.values.yAxis > 1) ? 1 : this.values.yAxis;
-
-	      // If the state is still default, check if the yAxis makes it touched
-	      if (this.values.state === Constants.ComponentState.DEFAULT
-	        && Math.abs(this.values.yAxis) > Constants.AxisTouchThreshold) {
-	        this.values.state = Constants.ComponentState.TOUCHED;
-	      }
-	    }
-
-	    // Update the visual response weights based on the current component data
-	    Object.values(this.visualResponses).forEach((visualResponse) => {
-	      visualResponse.updateFromComponent(this.values);
-	    });
-	  }
-	}
-
-	/**
-	  * @description Builds a motion controller with components and visual responses based on the
-	  * supplied profile description. Data is polled from the xrInputSource's gamepad.
-	  * @author Nell Waliczek / https://github.com/NellWaliczek
-	*/
-	class MotionController {
-	  /**
-	   * @param {Object} xrInputSource - The XRInputSource to build the MotionController around
-	   * @param {Object} profile - The best matched profile description for the supplied xrInputSource
-	   * @param {Object} assetUrl
-	   */
-	  constructor(xrInputSource, profile, assetUrl) {
-	    if (!xrInputSource) {
-	      throw new Error('No xrInputSource supplied');
-	    }
-
-	    if (!profile) {
-	      throw new Error('No profile supplied');
-	    }
-
-	    this.xrInputSource = xrInputSource;
-	    this.assetUrl = assetUrl;
-	    this.id = profile.profileId;
-
-	    // Build child components as described in the profile description
-	    this.layoutDescription = profile.layouts[xrInputSource.handedness];
-	    this.components = {};
-	    Object.keys(this.layoutDescription.components).forEach((componentId) => {
-	      const componentDescription = this.layoutDescription.components[componentId];
-	      this.components[componentId] = new Component(componentId, componentDescription);
-	    });
-
-	    // Initialize components based on current gamepad state
-	    this.updateFromGamepad();
-	  }
-
-	  get gripSpace() {
-	    return this.xrInputSource.gripSpace;
-	  }
-
-	  get targetRaySpace() {
-	    return this.xrInputSource.targetRaySpace;
-	  }
-
-	  /**
-	   * @description Returns a subset of component data for simplified debugging
-	   */
-	  get data() {
-	    const data = [];
-	    Object.values(this.components).forEach((component) => {
-	      data.push(component.data);
-	    });
-	    return data;
-	  }
-
-	  /**
-	   * @description Poll for updated data based on current gamepad state
-	   */
-	  updateFromGamepad() {
-	    Object.values(this.components).forEach((component) => {
-	      component.updateFromGamepad(this.xrInputSource.gamepad);
-	    });
-	  }
-	}
-
-	const DEFAULT_PROFILES_PATH = 'https://cdn.jsdelivr.net/npm/@webxr-input-profiles/assets@1.0/dist/profiles';
-	const DEFAULT_PROFILE = 'generic-trigger';
-
-	class XRControllerModel extends Object3D {
-
-		constructor() {
-
-			super();
-
-			this.motionController = null;
-			this.envMap = null;
-
-		}
-
-		setEnvironmentMap( envMap ) {
-
-			if ( this.envMap == envMap ) {
-
-				return this;
-
-			}
-
-			this.envMap = envMap;
-			this.traverse( ( child ) => {
-
-				if ( child.isMesh ) {
-
-					child.material.envMap = this.envMap;
-					child.material.needsUpdate = true;
-
-				}
-
-			} );
-
-			return this;
-
-		}
-
-		/**
-		 * Polls data from the XRInputSource and updates the model's components to match
-		 * the real world data
-		 */
-		updateMatrixWorld( force ) {
-
-			super.updateMatrixWorld( force );
-
-			if ( ! this.motionController ) return;
-
-			// Cause the MotionController to poll the Gamepad for data
-			this.motionController.updateFromGamepad();
-
-			// Update the 3D model to reflect the button, thumbstick, and touchpad state
-			Object.values( this.motionController.components ).forEach( ( component ) => {
-
-				// Update node data based on the visual responses' current states
-				Object.values( component.visualResponses ).forEach( ( visualResponse ) => {
-
-					const { valueNode, minNode, maxNode, value, valueNodeProperty } = visualResponse;
-
-					// Skip if the visual response node is not found. No error is needed,
-					// because it will have been reported at load time.
-					if ( ! valueNode ) return;
-
-					// Calculate the new properties based on the weight supplied
-					if ( valueNodeProperty === Constants.VisualResponseProperty.VISIBILITY ) {
-
-						valueNode.visible = value;
-
-					} else if ( valueNodeProperty === Constants.VisualResponseProperty.TRANSFORM ) {
-
-						valueNode.quaternion.slerpQuaternions(
-							minNode.quaternion,
-							maxNode.quaternion,
-							value
-						);
-
-						valueNode.position.lerpVectors(
-							minNode.position,
-							maxNode.position,
-							value
-						);
-
-					}
-
-				} );
-
-			} );
-
-		}
-
-	}
-
-	/**
-	 * Walks the model's tree to find the nodes needed to animate the components and
-	 * saves them to the motionContoller components for use in the frame loop. When
-	 * touchpads are found, attaches a touch dot to them.
-	 */
-	function findNodes( motionController, scene ) {
-
-		// Loop through the components and find the nodes needed for each components' visual responses
-		Object.values( motionController.components ).forEach( ( component ) => {
-
-			const { type, touchPointNodeName, visualResponses } = component;
-
-			if ( type === Constants.ComponentType.TOUCHPAD ) {
-
-				component.touchPointNode = scene.getObjectByName( touchPointNodeName );
-				if ( component.touchPointNode ) {
-
-					// Attach a touch dot to the touchpad.
-					const sphereGeometry = new SphereGeometry( 0.001 );
-					const material = new MeshBasicMaterial( { color: 0x0000FF } );
-					const sphere = new Mesh( sphereGeometry, material );
-					component.touchPointNode.add( sphere );
-
-				} else {
-
-					console.warn( `Could not find touch dot, ${component.touchPointNodeName}, in touchpad component ${component.id}` );
-
-				}
-
-			}
-
-			// Loop through all the visual responses to be applied to this component
-			Object.values( visualResponses ).forEach( ( visualResponse ) => {
-
-				const { valueNodeName, minNodeName, maxNodeName, valueNodeProperty } = visualResponse;
-
-				// If animating a transform, find the two nodes to be interpolated between.
-				if ( valueNodeProperty === Constants.VisualResponseProperty.TRANSFORM ) {
-
-					visualResponse.minNode = scene.getObjectByName( minNodeName );
-					visualResponse.maxNode = scene.getObjectByName( maxNodeName );
-
-					// If the extents cannot be found, skip this animation
-					if ( ! visualResponse.minNode ) {
-
-						console.warn( `Could not find ${minNodeName} in the model` );
-						return;
-
-					}
-
-					if ( ! visualResponse.maxNode ) {
-
-						console.warn( `Could not find ${maxNodeName} in the model` );
-						return;
-
-					}
-
-				}
-
-				// If the target node cannot be found, skip this animation
-				visualResponse.valueNode = scene.getObjectByName( valueNodeName );
-				if ( ! visualResponse.valueNode ) {
-
-					console.warn( `Could not find ${valueNodeName} in the model` );
-
-				}
-
-			} );
-
-		} );
-
-	}
-
-	function addAssetSceneToControllerModel( controllerModel, scene ) {
-
-		// Find the nodes needed for animation and cache them on the motionController.
-		findNodes( controllerModel.motionController, scene );
-
-		// Apply any environment map that the mesh already has set.
-		if ( controllerModel.envMap ) {
-
-			scene.traverse( ( child ) => {
-
-				if ( child.isMesh ) {
-
-					child.material.envMap = controllerModel.envMap;
-					child.material.needsUpdate = true;
-
-				}
-
-			} );
-
-		}
-
-		// Add the glTF scene to the controllerModel.
-		controllerModel.add( scene );
-
-	}
-
-	class XRControllerModelFactory {
-
-		constructor( gltfLoader = null ) {
-
-			this.gltfLoader = gltfLoader;
-			this.path = DEFAULT_PROFILES_PATH;
-			this._assetCache = {};
-
-			// If a GLTFLoader wasn't supplied to the constructor create a new one.
-			if ( ! this.gltfLoader ) {
-
-				this.gltfLoader = new GLTFLoader();
-
-			}
-
-		}
-
-		createControllerModel( controller ) {
-
-			const controllerModel = new XRControllerModel();
-			let scene = null;
-
-			controller.addEventListener( 'connected', ( event ) => {
-
-				const xrInputSource = event.data;
-
-				if ( xrInputSource.targetRayMode !== 'tracked-pointer' || ! xrInputSource.gamepad ) return;
-
-				fetchProfile( xrInputSource, this.path, DEFAULT_PROFILE ).then( ( { profile, assetPath } ) => {
-
-					controllerModel.motionController = new MotionController(
-						xrInputSource,
-						profile,
-						assetPath
-					);
-
-					const cachedAsset = this._assetCache[ controllerModel.motionController.assetUrl ];
-					if ( cachedAsset ) {
-
-						scene = cachedAsset.scene.clone();
-
-						addAssetSceneToControllerModel( controllerModel, scene );
-
-					} else {
-
-						if ( ! this.gltfLoader ) {
-
-							throw new Error( 'GLTFLoader not set.' );
-
-						}
-
-						this.gltfLoader.setPath( '' );
-						this.gltfLoader.load( controllerModel.motionController.assetUrl, ( asset ) => {
-
-							this._assetCache[ controllerModel.motionController.assetUrl ] = asset;
-
-							scene = asset.scene.clone();
-
-							addAssetSceneToControllerModel( controllerModel, scene );
-
-						},
-						null,
-						() => {
-
-							throw new Error( `Asset ${controllerModel.motionController.assetUrl} missing or malformed.` );
-
-						} );
-
-					}
-
-				} ).catch( ( err ) => {
-
-					console.warn( err );
-
-				} );
-
-			} );
-
-			controller.addEventListener( 'disconnected', () => {
-
-				controllerModel.motionController = null;
-				controllerModel.remove( scene );
-				scene = null;
-
-			} );
-
-			return controllerModel;
-
-		}
-
-	}
-
-	class FontLoader extends Loader {
-
-		constructor( manager ) {
-
-			super( manager );
-
-		}
-
-		load( url, onLoad, onProgress, onError ) {
-
-			const scope = this;
-
-			const loader = new FileLoader( this.manager );
-			loader.setPath( this.path );
-			loader.setRequestHeader( this.requestHeader );
-			loader.setWithCredentials( scope.withCredentials );
-			loader.load( url, function ( text ) {
-
-				let json;
-
-				try {
-
-					json = JSON.parse( text );
-
-				} catch ( e ) {
-
-					console.warn( 'THREE.FontLoader: typeface.js support is being deprecated. Use typeface.json instead.' );
-					json = JSON.parse( text.substring( 65, text.length - 2 ) );
-
-				}
-
-				const font = scope.parse( json );
-
-				if ( onLoad ) onLoad( font );
-
-			}, onProgress, onError );
-
-		}
-
-		parse( json ) {
-
-			return new Font( json );
-
-		}
-
-	}
-
-	//
-
-	class Font {
-
-		constructor( data ) {
-
-			this.type = 'Font';
-
-			this.data = data;
-
-		}
-
-		generateShapes( text, size = 100 ) {
-
-			const shapes = [];
-			const paths = createPaths( text, size, this.data );
-
-			for ( let p = 0, pl = paths.length; p < pl; p ++ ) {
-
-				Array.prototype.push.apply( shapes, paths[ p ].toShapes() );
-
-			}
-
-			return shapes;
-
-		}
-
-	}
-
-	function createPaths( text, size, data ) {
-
-		const chars = Array.from( text );
-		const scale = size / data.resolution;
-		const line_height = ( data.boundingBox.yMax - data.boundingBox.yMin + data.underlineThickness ) * scale;
-
-		const paths = [];
-
-		let offsetX = 0, offsetY = 0;
-
-		for ( let i = 0; i < chars.length; i ++ ) {
-
-			const char = chars[ i ];
-
-			if ( char === '\n' ) {
-
-				offsetX = 0;
-				offsetY -= line_height;
-
-			} else {
-
-				const ret = createPath( char, scale, offsetX, offsetY, data );
-				offsetX += ret.offsetX;
-				paths.push( ret.path );
-
-			}
-
-		}
-
-		return paths;
-
-	}
-
-	function createPath( char, scale, offsetX, offsetY, data ) {
-
-		const glyph = data.glyphs[ char ] || data.glyphs[ '?' ];
-
-		if ( ! glyph ) {
-
-			console.error( 'THREE.Font: character "' + char + '" does not exists in font family ' + data.familyName + '.' );
-
-			return;
-
-		}
-
-		const path = new ShapePath();
-
-		let x, y, cpx, cpy, cpx1, cpy1, cpx2, cpy2;
-
-		if ( glyph.o ) {
-
-			const outline = glyph._cachedOutline || ( glyph._cachedOutline = glyph.o.split( ' ' ) );
-
-			for ( let i = 0, l = outline.length; i < l; ) {
-
-				const action = outline[ i ++ ];
-
-				switch ( action ) {
-
-					case 'm': // moveTo
-
-						x = outline[ i ++ ] * scale + offsetX;
-						y = outline[ i ++ ] * scale + offsetY;
-
-						path.moveTo( x, y );
-
-						break;
-
-					case 'l': // lineTo
-
-						x = outline[ i ++ ] * scale + offsetX;
-						y = outline[ i ++ ] * scale + offsetY;
-
-						path.lineTo( x, y );
-
-						break;
-
-					case 'q': // quadraticCurveTo
-
-						cpx = outline[ i ++ ] * scale + offsetX;
-						cpy = outline[ i ++ ] * scale + offsetY;
-						cpx1 = outline[ i ++ ] * scale + offsetX;
-						cpy1 = outline[ i ++ ] * scale + offsetY;
-
-						path.quadraticCurveTo( cpx1, cpy1, cpx, cpy );
-
-						break;
-
-					case 'b': // bezierCurveTo
-
-						cpx = outline[ i ++ ] * scale + offsetX;
-						cpy = outline[ i ++ ] * scale + offsetY;
-						cpx1 = outline[ i ++ ] * scale + offsetX;
-						cpy1 = outline[ i ++ ] * scale + offsetY;
-						cpx2 = outline[ i ++ ] * scale + offsetX;
-						cpy2 = outline[ i ++ ] * scale + offsetY;
-
-						path.bezierCurveTo( cpx1, cpy1, cpx2, cpy2, cpx, cpy );
-
-						break;
-
-				}
-
-			}
-
-		}
-
-		return { offsetX: glyph.ha * scale, path: path };
-
-	}
-
-	Font.prototype.isFont = true;
-
-	/**
-	 * Text = 3D Text
-	 *
-	 * parameters = {
-	 *  font: <THREE.Font>, // font
-	 *
-	 *  size: <float>, // size of the text
-	 *  height: <float>, // thickness to extrude text
-	 *  curveSegments: <int>, // number of points on the curves
-	 *
-	 *  bevelEnabled: <bool>, // turn on bevel
-	 *  bevelThickness: <float>, // how deep into text bevel goes
-	 *  bevelSize: <float>, // how far from text outline (including bevelOffset) is bevel
-	 *  bevelOffset: <float> // how far from text outline does bevel start
-	 * }
-	 */
-
-	class TextGeometry extends ExtrudeGeometry {
-
-		constructor( text, parameters = {} ) {
-
-			const font = parameters.font;
-
-			if ( ! ( font && font.isFont ) ) {
-
-				console.error( 'THREE.TextGeometry: font parameter is not an instance of THREE.Font.' );
-				return new BufferGeometry();
-
-			}
-
-			const shapes = font.generateShapes( text, parameters.size );
-
-			// translate parameters to ExtrudeGeometry API
-
-			parameters.depth = parameters.height !== undefined ? parameters.height : 50;
-
-			// defaults
-
-			if ( parameters.bevelThickness === undefined ) parameters.bevelThickness = 10;
-			if ( parameters.bevelSize === undefined ) parameters.bevelSize = 8;
-			if ( parameters.bevelEnabled === undefined ) parameters.bevelEnabled = false;
-
-			super( shapes, parameters );
-
-			this.type = 'TextGeometry';
-
-		}
 
 	}
 
@@ -52726,266 +49193,844 @@
 
 	}
 
-	async function getMesh({
-	  radius = 1,
-	  color = 'blue',
-	  side = FrontSide,
-	  segmentCounts = 30,
-	  map,
-	}) {
-	  const geometry = new SphereGeometry(
-	    radius,
-	    segmentCounts,
-	    segmentCounts
-	  );
-	  const loader = new TextureLoader();
-	  const material = new MeshStandardMaterial({
-	    color,
-	    side,
-	  });
-
-	  if (map) material.map = loader.load(map);
-
-	  const mesh = new Mesh(geometry, material);
-
-	  mesh.castShadow = true;
-	  mesh.receiveShadow = true;
-
-	  return mesh;
-	}
-
-	function addObserver$1(mesh) {
-	  const height = 0.05;
-
-	  const geometry = new ConeGeometry(0.2, height, 18);
-	  const material = new MeshStandardMaterial({
-	    color: Math.random() * 0xffffff,
-	    roughness: 0.7,
-	    metalness: 0.0,
-	  });
-	  const observer = new Mesh(geometry, material);
-	  observer.position.y = height / 2 + 0.1;
-
-	  mesh.add(observer);
-
-	  return observer;
-	}
-
-	function initControllers$1({ scene, renderer, onSelectStart, onSelectEnd }) {
-	  const controller1 = renderer.xr.getController(0);
-	  const controller2 = renderer.xr.getController(1);
-
-	  if (onSelectStart) {
-	    controller1.addEventListener('selectstart', onSelectStart);
-	    controller2.addEventListener('selectstart', onSelectStart);
-	  }
-
-	  if (onSelectEnd) {
-	    controller1.addEventListener('selectend', onSelectEnd);
-	    controller2.addEventListener('selectend', onSelectEnd);
-	  }
-
-	  scene.add(controller1);
-	  scene.add(controller2);
-
-	  const controllerModelFactory = new XRControllerModelFactory();
-
-	  const grip1 = renderer.xr.getControllerGrip(0);
-	  const grip2 = renderer.xr.getControllerGrip(1);
-
-	  grip1.add(controllerModelFactory.createControllerModel(grip1));
-	  grip2.add(controllerModelFactory.createControllerModel(grip2));
-
-	  scene.add(grip1);
-	  scene.add(grip2);
-
-	  const geometry = new BufferGeometry().setFromPoints([
-	    new Vector3(0, 0, 0),
-	    new Vector3(0, 0, -1),
-	  ]);
-	  const line = new Line(geometry);
-
-	  line.name = 'line';
-	  line.scale.z = 50;
-
-	  controller1.add(line.clone());
-	  controller2.add(line.clone());
-
-	  return {
-	    controller1,
-	    controller2,
-	    grip1,
-	    grip2,
-	  };
-	}
-
-	function initOrbits$1(camera, canvas) {
-	  const controls = new OrbitControls(camera, canvas);
-	  controls.target.set(0, 1.6, 0);
-	  controls.update();
-	}
-
-	function updateText({ text, scene, oldTextMesh, font }) {
-	  scene.remove(oldTextMesh);
-	  const textMesh = addTextMesh({ text, scene, font });
-	  scene.add(textMesh);
-	  textMesh.rotation.y = -3.2;
-	  textMesh.position.y = 1.6;
-	  textMesh.position.x = 1;
-	  textMesh.position.z = 1;
-
-	  return textMesh;
-	}
-
-	function loadFont(url) {
-	  return new Promise(resolve => {
-	    const loader = new FontLoader();
-	    loader.load(
-	      url,
-	      font => resolve(font),
-	      xhr => console.log((xhr.loaded / xhr.total) * 100 + '% loaded'),
-	      err => console.log(err)
-	    );
-	  });
-	}
-
-	function addTextMesh({ text = 'Text example', height = 1, size = 1, font }) {
-	  const textGeometry = new TextGeometry(text, {
-	    font: font,
-	    size: 0.1,
-	    height: 0.1,
-	  });
-
-	  textGeometry.computeBoundingBox();
-
-	  const textMaterial = new MeshPhongMaterial({ color: '#fff' });
-	  textMaterial.flatShading = true;
-
-	  const textMesh = new Mesh(textGeometry, textMaterial);
-	  textMesh.receiveShadow = true;
-	  textMesh.castShadow = true;
-
-	  return textMesh;
-	}
-
-	function setTexture({ maps, material }) {
-	  const textureLoader = new TextureLoader();
-
-	  maps.map &&
-	    textureLoader.load(maps.map, function (map) {
-	      map.wrapS = RepeatWrapping;
-	      map.wrapT = RepeatWrapping;
-	      map.anisotropy = 4;
-	      map.repeat.set(10, 24);
-	      map.encoding = sRGBEncoding;
-	      material.map = map;
-	      material.needsUpdate = true;
+	const getDefaultSize = () => ({
+	    width: window.innerWidth,
+	    height: window.innerHeight,
+	});
+	function createObserver() {
+	    const height = 0.05;
+	    const geometry = new ConeGeometry(0.2, height);
+	    const material = new MeshStandardMaterial({
+	        color: Math.random() * 0xffffff,
+	        roughness: 0.7,
+	        metalness: 0.0,
 	    });
-
-	  maps.bump &&
-	    textureLoader.load(maps.bump, function (map) {
-	      map.wrapS = RepeatWrapping;
-	      map.wrapT = RepeatWrapping;
-	      map.anisotropy = 4;
-	      map.repeat.set(10, 24);
-	      material.bumpMap = map;
-	      material.needsUpdate = true;
-	    });
-
-	  maps.roughness &&
-	    textureLoader.load(maps.roughness, function (map) {
-	      map.wrapS = RepeatWrapping;
-	      map.wrapT = RepeatWrapping;
-	      map.anisotropy = 4;
-	      map.repeat.set(10, 24);
-	      material.roughnessMap = map;
-	      material.needsUpdate = true;
-	    });
+	    const observer = new Mesh(geometry, material);
+	    observer.position.y = height / 2 + 0.1;
+	    return observer;
 	}
-
 	// TODO optimize (just update every loop - not create avery loop iteraetion)
-	function getCubicCurve3$1(x0, y0, z0, x2, y2, z2) {
-	  const getMiddlePoint = (first, last) => {
-	    return first + (last - first) / 2;
-	  };
-
-	  const bezierCurve3 = new CubicBezierCurve3(
-	    new Vector3(x0, y0, z0),
-	    new Vector3(
-	      getMiddlePoint(x0, x2),
-	      getMiddlePoint(y0, y2) + 1,
-	      getMiddlePoint(z0, z2)
-	    ),
-	    new Vector3(
-	      getMiddlePoint(x0, x2),
-	      getMiddlePoint(y0, y2) + 1,
-	      getMiddlePoint(z0, z2)
-	    ),
-	    new Vector3(x2, y2, z2)
-	  );
-
-	  return bezierCurve3;
-	}
-
-	function getIntersections$2(controller, objects, raycaster, tempMatrix) {
-	  tempMatrix.identity().extractRotation(controller.matrixWorld);
-
-	  raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
-	  raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
-
-	  // TODO: optimize using `raycaster.intersectObject` to stop on first intersection
-	  return raycaster.intersectObjects(objects, true);
-	}
-
-	function needUpdateRenderSize$1(renderer) {
-	  const canvas = renderer.domElement;
-	  const width = canvas.clientWidth;
-	  const height = canvas.clientHeight;
-	  const needResize = canvas.width !== width || canvas.height !== height;
-
-	  if (needResize) {
-	    renderer.setSize(width, height, false);
-	  }
-
-	  return needResize;
-	}
-
-	const generateBoxes = count => {
-	  const boxes = [];
-	  for (let i = 0; i < count; i++) {
-	    const box = {
-	      position: [
-	        Math.random() * 10 - 5,
-	        Math.random() * 10 - 5,
-	        Math.random() * 10 - 5,
-	      ],
-	      size: [Math.random() * 2, Math.random() * 2, Math.random() * 2],
-	      color: Math.random() * 0xffffff,
+	function getCubicCurve3(x0, y0, z0, x2, y2, z2) {
+	    const getMiddlePoint = (first, last) => {
+	        return first + (last - first) / 2;
 	    };
-	    boxes.push(box);
+	    const bezierCurve3 = new CubicBezierCurve3(new Vector3(x0, y0, z0), new Vector3(getMiddlePoint(x0, x2), getMiddlePoint(y0, y2) + 1, getMiddlePoint(z0, z2)), new Vector3(getMiddlePoint(x0, x2), getMiddlePoint(y0, y2) + 1, getMiddlePoint(z0, z2)), new Vector3(x2, y2, z2));
+	    return bezierCurve3;
+	}
+	function getIntersections(controller, objects, raycaster, tempMatrix) {
+	    tempMatrix.identity().extractRotation(controller.matrixWorld);
+	    raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+	    raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
+	    return raycaster.intersectObjects(objects, true); // TODO: optimize recursive search
+	}
+	function needUpdateRenderSize(renderer) {
+	    const canvas = renderer.domElement;
+	    const width = canvas.clientWidth;
+	    const height = canvas.clientHeight;
+	    const needResize = canvas.width !== width || canvas.height !== height;
+	    return needResize;
+	}
+
+	/**
+	 * @webxr-input-profiles/motion-controllers 1.0.0 https://github.com/immersive-web/webxr-input-profiles
+	 */
+
+	const Constants = {
+	  Handedness: Object.freeze({
+	    NONE: 'none',
+	    LEFT: 'left',
+	    RIGHT: 'right'
+	  }),
+
+	  ComponentState: Object.freeze({
+	    DEFAULT: 'default',
+	    TOUCHED: 'touched',
+	    PRESSED: 'pressed'
+	  }),
+
+	  ComponentProperty: Object.freeze({
+	    BUTTON: 'button',
+	    X_AXIS: 'xAxis',
+	    Y_AXIS: 'yAxis',
+	    STATE: 'state'
+	  }),
+
+	  ComponentType: Object.freeze({
+	    TRIGGER: 'trigger',
+	    SQUEEZE: 'squeeze',
+	    TOUCHPAD: 'touchpad',
+	    THUMBSTICK: 'thumbstick',
+	    BUTTON: 'button'
+	  }),
+
+	  ButtonTouchThreshold: 0.05,
+
+	  AxisTouchThreshold: 0.1,
+
+	  VisualResponseProperty: Object.freeze({
+	    TRANSFORM: 'transform',
+	    VISIBILITY: 'visibility'
+	  })
+	};
+
+	/**
+	 * @description Static helper function to fetch a JSON file and turn it into a JS object
+	 * @param {string} path - Path to JSON file to be fetched
+	 */
+	async function fetchJsonFile(path) {
+	  const response = await fetch(path);
+	  if (!response.ok) {
+	    throw new Error(response.statusText);
+	  } else {
+	    return response.json();
 	  }
-	  return boxes;
+	}
+
+	async function fetchProfilesList(basePath) {
+	  if (!basePath) {
+	    throw new Error('No basePath supplied');
+	  }
+
+	  const profileListFileName = 'profilesList.json';
+	  const profilesList = await fetchJsonFile(`${basePath}/${profileListFileName}`);
+	  return profilesList;
+	}
+
+	async function fetchProfile(xrInputSource, basePath, defaultProfile = null, getAssetPath = true) {
+	  if (!xrInputSource) {
+	    throw new Error('No xrInputSource supplied');
+	  }
+
+	  if (!basePath) {
+	    throw new Error('No basePath supplied');
+	  }
+
+	  // Get the list of profiles
+	  const supportedProfilesList = await fetchProfilesList(basePath);
+
+	  // Find the relative path to the first requested profile that is recognized
+	  let match;
+	  xrInputSource.profiles.some((profileId) => {
+	    const supportedProfile = supportedProfilesList[profileId];
+	    if (supportedProfile) {
+	      match = {
+	        profileId,
+	        profilePath: `${basePath}/${supportedProfile.path}`,
+	        deprecated: !!supportedProfile.deprecated
+	      };
+	    }
+	    return !!match;
+	  });
+
+	  if (!match) {
+	    if (!defaultProfile) {
+	      throw new Error('No matching profile name found');
+	    }
+
+	    const supportedProfile = supportedProfilesList[defaultProfile];
+	    if (!supportedProfile) {
+	      throw new Error(`No matching profile name found and default profile "${defaultProfile}" missing.`);
+	    }
+
+	    match = {
+	      profileId: defaultProfile,
+	      profilePath: `${basePath}/${supportedProfile.path}`,
+	      deprecated: !!supportedProfile.deprecated
+	    };
+	  }
+
+	  const profile = await fetchJsonFile(match.profilePath);
+
+	  let assetPath;
+	  if (getAssetPath) {
+	    let layout;
+	    if (xrInputSource.handedness === 'any') {
+	      layout = profile.layouts[Object.keys(profile.layouts)[0]];
+	    } else {
+	      layout = profile.layouts[xrInputSource.handedness];
+	    }
+	    if (!layout) {
+	      throw new Error(
+	        `No matching handedness, ${xrInputSource.handedness}, in profile ${match.profileId}`
+	      );
+	    }
+
+	    if (layout.assetPath) {
+	      assetPath = match.profilePath.replace('profile.json', layout.assetPath);
+	    }
+	  }
+
+	  return { profile, assetPath };
+	}
+
+	/** @constant {Object} */
+	const defaultComponentValues = {
+	  xAxis: 0,
+	  yAxis: 0,
+	  button: 0,
+	  state: Constants.ComponentState.DEFAULT
 	};
 
-	var helpers = {
-	  getMesh,
-	  addObserver: addObserver$1,
-	  initControllers: initControllers$1,
-	  initOrbits: initOrbits$1,
-	  updateText,
-	  loadFont,
-	  addTextMesh,
-	  setTexture,
-	  getCubicCurve3: getCubicCurve3$1,
-	  getIntersections: getIntersections$2,
-	  needUpdateRenderSize: needUpdateRenderSize$1,
-	  generateBoxes,
-	};
+	/**
+	 * @description Converts an X, Y coordinate from the range -1 to 1 (as reported by the Gamepad
+	 * API) to the range 0 to 1 (for interpolation). Also caps the X, Y values to be bounded within
+	 * a circle. This ensures that thumbsticks are not animated outside the bounds of their physical
+	 * range of motion and touchpads do not report touch locations off their physical bounds.
+	 * @param {number} x The original x coordinate in the range -1 to 1
+	 * @param {number} y The original y coordinate in the range -1 to 1
+	 */
+	function normalizeAxes(x = 0, y = 0) {
+	  let xAxis = x;
+	  let yAxis = y;
 
-	const {
-	  getCubicCurve3,
-	  getIntersections: getIntersections$1,
-	} = helpers;
+	  // Determine if the point is outside the bounds of the circle
+	  // and, if so, place it on the edge of the circle
+	  const hypotenuse = Math.sqrt((x * x) + (y * y));
+	  if (hypotenuse > 1) {
+	    const theta = Math.atan2(y, x);
+	    xAxis = Math.cos(theta);
+	    yAxis = Math.sin(theta);
+	  }
+
+	  // Scale and move the circle so values are in the interpolation range.  The circle's origin moves
+	  // from (0, 0) to (0.5, 0.5). The circle's radius scales from 1 to be 0.5.
+	  const result = {
+	    normalizedXAxis: (xAxis * 0.5) + 0.5,
+	    normalizedYAxis: (yAxis * 0.5) + 0.5
+	  };
+	  return result;
+	}
+
+	/**
+	 * Contains the description of how the 3D model should visually respond to a specific user input.
+	 * This is accomplished by initializing the object with the name of a node in the 3D model and
+	 * property that need to be modified in response to user input, the name of the nodes representing
+	 * the allowable range of motion, and the name of the input which triggers the change. In response
+	 * to the named input changing, this object computes the appropriate weighting to use for
+	 * interpolating between the range of motion nodes.
+	 */
+	class VisualResponse {
+	  constructor(visualResponseDescription) {
+	    this.componentProperty = visualResponseDescription.componentProperty;
+	    this.states = visualResponseDescription.states;
+	    this.valueNodeName = visualResponseDescription.valueNodeName;
+	    this.valueNodeProperty = visualResponseDescription.valueNodeProperty;
+
+	    if (this.valueNodeProperty === Constants.VisualResponseProperty.TRANSFORM) {
+	      this.minNodeName = visualResponseDescription.minNodeName;
+	      this.maxNodeName = visualResponseDescription.maxNodeName;
+	    }
+
+	    // Initializes the response's current value based on default data
+	    this.value = 0;
+	    this.updateFromComponent(defaultComponentValues);
+	  }
+
+	  /**
+	   * Computes the visual response's interpolation weight based on component state
+	   * @param {Object} componentValues - The component from which to update
+	   * @param {number} xAxis - The reported X axis value of the component
+	   * @param {number} yAxis - The reported Y axis value of the component
+	   * @param {number} button - The reported value of the component's button
+	   * @param {string} state - The component's active state
+	   */
+	  updateFromComponent({
+	    xAxis, yAxis, button, state
+	  }) {
+	    const { normalizedXAxis, normalizedYAxis } = normalizeAxes(xAxis, yAxis);
+	    switch (this.componentProperty) {
+	      case Constants.ComponentProperty.X_AXIS:
+	        this.value = (this.states.includes(state)) ? normalizedXAxis : 0.5;
+	        break;
+	      case Constants.ComponentProperty.Y_AXIS:
+	        this.value = (this.states.includes(state)) ? normalizedYAxis : 0.5;
+	        break;
+	      case Constants.ComponentProperty.BUTTON:
+	        this.value = (this.states.includes(state)) ? button : 0;
+	        break;
+	      case Constants.ComponentProperty.STATE:
+	        if (this.valueNodeProperty === Constants.VisualResponseProperty.VISIBILITY) {
+	          this.value = (this.states.includes(state));
+	        } else {
+	          this.value = this.states.includes(state) ? 1.0 : 0.0;
+	        }
+	        break;
+	      default:
+	        throw new Error(`Unexpected visualResponse componentProperty ${this.componentProperty}`);
+	    }
+	  }
+	}
+
+	class Component {
+	  /**
+	   * @param {Object} componentId - Id of the component
+	   * @param {Object} componentDescription - Description of the component to be created
+	   */
+	  constructor(componentId, componentDescription) {
+	    if (!componentId
+	     || !componentDescription
+	     || !componentDescription.visualResponses
+	     || !componentDescription.gamepadIndices
+	     || Object.keys(componentDescription.gamepadIndices).length === 0) {
+	      throw new Error('Invalid arguments supplied');
+	    }
+
+	    this.id = componentId;
+	    this.type = componentDescription.type;
+	    this.rootNodeName = componentDescription.rootNodeName;
+	    this.touchPointNodeName = componentDescription.touchPointNodeName;
+
+	    // Build all the visual responses for this component
+	    this.visualResponses = {};
+	    Object.keys(componentDescription.visualResponses).forEach((responseName) => {
+	      const visualResponse = new VisualResponse(componentDescription.visualResponses[responseName]);
+	      this.visualResponses[responseName] = visualResponse;
+	    });
+
+	    // Set default values
+	    this.gamepadIndices = Object.assign({}, componentDescription.gamepadIndices);
+
+	    this.values = {
+	      state: Constants.ComponentState.DEFAULT,
+	      button: (this.gamepadIndices.button !== undefined) ? 0 : undefined,
+	      xAxis: (this.gamepadIndices.xAxis !== undefined) ? 0 : undefined,
+	      yAxis: (this.gamepadIndices.yAxis !== undefined) ? 0 : undefined
+	    };
+	  }
+
+	  get data() {
+	    const data = { id: this.id, ...this.values };
+	    return data;
+	  }
+
+	  /**
+	   * @description Poll for updated data based on current gamepad state
+	   * @param {Object} gamepad - The gamepad object from which the component data should be polled
+	   */
+	  updateFromGamepad(gamepad) {
+	    // Set the state to default before processing other data sources
+	    this.values.state = Constants.ComponentState.DEFAULT;
+
+	    // Get and normalize button
+	    if (this.gamepadIndices.button !== undefined
+	        && gamepad.buttons.length > this.gamepadIndices.button) {
+	      const gamepadButton = gamepad.buttons[this.gamepadIndices.button];
+	      this.values.button = gamepadButton.value;
+	      this.values.button = (this.values.button < 0) ? 0 : this.values.button;
+	      this.values.button = (this.values.button > 1) ? 1 : this.values.button;
+
+	      // Set the state based on the button
+	      if (gamepadButton.pressed || this.values.button === 1) {
+	        this.values.state = Constants.ComponentState.PRESSED;
+	      } else if (gamepadButton.touched || this.values.button > Constants.ButtonTouchThreshold) {
+	        this.values.state = Constants.ComponentState.TOUCHED;
+	      }
+	    }
+
+	    // Get and normalize x axis value
+	    if (this.gamepadIndices.xAxis !== undefined
+	        && gamepad.axes.length > this.gamepadIndices.xAxis) {
+	      this.values.xAxis = gamepad.axes[this.gamepadIndices.xAxis];
+	      this.values.xAxis = (this.values.xAxis < -1) ? -1 : this.values.xAxis;
+	      this.values.xAxis = (this.values.xAxis > 1) ? 1 : this.values.xAxis;
+
+	      // If the state is still default, check if the xAxis makes it touched
+	      if (this.values.state === Constants.ComponentState.DEFAULT
+	        && Math.abs(this.values.xAxis) > Constants.AxisTouchThreshold) {
+	        this.values.state = Constants.ComponentState.TOUCHED;
+	      }
+	    }
+
+	    // Get and normalize Y axis value
+	    if (this.gamepadIndices.yAxis !== undefined
+	        && gamepad.axes.length > this.gamepadIndices.yAxis) {
+	      this.values.yAxis = gamepad.axes[this.gamepadIndices.yAxis];
+	      this.values.yAxis = (this.values.yAxis < -1) ? -1 : this.values.yAxis;
+	      this.values.yAxis = (this.values.yAxis > 1) ? 1 : this.values.yAxis;
+
+	      // If the state is still default, check if the yAxis makes it touched
+	      if (this.values.state === Constants.ComponentState.DEFAULT
+	        && Math.abs(this.values.yAxis) > Constants.AxisTouchThreshold) {
+	        this.values.state = Constants.ComponentState.TOUCHED;
+	      }
+	    }
+
+	    // Update the visual response weights based on the current component data
+	    Object.values(this.visualResponses).forEach((visualResponse) => {
+	      visualResponse.updateFromComponent(this.values);
+	    });
+	  }
+	}
+
+	/**
+	  * @description Builds a motion controller with components and visual responses based on the
+	  * supplied profile description. Data is polled from the xrInputSource's gamepad.
+	  * @author Nell Waliczek / https://github.com/NellWaliczek
+	*/
+	class MotionController {
+	  /**
+	   * @param {Object} xrInputSource - The XRInputSource to build the MotionController around
+	   * @param {Object} profile - The best matched profile description for the supplied xrInputSource
+	   * @param {Object} assetUrl
+	   */
+	  constructor(xrInputSource, profile, assetUrl) {
+	    if (!xrInputSource) {
+	      throw new Error('No xrInputSource supplied');
+	    }
+
+	    if (!profile) {
+	      throw new Error('No profile supplied');
+	    }
+
+	    this.xrInputSource = xrInputSource;
+	    this.assetUrl = assetUrl;
+	    this.id = profile.profileId;
+
+	    // Build child components as described in the profile description
+	    this.layoutDescription = profile.layouts[xrInputSource.handedness];
+	    this.components = {};
+	    Object.keys(this.layoutDescription.components).forEach((componentId) => {
+	      const componentDescription = this.layoutDescription.components[componentId];
+	      this.components[componentId] = new Component(componentId, componentDescription);
+	    });
+
+	    // Initialize components based on current gamepad state
+	    this.updateFromGamepad();
+	  }
+
+	  get gripSpace() {
+	    return this.xrInputSource.gripSpace;
+	  }
+
+	  get targetRaySpace() {
+	    return this.xrInputSource.targetRaySpace;
+	  }
+
+	  /**
+	   * @description Returns a subset of component data for simplified debugging
+	   */
+	  get data() {
+	    const data = [];
+	    Object.values(this.components).forEach((component) => {
+	      data.push(component.data);
+	    });
+	    return data;
+	  }
+
+	  /**
+	   * @description Poll for updated data based on current gamepad state
+	   */
+	  updateFromGamepad() {
+	    Object.values(this.components).forEach((component) => {
+	      component.updateFromGamepad(this.xrInputSource.gamepad);
+	    });
+	  }
+	}
+
+	const DEFAULT_PROFILES_PATH = 'https://cdn.jsdelivr.net/npm/@webxr-input-profiles/assets@1.0/dist/profiles';
+	const DEFAULT_PROFILE = 'generic-trigger';
+
+	class XRControllerModel extends Object3D {
+
+		constructor() {
+
+			super();
+
+			this.motionController = null;
+			this.envMap = null;
+
+		}
+
+		setEnvironmentMap( envMap ) {
+
+			if ( this.envMap == envMap ) {
+
+				return this;
+
+			}
+
+			this.envMap = envMap;
+			this.traverse( ( child ) => {
+
+				if ( child.isMesh ) {
+
+					child.material.envMap = this.envMap;
+					child.material.needsUpdate = true;
+
+				}
+
+			} );
+
+			return this;
+
+		}
+
+		/**
+		 * Polls data from the XRInputSource and updates the model's components to match
+		 * the real world data
+		 */
+		updateMatrixWorld( force ) {
+
+			super.updateMatrixWorld( force );
+
+			if ( ! this.motionController ) return;
+
+			// Cause the MotionController to poll the Gamepad for data
+			this.motionController.updateFromGamepad();
+
+			// Update the 3D model to reflect the button, thumbstick, and touchpad state
+			Object.values( this.motionController.components ).forEach( ( component ) => {
+
+				// Update node data based on the visual responses' current states
+				Object.values( component.visualResponses ).forEach( ( visualResponse ) => {
+
+					const { valueNode, minNode, maxNode, value, valueNodeProperty } = visualResponse;
+
+					// Skip if the visual response node is not found. No error is needed,
+					// because it will have been reported at load time.
+					if ( ! valueNode ) return;
+
+					// Calculate the new properties based on the weight supplied
+					if ( valueNodeProperty === Constants.VisualResponseProperty.VISIBILITY ) {
+
+						valueNode.visible = value;
+
+					} else if ( valueNodeProperty === Constants.VisualResponseProperty.TRANSFORM ) {
+
+						valueNode.quaternion.slerpQuaternions(
+							minNode.quaternion,
+							maxNode.quaternion,
+							value
+						);
+
+						valueNode.position.lerpVectors(
+							minNode.position,
+							maxNode.position,
+							value
+						);
+
+					}
+
+				} );
+
+			} );
+
+		}
+
+	}
+
+	/**
+	 * Walks the model's tree to find the nodes needed to animate the components and
+	 * saves them to the motionContoller components for use in the frame loop. When
+	 * touchpads are found, attaches a touch dot to them.
+	 */
+	function findNodes( motionController, scene ) {
+
+		// Loop through the components and find the nodes needed for each components' visual responses
+		Object.values( motionController.components ).forEach( ( component ) => {
+
+			const { type, touchPointNodeName, visualResponses } = component;
+
+			if ( type === Constants.ComponentType.TOUCHPAD ) {
+
+				component.touchPointNode = scene.getObjectByName( touchPointNodeName );
+				if ( component.touchPointNode ) {
+
+					// Attach a touch dot to the touchpad.
+					const sphereGeometry = new SphereGeometry( 0.001 );
+					const material = new MeshBasicMaterial( { color: 0x0000FF } );
+					const sphere = new Mesh( sphereGeometry, material );
+					component.touchPointNode.add( sphere );
+
+				} else {
+
+					console.warn( `Could not find touch dot, ${component.touchPointNodeName}, in touchpad component ${component.id}` );
+
+				}
+
+			}
+
+			// Loop through all the visual responses to be applied to this component
+			Object.values( visualResponses ).forEach( ( visualResponse ) => {
+
+				const { valueNodeName, minNodeName, maxNodeName, valueNodeProperty } = visualResponse;
+
+				// If animating a transform, find the two nodes to be interpolated between.
+				if ( valueNodeProperty === Constants.VisualResponseProperty.TRANSFORM ) {
+
+					visualResponse.minNode = scene.getObjectByName( minNodeName );
+					visualResponse.maxNode = scene.getObjectByName( maxNodeName );
+
+					// If the extents cannot be found, skip this animation
+					if ( ! visualResponse.minNode ) {
+
+						console.warn( `Could not find ${minNodeName} in the model` );
+						return;
+
+					}
+
+					if ( ! visualResponse.maxNode ) {
+
+						console.warn( `Could not find ${maxNodeName} in the model` );
+						return;
+
+					}
+
+				}
+
+				// If the target node cannot be found, skip this animation
+				visualResponse.valueNode = scene.getObjectByName( valueNodeName );
+				if ( ! visualResponse.valueNode ) {
+
+					console.warn( `Could not find ${valueNodeName} in the model` );
+
+				}
+
+			} );
+
+		} );
+
+	}
+
+	function addAssetSceneToControllerModel( controllerModel, scene ) {
+
+		// Find the nodes needed for animation and cache them on the motionController.
+		findNodes( controllerModel.motionController, scene );
+
+		// Apply any environment map that the mesh already has set.
+		if ( controllerModel.envMap ) {
+
+			scene.traverse( ( child ) => {
+
+				if ( child.isMesh ) {
+
+					child.material.envMap = controllerModel.envMap;
+					child.material.needsUpdate = true;
+
+				}
+
+			} );
+
+		}
+
+		// Add the glTF scene to the controllerModel.
+		controllerModel.add( scene );
+
+	}
+
+	class XRControllerModelFactory {
+
+		constructor( gltfLoader = null ) {
+
+			this.gltfLoader = gltfLoader;
+			this.path = DEFAULT_PROFILES_PATH;
+			this._assetCache = {};
+
+			// If a GLTFLoader wasn't supplied to the constructor create a new one.
+			if ( ! this.gltfLoader ) {
+
+				this.gltfLoader = new GLTFLoader();
+
+			}
+
+		}
+
+		createControllerModel( controller ) {
+
+			const controllerModel = new XRControllerModel();
+			let scene = null;
+
+			controller.addEventListener( 'connected', ( event ) => {
+
+				const xrInputSource = event.data;
+
+				if ( xrInputSource.targetRayMode !== 'tracked-pointer' || ! xrInputSource.gamepad ) return;
+
+				fetchProfile( xrInputSource, this.path, DEFAULT_PROFILE ).then( ( { profile, assetPath } ) => {
+
+					controllerModel.motionController = new MotionController(
+						xrInputSource,
+						profile,
+						assetPath
+					);
+
+					const cachedAsset = this._assetCache[ controllerModel.motionController.assetUrl ];
+					if ( cachedAsset ) {
+
+						scene = cachedAsset.scene.clone();
+
+						addAssetSceneToControllerModel( controllerModel, scene );
+
+					} else {
+
+						if ( ! this.gltfLoader ) {
+
+							throw new Error( 'GLTFLoader not set.' );
+
+						}
+
+						this.gltfLoader.setPath( '' );
+						this.gltfLoader.load( controllerModel.motionController.assetUrl, ( asset ) => {
+
+							this._assetCache[ controllerModel.motionController.assetUrl ] = asset;
+
+							scene = asset.scene.clone();
+
+							addAssetSceneToControllerModel( controllerModel, scene );
+
+						},
+						null,
+						() => {
+
+							throw new Error( `Asset ${controllerModel.motionController.assetUrl} missing or malformed.` );
+
+						} );
+
+					}
+
+				} ).catch( ( err ) => {
+
+					console.warn( err );
+
+				} );
+
+			} );
+
+			controller.addEventListener( 'disconnected', () => {
+
+				controllerModel.motionController = null;
+				controllerModel.remove( scene );
+				scene = null;
+
+			} );
+
+			return controllerModel;
+
+		}
+
+	}
+
+	const controllerModelFactory = new XRControllerModelFactory();
+	class Controllers {
+	    params;
+	    renderer;
+	    scene;
+	    observer;
+	    line;
+	    raycaster = new Raycaster();
+	    tempMatrix = new Matrix4();
+	    controllers = [];
+	    gamepads = [];
+	    gmapadConnectedListeners = [[], []];
+	    lastIntersected = null;
+	    intersectionsObjectCallbacks = []; // by controller index
+	    listeners = {
+	        pointerenter: [],
+	        pointerleave: [],
+	    };
+	    constructor(renderer, observer, params) {
+	        this.renderer = renderer;
+	        this.observer = observer;
+	        this.params = params;
+	        this.initLine();
+	        this.createController(0);
+	        this.createController(1);
+	    }
+	    initLine() {
+	        const geometry = new BufferGeometry().setFromPoints([
+	            new Vector3(0, 0, 0),
+	            new Vector3(0, 0, -1),
+	        ]);
+	        this.line = new Line(geometry);
+	        this.line.name = 'line'; // TODO: remove
+	        this.line.scale.z = 50;
+	    }
+	    get showRay() {
+	        return this.params?.showRay !== false;
+	    }
+	    createController(index) {
+	        const controller = this.renderer.xr.getController(index);
+	        const grip = this.renderer.xr.getControllerGrip(index);
+	        if (this.showRay)
+	            controller.add(this.line.clone());
+	        this.controllers[index] = controller;
+	        grip.add(controllerModelFactory.createControllerModel(grip));
+	        grip.addEventListener('connected', e => {
+	            const { gamepad } = e.data;
+	            this.gamepads[index] = gamepad;
+	            this.gmapadConnectedListeners[index].forEach(l => l(gamepad));
+	            this.gmapadConnectedListeners[index] = [];
+	        });
+	        this.observer.add(controller);
+	        this.observer.add(grip);
+	    }
+	    onGamepadConnected(index, callback) {
+	        this.gmapadConnectedListeners[index].push(callback);
+	    }
+	    getIntersections(controllerIndex, objects) {
+	        if (!objects.length)
+	            return [];
+	        return getIntersections(this.controllers[controllerIndex], objects, this.raycaster, this.tempMatrix);
+	    }
+	    createListener = (cb, controllerIndex, objects) => {
+	        if (!objects)
+	            return cb;
+	        return () => {
+	            const intersections = this.getIntersections(controllerIndex, objects);
+	            if (intersections[0])
+	                cb(intersections[0]);
+	        };
+	    };
+	    on(controllerIndex, event, callback, objects) {
+	        if (event === 'pointerenter' || event === 'pointerleave') {
+	            objects.forEach(obj => {
+	                let map = this.intersectionsObjectCallbacks[controllerIndex];
+	                if (!map)
+	                    map = this.intersectionsObjectCallbacks[controllerIndex] = new Map();
+	                if (!map.get(obj)) {
+	                    map.set(obj, {
+	                        pointerenter: [],
+	                        pointerleave: [],
+	                    });
+	                }
+	                const items = map.get(obj);
+	                items[event].push(callback);
+	            });
+	            return;
+	        }
+	        // if (/pointerenter|pointerleave/.test(event)) {
+	        //   const items = this.listeners[event];
+	        //   if (!items.includes(cb)) items.push(cb);
+	        //   return;
+	        // }
+	        const cb = this.createListener(callback, controllerIndex, objects);
+	        this.controllers[controllerIndex].addEventListener(event, cb);
+	    }
+	    off(event, callback) {
+	        this.controllers.forEach(c => c.removeEventListener(event, callback));
+	    }
+	    updateIntersections() {
+	        this.intersectionsObjectCallbacks.forEach((map, i) => {
+	            const objects = [...map.keys()];
+	            const obj = this.getIntersections(i, objects)[0]?.object;
+	            if (obj) {
+	                if (obj !== this.lastIntersected) {
+	                    this.lastIntersected = obj;
+	                    map.get(obj)?.pointerenter.forEach(l => l(obj));
+	                }
+	            }
+	            else {
+	                map
+	                    .get(this.lastIntersected)
+	                    ?.pointerleave.forEach(l => l(this.lastIntersected));
+	                this.lastIntersected = null;
+	            }
+	        });
+	    }
+	    update() {
+	        this.updateIntersections();
+	    }
+	}
 
 	const getTeleportTarget = () => {
 	  const mesh = new Mesh(
@@ -52997,82 +50042,61 @@
 	  return mesh;
 	};
 
-	const getTeleportRay = () => {
-	  const bezierCurve = getCubicCurve3(0, 0, 0, -5, -5, -5);
+	const getRay = () => {
+	  const curve = getCubicCurve3(0, 0, 0, -5, -5, -5);
 
 	  return new Line(
-	    new BufferGeometry().setFromPoints(bezierCurve.getPoints(50)),
+	    new BufferGeometry().setFromPoints(curve.getPoints(50)),
 	    new LineBasicMaterial({ color: 0xff0000 })
 	  );
 	};
 
 	class Teleportation {
-	  constructor({
-	    scene,
-	    targets,
-	    observer,
-	    controller,
-	  }) {
+	  ray = null;
+	  target = null;
+	  curve = null;
+	  gamepadReady = false;
+	  step = 0.05;
+	  rotationStep = 0.03;
+	  rotationThreshold = 0.15;
+	  progress = 0;
+	  controllerIndex = 1;
+
+	  constructor({ scene, observer, controllers, params }) {
 	    this.scene = scene;
-	    this.targets = targets;
+	    this.params = params;
 	    this.observer = observer;
-	    this.controller = controller;
-	    this.teleportRay = null;
-	    this.teleportTarget = null;
-	    this.flyingInProgress = false;
-	    this.teleportProgress = 0;
-	    this.bezierCurve = null;
+	    this.controllers = controllers;
 
 	    this.raycaster = new Raycaster();
 	    this.tempMatrix = new Matrix4();
+
+	    controllers.on(
+	      this.controllerIndex,
+	      'selectstart',
+	      this.fly,
+	      params.targets
+	    );
+	    controllers.onGamepadConnected(
+	      this.controllerIndex,
+	      () => (this.gamepadReady = true)
+	    );
 	  }
 
-	  toggleTeleportGeometry = (button, axes = []) => {
-	    const [,,,yAmplitide] = axes;
-	    const visible = yAmplitide < -0.5;
-
-	    if (visible) {
-	     this.showTeleportGeometry();
-	    } else {
-	      this.hideTeleportGeometry();
+	  fly = () => {
+	    if (this.ray && this.target) {
+	      this.progress += this.step;
 	    }
-	  }
+	  };
 
-	  showTeleportGeometry = () => {
-	    if (this.teleportRay && this.teleportTarget) {
-	      return;
-	    }
-
-	    this.teleportTarget = getTeleportTarget();
-	    this.scene.add(this.teleportTarget);
-
-	    this.teleportRay = getTeleportRay();
-	    this.scene.add(this.teleportRay);
-	  }
-
-	  hideTeleportGeometry = () => {
-	    this.scene.remove(this.teleportTarget);
-	    this.scene.remove(this.teleportRay);
-
-	    this.teleportProgress = 0;
-	    this.flyingInProgress = false;
-	    this.teleportRay = null;
-	    this.teleportTarget = null;
-	    this.bezierCurve = null;
-	  }
-
-	  startTeleportation = () => {
-	    if (this.teleportRay && this.teleportTarget) {
-	      this.flyingInProgress = true; 
-	    }
+	  getGamepad() {
+	    return this.controllers.gamepads[this.controllerIndex]; // right gamepad
 	  }
 
 	  updateTeleportGeometry = () => {
-	    const { teleportTarget, observer } = this;
-
-	    const intersects = getIntersections$1(
-	      this.controller,
-	      this.targets,
+	    const intersects = getIntersections(
+	      this.controllers.controllers[this.controllerIndex],
+	      this.params.targets,
 	      this.raycaster,
 	      this.tempMatrix
 	    );
@@ -53080,584 +50104,426 @@
 
 	    if (!intersected) return;
 
-	    const newCubicBezierCurve = getCubicCurve3(
-	      observer.position.x,
-	      observer.position.y,
-	      observer.position.z,
-	      teleportTarget.position.x,
-	      teleportTarget.position.y,
-	      teleportTarget.position.z
-	    );
-
-	    this.updateRayGeometry(newCubicBezierCurve);
+	    this.updateRayGeometry();
 	    this.updateTargetGeometry(intersected);
-	  }
+	  };
 
-	  updateRayGeometry(newCubicBezierCurve) {
-	    this.teleportRay.geometry = new BufferGeometry().setFromPoints(
-	      newCubicBezierCurve.getPoints(50)
+	  updateRayGeometry() {
+	    const curve = getCubicCurve3(
+	      this.observer.position.x,
+	      this.observer.position.y,
+	      this.observer.position.z,
+	      this.target.position.x,
+	      this.target.position.y,
+	      this.target.position.z
 	    );
-	    this.teleportRay.geometry.buffersNeedUpdate = true;
+	    const points = curve.getPoints(50);
 
-	    this.bezierCurve = newCubicBezierCurve;
+	    this.ray.geometry = new BufferGeometry().setFromPoints(points);
+	    this.ray.geometry.buffersNeedUpdate = true;
+
+	    this.curve = curve;
 	  }
 
 	  updateTargetGeometry({ point }) {
-	    this.teleportTarget.position.set(point.x, point.y + 0.02, point.z);
+	    this.target.position.set(point.x, point.y + 0.02, point.z);
 	  }
 
 	  updateObserverPosition = () => {
-	    if (this.teleportProgress < 1) {
-	      this.observer.position.copy(this.bezierCurve.getPointAt(this.teleportProgress));
-	      this.teleportProgress += 0.1;   
-	    } else {
-	      // TODO stop teleportation but keep geometry
-	      // TODO teleportation should be triggered on select event (not selectstart)
-	      // this.hideTeleportGeometry()
-	      this.flyingInProgress = false;
-	      this.teleportProgress = 0;
+	    if (this.progress >= 1) {
+	      this.progress = 0;
+	      return;
 	    }
+
+	    this.observer.position.copy(this.curve.getPointAt(this.progress));
+	    this.progress += this.step;
 	  };
 
-	  // this is called in the main update loop
-	  update = () => {
-	    if (this.flyingInProgress && this.teleportRay) {
-	      this.updateObserverPosition();
-	    }
+	  updateObserverRotation() {
+	    if (!this.gamepadReady) return;
 
-	    if (!this.flyingInProgress && this.teleportRay) {
-	      this.updateTeleportGeometry();
+	    const { buttons, axes } = this.getGamepad();
+	    const stickButton = buttons?.[3];
+
+	    if (!stickButton?.touched) return;
+
+	    const [, , xAmplitude] = axes;
+	    const { rotation } = this.observer;
+
+	    if (xAmplitude > this.rotationThreshold) rotation.y -= this.rotationStep;
+	    if (xAmplitude < -this.rotationThreshold) rotation.y += this.rotationStep;
+	  }
+
+	  showTeleportGeometry = () => {
+	    if (this.ray && this.target) return;
+
+	    this.target = getTeleportTarget();
+	    this.scene.add(this.target);
+
+	    this.ray = getRay();
+	    this.scene.add(this.ray);
+	  };
+
+	  hideTeleportGeometry = () => {
+	    if (!this.ray || !this.target) return;
+
+	    this.scene.remove(this.ray);
+	    this.scene.remove(this.target);
+
+	    this.ray = null;
+	    this.target = null;
+	    this.curve = null;
+	    this.progress = 0;
+	  };
+
+	  updateGeometryVisibility() {
+	    if (!this.gamepadReady) return;
+
+	    const [, , , yAmplitide] = this.getGamepad().axes;
+	    const visible = yAmplitide < -0.5;
+
+	    if (visible) {
+	      this.showTeleportGeometry();
+	    } else {
+	      this.hideTeleportGeometry();
+	    }
+	  }
+
+	  update() {
+	    this.updateGeometryVisibility();
+	    this.updateObserverRotation();
+
+	    if (this.ray) {
+	      if (this.progress > 0) {
+	        this.updateObserverPosition();
+	      } else {
+	        // TODO: support selecting next target when flying
+	        this.updateTeleportGeometry();
+	      }
 	    }
 	  }
 	}
-
-	class VRButton {
-
-		static createButton( renderer, options ) {
-
-			if ( options ) {
-
-				console.error( 'THREE.VRButton: The "options" parameter has been removed. Please set the reference space type via renderer.xr.setReferenceSpaceType() instead.' );
-
-			}
-
-			const button = document.createElement( 'button' );
-
-			function showEnterVR( /*device*/ ) {
-
-				let currentSession = null;
-
-				async function onSessionStarted( session ) {
-
-					session.addEventListener( 'end', onSessionEnded );
-
-					await renderer.xr.setSession( session );
-					button.textContent = 'EXIT VR';
-
-					currentSession = session;
-
-				}
-
-				function onSessionEnded( /*event*/ ) {
-
-					currentSession.removeEventListener( 'end', onSessionEnded );
-
-					button.textContent = 'ENTER VR';
-
-					currentSession = null;
-
-				}
-
-				//
-
-				button.style.display = '';
-
-				button.style.cursor = 'pointer';
-				button.style.left = 'calc(50% - 50px)';
-				button.style.width = '100px';
-
-				button.textContent = 'ENTER VR';
-
-				button.onmouseenter = function () {
-
-					button.style.opacity = '1.0';
-
-				};
-
-				button.onmouseleave = function () {
-
-					button.style.opacity = '0.5';
-
-				};
-
-				button.onclick = function () {
-
-					if ( currentSession === null ) {
-
-						// WebXR's requestReferenceSpace only works if the corresponding feature
-						// was requested at session creation time. For simplicity, just ask for
-						// the interesting ones as optional features, but be aware that the
-						// requestReferenceSpace call will fail if it turns out to be unavailable.
-						// ('local' is always available for immersive sessions and doesn't need to
-						// be requested separately.)
-
-						const sessionInit = { optionalFeatures: [ 'local-floor', 'bounded-floor', 'hand-tracking', 'layers' ] };
-						navigator.xr.requestSession( 'immersive-vr', sessionInit ).then( onSessionStarted );
-
-					} else {
-
-						currentSession.end();
-
-					}
-
-				};
-
-			}
-
-			function disableButton() {
-
-				button.style.display = '';
-
-				button.style.cursor = 'auto';
-				button.style.left = 'calc(50% - 75px)';
-				button.style.width = '150px';
-
-				button.onmouseenter = null;
-				button.onmouseleave = null;
-
-				button.onclick = null;
-
-			}
-
-			function showWebXRNotFound() {
-
-				disableButton();
-
-				button.textContent = 'VR NOT SUPPORTED';
-
-			}
-
-			function stylizeElement( element ) {
-
-				element.style.position = 'absolute';
-				element.style.bottom = '20px';
-				element.style.padding = '12px 6px';
-				element.style.border = '1px solid #fff';
-				element.style.borderRadius = '4px';
-				element.style.background = 'rgba(0,0,0,0.1)';
-				element.style.color = '#fff';
-				element.style.font = 'normal 13px sans-serif';
-				element.style.textAlign = 'center';
-				element.style.opacity = '0.5';
-				element.style.outline = 'none';
-				element.style.zIndex = '999';
-
-			}
-
-			if ( 'xr' in navigator ) {
-
-				button.id = 'VRButton';
-				button.style.display = 'none';
-
-				stylizeElement( button );
-
-				navigator.xr.isSessionSupported( 'immersive-vr' ).then( function ( supported ) {
-
-					supported ? showEnterVR() : showWebXRNotFound();
-
-				} );
-
-				return button;
-
-			} else {
-
-				const message = document.createElement( 'a' );
-
-				if ( window.isSecureContext === false ) {
-
-					message.href = document.location.href.replace( /^http:/, 'https:' );
-					message.innerHTML = 'WEBXR NEEDS HTTPS'; // TODO Improve message
-
-				} else {
-
-					message.href = 'https://immersiveweb.dev/';
-					message.innerHTML = 'WEBXR NOT AVAILABLE';
-
-				}
-
-				message.style.left = 'calc(50% - 90px)';
-				message.style.width = '180px';
-				message.style.textDecoration = 'none';
-
-				stylizeElement( message );
-
-				return message;
-
-			}
-
-		}
-
-	}
-
-	const {
-	  addObserver,
-	  initControllers,
-	  initOrbits,
-	  getIntersections,
-	  needUpdateRenderSize,
-	} = helpers;
 
 	class DefaultScene {
-	  isXREnabled = 'xr' in window.navigator;
-
-	  updaters = [];
-	  callbacks = {
-	    onSelectStart: [],
-	    onSelectEnd: [],
-	    onSticksEvents: [],
-	  };
-
-	  constructor(params = {}) {
-	    this.params = params;
-
-	    this.renderer = this.getRenderer();
-	    params.configureRenderer?.(this.renderer);
-
-	    this.scene = this.getScene(this.renderer);
-	    params.configureScene?.(this.scene);
-
-	    this.observer = this.getObserver();
-	    this.scene.add(this.observer);
-
-	    // camera
-	    this.camera = params.camera || this.getCamera();
-	    this.observer.add(this.camera);
-
-	    // create raycaster
-	    this.raycaster = new Raycaster();
-	    this.tempMatrix = new Matrix4();
-
-	    const { controller1, controller2, grip1, grip2 } = initControllers({
-	      scene: this.observer,
-	      onSelectStart: this.onSelectStart,
-	      onSelectEnd: this.onSelectEnd,
-	      renderer: this.renderer,
-	    });
-
-	    grip1.addEventListener('connected', e => {
-	      this.gamepad1 = e.data.gamepad;
-	    });
-
-	    grip2.addEventListener('connected', e => {
-	      console.log('grip2');
-	      this.gamepad2 = e.data.gamepad;
-	    });
-
-	    this.observer.add(controller1);
-	    this.observer.add(controller2);
-
-	    this.controller1 = controller1;
-	    this.controller2 = controller2;
-
-	    params.onReady?.(this);
-
-	    // run //
-
-	    if (this.isXREnabled) {
-	      this.renderer.xr.enabled = true;
-	      document.body.appendChild(VRButton.createButton(this.renderer));
+	    isXREnabled = true; //'xr' in window.navigator;
+	    params;
+	    renderer;
+	    scene;
+	    camera;
+	    controllers;
+	    teleportation;
+	    observer;
+	    orbitControls;
+	    gltfLoader;
+	    updaters = [];
+	    callbacks = {
+	        onSelectStart: [],
+	        onSelectEnd: [],
+	        onSticksEvents: [],
+	    };
+	    constructor(params = {}) {
+	        this.params = params;
+	        this.initRenderer();
+	        this.initScene();
+	        this.initObserver();
+	        this.initCamera();
+	        this.initOrbitControls();
+	        this.initControllers(params.controllers);
+	        this.initTeleportation(params.teleportation);
+	        params.onReady?.(this);
+	        if (this.isXREnabled) {
+	            this.renderer.xr.enabled = true;
+	            document.body.appendChild(VRButton.createButton(this.renderer));
+	        }
+	        if (this.isXREnabled) {
+	            this.renderer.setAnimationLoop(this.update);
+	        }
+	        if (!this.isXREnabled) {
+	            requestAnimationFrame(this.update);
+	        }
 	    }
-
-	    if (this.isXREnabled) {
-	      this.renderer.setAnimationLoop(this.update);
+	    initRenderer() {
+	        const { configure, pixelRatio, size = getDefaultSize(), ...rest } = this.params.renderer || {};
+	        this.renderer = new WebGLRenderer(rest);
+	        this.renderer.setPixelRatio(window.devicePixelRatio);
+	        this.renderer.setSize(size.width, size.height);
+	        this.renderer.outputEncoding = sRGBEncoding;
+	        configure?.(this.renderer);
 	    }
-
-	    if (!this.isXREnabled) {
-	      requestAnimationFrame(this.update);
+	    initScene() {
+	        this.scene = new Scene();
 	    }
-	  }
-
-	  initOrbits = () => initOrbits(this.camera, this.renderer.domElement);
-
-	  loadModel({ url, onSuccess, onProgress, onError, position, scale }) {
-	    if (!this.gltfLoader) this.gltfLoader = new GLTFLoader();
-
-	    this.gltfLoader.load(
-	      url,
-	      gltf => {
-	        const obj = new Object3D();
-
-	        if (position) gltf.scene.position.set(...position);
-	        if (scale) gltf.scene.scale.set(...scale);
-
-	        obj.add(gltf.scene);
-	        this.scene.add(obj);
-
-	        onSuccess?.(gltf);
-	      },
-	      onProgress,
-	      onError
-	    );
-	  }
-
-	  addAudio({ url, targetMesh, listenerMeshes, onLoad }) {
-	    const listener = new AudioListener();
-	    const sound = new PositionalAudio(listener);
-	    const audioLoader = new AudioLoader();
-
-	    audioLoader.load(url, buffer => {
-	      sound.setBuffer(buffer);
-	      targetMesh.add(sound);
-	      onLoad(sound, listener);
-	      listenerMeshes?.forEach(mesh => mesh.add(listener));
-	    });
-	  }
-
-	  setAspect() {
-	    if (needUpdateRenderSize(this.renderer)) {
-	      const { clientWidth, clientHeight } = this.params.canvas;
-	      this.camera.aspect = clientWidth / clientHeight;
-	      this.camera.updateProjectionMatrix();
+	    initObserver() {
+	        const { configure } = this.params.observer || {};
+	        this.observer = createObserver();
+	        configure?.(this.observer);
+	        this.scene.add(this.observer);
 	    }
-	  }
-
-	  onSelectStart = e => {
-	    this.callbacks.onSelectStart?.forEach(callback => callback(e));
-	  };
-
-	  onSelectEnd = e => {
-	    this.callbacks.onSelectEnd?.forEach(callback => callback(e));
-	  };
-
-	  getStage() {
-	    return new Group();
-	  }
-
-	  getRenderer() {
-	    const { canvas } = this.params;
-	    return new WebGLRenderer({ canvas, antialias: true });
-	  }
-
-	  getScene(renderer) {
-	    renderer.setPixelRatio(window.devicePixelRatio);
-	    renderer.setSize(window.innerWidth, window.innerHeight);
-	    renderer.outputEncoding = sRGBEncoding;
-
-	    return new Scene();
-	  }
-
-	  getObserver() {
-	    const observer = addObserver(new Object3D());
-	    observer.position.set(0, 0, 0);
-
-	    return observer;
-	  }
-
-	  getCamera() {
-	    const camera = new PerspectiveCamera(75, 2, 0.1, 120);
-	    camera.position.set(1.2, 3, 14);
-	    camera.lookAt(0, 0, 0);
-	    return camera;
-	  }
-
-	  checkSticksPressed = () => {
-	    const stickButtonLeft = this?.gamepad1?.buttons[3];
-	    const stickButtonRight = this?.gamepad2?.buttons[3];
-	    const axesLeft = this?.gamepad1?.axes;
-	    const axesRight = this?.gamepad2?.axes;
-
-	    this.updateObserverRotation(stickButtonLeft, axesLeft);
-	    this.callbacks.onSticksEvents?.forEach(callback =>
-	      callback(stickButtonRight, axesRight)
-	    );
-	  };
-
-	  updateObserverRotation = (stickButton, axes) => {
-	    if (stickButton?.touched) {
-	      const [, , xAmplitude] = axes;
-
-	      if (xAmplitude > 0.15) {
-	        this.observer.rotation.y -= 0.015;
-	      }
-
-	      if (xAmplitude < -0.15) {
-	        this.observer.rotation.y += 0.015;
-	      }
+	    initOrbitControls(params = this.params.orbitControls) {
+	        if (!params)
+	            return;
+	        const { configure } = (typeof params === 'object' && params) || {};
+	        this.orbitControls = new OrbitControls(this.camera, this.renderer.domElement);
+	        this.orbitControls.target.set(0, 1.6, 0);
+	        this.orbitControls.update();
+	        configure?.(this.orbitControls);
 	    }
-	  };
-
-	  update = time => {
-	    time *= 0.0005;
-
-	    this.setAspect();
-	    this.checkSticksPressed();
-
-	    this.params.update(time);
-	    this.intersectListeners.forEach(l => l());
-	    this.updaters.forEach(u => u(time));
-
-	    if (!this.isXREnabled) {
-	      requestAnimationFrame(this.update);
+	    initCamera(params = this.params.camera) {
+	        if (typeof params === 'function') {
+	            this.camera = params();
+	            return;
+	        }
+	        this.camera = new PerspectiveCamera(75, 2, 0.1, 120);
+	        this.camera.position.set(1.2, 3, 14);
+	        this.camera.lookAt(0, 0, 0);
+	        this.observer.add(this.camera);
 	    }
-
-	    this.renderer.render(this.scene, this.camera);
-	  };
+	    initControllers(params) {
+	        this.controllers = new Controllers(this.renderer, this.observer, params);
+	    }
+	    initTeleportation(params) {
+	        if (!params)
+	            return;
+	        this.teleportation = new Teleportation({
+	            scene: this.scene,
+	            observer: this.observer,
+	            controllers: this.controllers,
+	            params,
+	        });
+	    }
+	    loadModel({ url, onProgress, onError, position, scale }) {
+	        if (!this.gltfLoader)
+	            this.gltfLoader = new GLTFLoader();
+	        return new Promise(resolve => {
+	            this.gltfLoader.load(url, gltf => {
+	                const obj = new Object3D();
+	                if (position)
+	                    gltf.scene.position.set(...position);
+	                if (scale)
+	                    gltf.scene.scale.set(...scale);
+	                obj.add(gltf.scene);
+	                this.scene.add(obj);
+	                resolve(obj);
+	            }, onProgress, onError);
+	        });
+	    }
+	    loadAudio({ url, targetMesh, listenerMeshes, onLoad }) {
+	        const listener = new AudioListener();
+	        const sound = new PositionalAudio(listener);
+	        const audioLoader = new AudioLoader();
+	        audioLoader.load(url, buffer => {
+	            sound.setBuffer(buffer);
+	            targetMesh.add(sound);
+	            onLoad(sound, listener);
+	            listenerMeshes?.forEach(mesh => mesh.add(listener));
+	        });
+	    }
+	    setAspect() {
+	        if (needUpdateRenderSize(this.renderer)) {
+	            const { clientWidth, clientHeight } = this.renderer.domElement;
+	            this.renderer.setSize(clientWidth, clientHeight, false);
+	            this.camera.aspect = clientWidth / clientHeight;
+	            this.camera.updateProjectionMatrix();
+	        }
+	    }
+	    onSelectStart = e => {
+	        this.callbacks.onSelectStart?.forEach(callback => callback(e));
+	    };
+	    onSelectEnd = e => {
+	        this.callbacks.onSelectEnd?.forEach(callback => callback(e));
+	    };
+	    update = time => {
+	        time *= 0.0005;
+	        this.setAspect();
+	        this.params.update(time);
+	        this.controllers.update();
+	        this.teleportation?.update();
+	        this.updaters.forEach(u => u(time));
+	        if (!this.isXREnabled) {
+	            requestAnimationFrame(this.update);
+	        }
+	        this.renderer.render(this.scene, this.camera);
+	    };
 	}
 
 	function getFloor(color, x, y, z) {
-	  const mesh = new Mesh(
-	    new PlaneGeometry(50, 50),
-	    new MeshPhongMaterial({
-	      side: DoubleSide,
-	      color,
-	      depthWrite: false,
-	      roughness: 0.8,
-	      metalness: 0.2,
-	      bumpScale: 0.0005,
-	    })
-	  );
-	  mesh.rotation.x = -Math.PI / 2.0;
-	  mesh.receiveShadow = true;
-	  mesh.position.x = x || 0;
-	  mesh.position.z = z || 0;
-	  mesh.position.y = y || 0;
-
-	  return mesh;
-	}
-
-	function getPointLight(position) {
-	  const sphere = new SphereGeometry(0.1, 16, 8);
-
-	  const light = new PointLight(0xff0040, 2, 50);
-	  light.add(
-	    new Mesh(sphere, new MeshBasicMaterial({ color: 0xff0040 }))
-	  );
-	  light.position.set(position[0], position[1], position[2]);
-	  light.castShadow = true;
-
-	  return light;
-	}
-
-	function createMenu(instance) {
-	  const loader = new TextureLoader();
-	  const menuObjects = [
-	    {
-	      image: '/public/sunset-text.png',
-	      position: [-2, 1, -3],
-	      size: [2, 1, 0],
-	      name: 'sunset',
-	    },
-	    {
-	      image: '/public/street-text.png',
-	      position: [2, 1, -3],
-	      size: [2, 1, 0],
-	      name: 'street',
-	    },
-	  ].map(({ image, position, size, name }) => {
-	    const texture = loader.load(image);
-	    const material = new MeshBasicMaterial({ map: texture });
-	    const geometry = new PlaneGeometry(size[0], size[1] * 0.5);
-	    const mesh = new Mesh(geometry, material);
-
-	    mesh.position.set(0, 0, 0);
-	    mesh.position.set(...position);
-
-	    instance.scene.add(mesh);
-
+	    const mesh = new Mesh(new PlaneGeometry(50, 50), new MeshPhongMaterial({
+	        side: DoubleSide,
+	        color,
+	        depthWrite: false,
+	        roughness: 0.8,
+	        metalness: 0.2,
+	        bumpScale: 0.0005,
+	    }));
+	    mesh.rotation.x = -Math.PI / 2.0;
+	    mesh.receiveShadow = true;
+	    mesh.position.x = x || 0;
+	    mesh.position.z = z || 0;
+	    mesh.position.y = y || 0;
 	    return mesh;
-	  });
-
-	  let lastIntersected;
-
-	  function onMenuHover(obj) {
-	    if (obj) {
-	      if (lastIntersected !== obj.object) {
-	        lastIntersected = obj.object;
-	        lastIntersected.currentHex = lastIntersected.material.color.getHex();
-	        // set hover state
-	        lastIntersected.material.color.setHex(0xff0000);
-	      }
-	    } else {
-	      if (lastIntersected) {
-	        // return to original color
-	        lastIntersected.material.color.setHex(lastIntersected.currentHex);
-	        lastIntersected = null;
-	      }
-	    }
-	  }
-
-	  instance.subscribeIntersectObjects(menuObjects, onMenuHover);
-	  // instance.unsubscribeIntersectObjects(onMenuHover)
 	}
-
-	let pointLight;
-
+	var LIGHT_TYPES;
+	(function (LIGHT_TYPES) {
+	    LIGHT_TYPES[LIGHT_TYPES["PHONG"] = 0] = "PHONG";
+	    LIGHT_TYPES[LIGHT_TYPES["HEMI"] = 1] = "HEMI";
+	    LIGHT_TYPES[LIGHT_TYPES["DIRECTIONAL"] = 2] = "DIRECTIONAL";
+	})(LIGHT_TYPES || (LIGHT_TYPES = {}));
+	const MENU_CONFIG = [
+	    {
+	        image: '/public/sunset-text.png',
+	        position: [-2, 1, -1],
+	        size: [2, 1, 0],
+	        name: LIGHT_TYPES.DIRECTIONAL,
+	        background: 0xff0000,
+	    },
+	    {
+	        image: '/public/street-text.png',
+	        position: [2, 1, -1],
+	        size: [2, 1, 0],
+	        name: LIGHT_TYPES.HEMI,
+	        background: 0x00ff00,
+	    },
+	    {
+	        image: '/public/logo512.png',
+	        position: [6, 1, -1],
+	        size: [2, 1, 0],
+	        name: LIGHT_TYPES.PHONG,
+	        background: 0x0000ff,
+	    },
+	];
+	function getLightByType(type) {
+	    switch (type) {
+	        case LIGHT_TYPES.PHONG:
+	            return new PointLight(0xff0040, 2, 50);
+	        case LIGHT_TYPES.HEMI:
+	            return new AmbientLight(0xffffff, 1);
+	        default:
+	            return new DirectionalLight(0xffffff);
+	    }
+	}
+	function getLight(type, position) {
+	    const light = getLightByType(type);
+	    const sphere = new SphereGeometry(0.1, 16, 8);
+	    light.position.set(...position);
+	    light.castShadow = true;
+	    // light.shadow.camera.top = 2;
+	    // light.shadow.camera.bottom = -2;
+	    // light.shadow.camera.left = -2;
+	    // light.shadow.camera.right = 2;
+	    // light.shadow.camera.near = 0.1;
+	    // light.shadow.camera.far = 40;
+	    light.add(new Mesh(sphere, new MeshBasicMaterial({ color: 0xff0040 })));
+	    return light;
+	}
+	function createMenu() {
+	    const loader = new TextureLoader();
+	    const group = new Group();
+	    MENU_CONFIG.forEach(({ image, position, size, name }) => {
+	        const texture = loader.load(image);
+	        const material = new MeshBasicMaterial({ map: texture });
+	        const geometry = new PlaneGeometry(size[0], size[1] * 0.5);
+	        const mesh = new Mesh(geometry, material);
+	        mesh.position.set(...position);
+	        group.add(mesh);
+	    });
+	    return group;
+	}
+	const globalState = {
+	    objects: {
+	        light: getLight(LIGHT_TYPES.DIRECTIONAL, [0, 10, 0]),
+	        box: new Mesh(new BoxGeometry(1, 1, 1), new MeshPhongMaterial({ color: 0xff0000 })),
+	        smallBox: new Mesh(new BoxGeometry(0.2, 0.2, 0.2), new MeshPhongMaterial({ color: 0xff0000 })),
+	        floor: getFloor('#046582', 0, 0, 0),
+	        // menu: createMenu(),
+	    },
+	};
 	new DefaultScene({
-	  canvas: document.querySelector('canvas'),
-	  configureRenderer(renderer) {
-	    renderer.shadowMap.enabled = true;
-	    renderer.shadowMap.type = PCFSoftShadowMap; // default THREE.PCFShadowMap
-	  },
-	  configureScene(scene) {
-	    scene.add(new AxesHelper(100));
-	    scene.background = new Color$1('#0A1931');
-	    // scene.fog = new THREE.Fog('#545454e8', 0, 35);
-	  },
-	  onReady(DS) {
-	    const { scene } = DS;
-
-	    // floor
-	    const floor = getFloor('#046582', 0, 0, 0);
-	    scene.add(floor);
-
-	    // light
-	    pointLight = getPointLight([0, 10, 0]);
-	    scene.add(pointLight);
-
-	    const gui = new GUI$1();
-	    const cubeFolder = gui.addFolder('Cube');
-	    cubeFolder.add(pointLight.position, 'x', 0, Math.PI * 4);
-	    cubeFolder.add(pointLight.position, 'y', 0, Math.PI * 4);
-	    cubeFolder.add(pointLight.position, 'z', 0, Math.PI * 4);
-	    cubeFolder.open();
-
-	    createMenu(DS);
-
-	    DS.initOrbits();
-
-	    DS.loadModel({ url: '/public/360_sphere_robot/scene.gltf' });
-	    
-	    DS.addAudio({
-	      url: '/public/guitar.mp3',
-	      targetMesh: DS.scene,
-	      listenerMeshes: [DS.observer],
-	      onLoad(sound, listener) {
-	        sound.setRefDistance(20);
-	        sound.setLoop(true);
-	        sound.setVolume(0.5);
-	        sound.onend = () => {
-	          sound.stop();
-	          DS.scene.remove(sound);
-	          listener.remove(DS.scene);
-	        };
-	        sound.play();
-	      },
-	    });
-
-	    const teleportation = new Teleportation({
-	      scene,
-	      targets: [floor],
-	      observer: DS.observer,
-	      controller: DS.controller2,
-	    });
-
-	    DS.updaters.push(teleportation.update);
-	    DS.callbacks.onSelectStart.push(teleportation.startTeleportation);
-	    DS.callbacks.onSticksEvents.push(teleportation.toggleTeleportGeometry);
-	  },
-	  update(time) {
-	    pointLight.position.x = 3 * Math.sin(time);
-	  },
+	    renderer: {
+	        canvas: document.querySelector('canvas'),
+	        antialias: true,
+	        configure: renderer => {
+	            renderer.shadowMap.enabled = true;
+	            renderer.shadowMap.type = PCFSoftShadowMap; // default THREE.PCFShadowMap
+	        },
+	    },
+	    scene: {
+	        configure: scene => {
+	            scene.add(new AxesHelper(100));
+	            scene.background = new Color('#0A1931');
+	            // scene.fog = new THREE.Fog('#545454e8', 0, 35);
+	        },
+	    },
+	    // controllers: {
+	    //   showRay: false,
+	    // },
+	    orbitControls: true,
+	    teleportation: {
+	        targets: [globalState.objects.floor],
+	    },
+	    // camera: () => {
+	    //   const camera = new THREE.OrthographicCamera( -10, 10, 10, -10, 1, 1000 );
+	    //   camera.position.set(0, 0, 10);
+	    //   return camera;
+	    // }
+	    async onReady(DS) {
+	        const { scene } = DS;
+	        const { light, floor, box, smallBox } = globalState.objects;
+	        // floor
+	        scene.add(floor);
+	        DS.observer.position.z = 3;
+	        DS.observer.rotation.y = Math.PI * 1.5;
+	        // const gui = new GUI();
+	        // const cubeFolder = gui.addFolder('Cube');
+	        // cubeFolder.add(pointLight.position, 'x', 0, Math.PI * 4);
+	        // cubeFolder.add(pointLight.position, 'y', 0, Math.PI * 4);
+	        // cubeFolder.add(pointLight.position, 'z', 0, Math.PI * 4);
+	        // cubeFolder.open();
+	        scene.add(light);
+	        scene.add(box);
+	        scene.add(smallBox);
+	        const menu = createMenu();
+	        scene.add(menu);
+	        MENU_CONFIG.map(({ name, background }, i) => {
+	            DS.controllers.on(1, 'selectstart', () => {
+	                const light = getLight(name, [0, 10, 0]);
+	                scene.remove(globalState.objects.light);
+	                globalState.objects.light = light;
+	                scene.add(light);
+	                scene.background = new Color(background);
+	            }, [menu.children[i]]);
+	        });
+	        box.position.y = 0.5;
+	        smallBox.position.y = 1.5;
+	        smallBox.position.x = 0.1;
+	        const model = await DS.loadModel({
+	            url: '/public/360_sphere_robot/scene.gltf',
+	            position: [0, 2, 0],
+	        });
+	        model.castShadow = true;
+	        smallBox.castShadow = true;
+	        box.castShadow = true;
+	        box.receiveShadow = true;
+	        floor.receiveShadow = true;
+	        DS.loadAudio({
+	            url: '/public/guitar.mp3',
+	            targetMesh: DS.scene,
+	            listenerMeshes: [DS.observer],
+	            onLoad(sound, listener) {
+	                sound.setRefDistance(20);
+	                sound.setLoop(true);
+	                sound.setVolume(0.5);
+	                sound.onend = () => {
+	                    sound.stop();
+	                    DS.scene.remove(sound);
+	                    listener.remove(DS.scene);
+	                };
+	                sound.play();
+	            },
+	        });
+	    },
+	    update(time) {
+	        globalState.objects.light.position.x = 3 * Math.sin(time);
+	    },
 	});
 
 })();
