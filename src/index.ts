@@ -103,7 +103,7 @@ export default class DefaultScene {
       return;
     }
 
-    this.camera = new THREE.PerspectiveCamera(75, 2, 0.1, 120);
+    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 120);
     this.camera.position.set(1.2, 3, 14);
     this.camera.lookAt(0, 0, 0);
 

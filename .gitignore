@@ -4,8 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
-/demo/bundle
-
+/demo/bundle.js
+/dist
 
 # testing
 /coverage
@@ -23,4 +23,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-/demo/bundle.js
