@@ -1,0 +1,11 @@
+Model Information:
+* title:	Medieval House Pack Pixel Art
+* source:	https://sketchfab.com/3d-models/medieval-house-pack-pixel-art-b8bf1ed358f2467dbb027e61e67af661
+* author:	Toni García Vilche (https://sketchfab.com/zul_gv)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Medieval House Pack Pixel Art" (https://sketchfab.com/3d-models/medieval-house-pack-pixel-art-b8bf1ed358f2467dbb027e61e67af661) by Toni García Vilche (https://sketchfab.com/zul_gv) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

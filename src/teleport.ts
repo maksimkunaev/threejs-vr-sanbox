@@ -66,6 +66,7 @@ export default class Teleportation {
 
   addTargets(targets: THREE.Object3D[]) {
     this.targets = this.targets.concat(targets);
+    this.subscribeToTargets();
   }
 
   subscribeToTargets() {
