@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-
 import DefaultScene from '../index.js';
 import {
   createMenu,
@@ -12,14 +11,16 @@ import {
 
 const globalState = {
   objects: {
-    light: getLight(LIGHT_TYPES.DIRECTIONAL, [3, 3, -3]),
-    light2: getLight(LIGHT_TYPES.AMBIENT, [-3, 3, 3]),
+    light: getLight(LIGHT_TYPES.DIRECTIONAL, [4, 4, -15], 0.2),
+    light2: getLight(LIGHT_TYPES.AMBIENT, [0, 10, 0], 0.5),
     box: new THREE.Mesh(
-      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.BoxGeometry(0.3, 0.3, 0.3),
       new THREE.MeshPhongMaterial({ color: 0xff0000 })
     ),
-    floor: getFloor('#0d1116', 0, 0, 0),
+    floor: getFloor('#282d3a', [0, 0, 0]),
   },
+  stats: null,
+  statsMesh: null,
 };
 
 new DefaultScene({
@@ -33,24 +34,24 @@ new DefaultScene({
   },
   scene: {
     configure: scene => {
-      scene.add(new THREE.AxesHelper(100));
-      scene.background = new THREE.Color('#0A1931');
-      // scene.fog = new THREE.Fog('#545454e8', 0, 35);
+      scene.background = new THREE.Color('#19202f');
     },
   },
   // controllers: {
   //   showRay: false,
   // },
   // orbitControls: true,
-  teleportation: {
-    targets: [globalState.objects.floor],
-  },
   // camera: () => {
   //   const camera = new THREE.OrthographicCamera(-10, 10, 10, -10, 1, 1000);
   //   camera.position.set(0, 0, 10);
   //   return camera;
   // },
-
+  orbitControls: true,
+  axesHelper: true,
+  // gridHelper: true,
+  teleportation: {
+    targets: [globalState.objects.floor],
+  },
   async onReady(DS) {
     const { scene, controllers } = DS;
     const { light, light2, floor, box } = globalState.objects;
@@ -62,8 +63,10 @@ new DefaultScene({
     scene.add(light);
     scene.add(light2);
 
-    const grid = new THREE.GridHelper(10, 10, 0x888888, 0x444444);
-    scene.add(grid);
+    box.position.y = 1.5;
+    box.castShadow = true;
+    box.receiveShadow = true;
+    floor.receiveShadow = true;
 
     // const camera = new THREE.PerspectiveCamera();
     // camera.position.set(-5, 5, 5);
@@ -73,20 +76,22 @@ new DefaultScene({
     const menu = createMenu();
     scene.add(menu);
 
-    MENU_CONFIG.map(({ name, background }, i) => {
+    setGUI({
+      model: menu.children[0],
+      renderer: DS.renderer,
+      camera: DS.camera,
+      observer: DS.scene,
+      globalState,
+    });
+
+    MENU_CONFIG.map(({ name, background, roomSettings }, i) => {
       const item = menu.children[i];
       const objects = [item];
 
       const onPointerEnter = () => item.material.color.set(0x00ffff);
       const onPointerLeave = () => item.material.color.set(background);
       const onSelectStart = () => {
-        const light = getLight(name, [0, 10, 0]);
-
-        scene.remove(globalState.objects.light);
-        globalState.objects.light = light;
-        scene.add(light);
-        scene.background = new THREE.Color(background);
-
+        // changeScene(roomSettings);
         controllers.off(1, 'pointerenter', onPointerEnter, objects);
       };
 
@@ -97,13 +102,11 @@ new DefaultScene({
 
     const model = await DS.loadModel({
       url: '/public/360_sphere_robot/scene.gltf',
-      // position: [2, 0, 2],
-      // castShadow: true,
-      // scale: [1, 1, 1],
+      position: [2, 2.5, 2],
+      castShadow: false,
     });
 
     // DS.teleportation.addTargets([box, model]);
-
     box.castShadow = true;
     box.receiveShadow = true;
     floor.receiveShadow = true;
@@ -114,7 +117,6 @@ new DefaultScene({
     //   camera: DS.camera,
     //   observer: DS.observer,
     // });
-
     // DS.loadAudio({
     //   url: '/public/guitar.mp3',
     //   targetMesh: DS.scene,
@@ -134,5 +136,31 @@ new DefaultScene({
   },
   update(time) {
     // globalState.objects.light.position.x = 3 * Math.sin(time);
+    if (globalState.stats) globalState.stats.update();
+    if (globalState.statsMesh) globalState.statsMesh.material.map.update();
   },
 });
+
+function changeScene({
+  backgroundColor,
+  floorColor,
+  lightType,
+  colorIntensity,
+  children,
+  scene,
+  floor,
+}) {
+  scene.background = new THREE.Color(backgroundColor);
+  floor.material.color.set(floorColor);
+
+  const light = getLight(lightType, [0, 10, 0], colorIntensity);
+  scene.remove(globalState.objects.light);
+  globalState.objects.light = light;
+  scene.add(light);
+
+  children.map(child => {
+    scene.add(child);
+  });
+
+  // floorTexture: '/public/floor.png',
+}
