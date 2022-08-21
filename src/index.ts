@@ -32,7 +32,9 @@ export default class DefaultScene {
     this.initObserver();
     this.initCamera();
     this.initOrbitControls();
-    this.initControllers(params.controllers);
+    this.initControllers(params);
+    this.initAxesHelper(params.axesHelper);
+    this.initGridHelper(params.gridHelper);
     this.initTeleportation(params.teleportation);
 
     params.onReady?.(this);
@@ -113,7 +115,22 @@ export default class DefaultScene {
   }
 
   private initControllers(params) {
+    if (!params) return;
+
     this.controllers = new Controllers(this, params);
+  }
+
+  private initAxesHelper(params) {
+    if (!params) return;
+
+    this.scene.add(new THREE.AxesHelper(100));
+  }
+
+  private initGridHelper(params) {
+    if (!params) return;
+
+    const grid = new THREE.GridHelper(15, 15, 0x888888, 0x444444);
+    this.scene.add(grid);
   }
 
   private initTeleportation(params) {

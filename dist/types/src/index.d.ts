@@ -21,6 +21,8 @@ export default class DefaultScene {
     private initOrbitControls;
     private initCamera;
     private initControllers;
+    private initAxesHelper;
+    private initGridHelper;
     private initTeleportation;
     loadModel({ url, onProgress, onError, position, castShadow, scale }: {
         url: any;

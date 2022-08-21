@@ -4,7 +4,7 @@ import { InteractiveGroup } from 'three/examples/jsm/interactive/InteractiveGrou
 import { HTMLMesh } from 'three/examples/jsm/interactive/HTMLMesh.js';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 
-export function getFloor(color, x, y, z) {
+export function getFloor(color, position) {
   const mesh = new THREE.Mesh(
     new THREE.PlaneGeometry(50, 50),
     new THREE.MeshPhongMaterial({
@@ -18,9 +18,7 @@ export function getFloor(color, x, y, z) {
   );
   mesh.rotation.x = -Math.PI / 2.0;
   mesh.receiveShadow = true;
-  mesh.position.x = x || 0;
-  mesh.position.z = z || 0;
-  mesh.position.y = y || 0;
+  mesh.position.set(...position);
 
   return mesh;
 }
@@ -36,28 +34,31 @@ export enum LIGHT_TYPES {
 export const MENU_CONFIG = [
   {
     image: '/public/sunset-text.png',
-    position: [-2, 1, -1],
-    size: [2, 1, 0],
+    position: [-2, 0.6, -1],
+    size: [1, 2.4, 0],
     name: LIGHT_TYPES.DIRECTIONAL,
-    background: 0xff0000,
+    background: 0x000000,
+    roomSettings: {},
   },
   {
     image: '/public/street-text.png',
-    position: [2, 1, -1],
-    size: [2, 1, 0],
+    position: [0, 0.6, -1],
+    size: [1, 2.4, 0],
     name: LIGHT_TYPES.HEMI,
     background: 0x00ff00,
+    roomSettings: {},
   },
   {
     image: '/public/logo512.png',
-    position: [6, 1, -1],
-    size: [2, 1, 0],
+    position: [2, 0.6, -1],
+    size: [1, 2.4, 0],
     name: LIGHT_TYPES.PHONG,
     background: 0x0000ff,
+    roomSettings: {},
   },
 ];
 
-export function getLightByType(type: LIGHT_TYPES) {
+export function getLightByType(type: LIGHT_TYPES, intensity: number) {
   switch (type) {
     case LIGHT_TYPES.PHONG: {
       const light = new THREE.PointLight(0xff0040, 2, 50);
@@ -67,9 +68,9 @@ export function getLightByType(type: LIGHT_TYPES) {
     }
 
     case LIGHT_TYPES.HEMI:
-      return new THREE.AmbientLight(0xffffff, 1);
+      return new THREE.AmbientLight(0xffffff, intensity);
     case LIGHT_TYPES.SPOT: {
-      const light = new THREE.SpotLight(0xffffff, 1);
+      const light = new THREE.SpotLight(0xffffff, intensity);
 
       light.angle = Math.PI / 4;
       light.penumbra = 0.1;
@@ -86,14 +87,14 @@ export function getLightByType(type: LIGHT_TYPES) {
       return light;
     }
     case LIGHT_TYPES.AMBIENT:
-      return new THREE.AmbientLight(0xffffff, 0.1);
+      return new THREE.AmbientLight(0xffffff, intensity);
     default:
-      return new THREE.DirectionalLight(0xffffff);
+      return new THREE.DirectionalLight(0xffffff, intensity);
   }
 }
 
-export function getLight(type, position) {
-  const light = getLightByType(type);
+export function getLight(type, position, intensity) {
+  const light = getLightByType(type, intensity);
   const sphere = new THREE.SphereGeometry(0.1, 16, 8);
 
   light.position.set(...position);
@@ -144,7 +145,7 @@ export function createMenu() {
   return group;
 }
 
-export function setGUI({ model, renderer, camera, observer }) {
+export function setGUI({ globalState, model, renderer, camera, observer }) {
   const gui = new GUI({ width: 300 });
 
   const cubeFolder = gui.addFolder('Cube');
@@ -180,4 +181,7 @@ export function setGUI({ model, renderer, camera, observer }) {
   group.add(statsMesh);
 
   observer.add(group);
+
+  globalState.mesh = mesh;
+  globalState.statsMesh = statsMesh;
 }
