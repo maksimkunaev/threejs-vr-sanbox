@@ -6,7 +6,7 @@ import Stats from 'three/examples/jsm/libs/stats.module.js';
 
 export function getFloor(color, x, y, z) {
   const mesh = new THREE.Mesh(
-    new THREE.PlaneGeometry(10, 10),
+    new THREE.PlaneGeometry(50, 50),
     new THREE.MeshPhongMaterial({
       side: THREE.DoubleSide,
       color,
@@ -34,26 +34,26 @@ export enum LIGHT_TYPES {
 }
 
 export const MENU_CONFIG = [
-  // {
-  //     image: '/public/sunset-text.png',
-  //     position: [-2, 1, -1],
-  //     size: [2, 1, 0],
-  //     name: LIGHT_TYPES.DIRECTIONAL,
-  //     background: 0xff0000,
-  // },
-  // {
-  //     image: '/public/street-text.png',
-  //     position: [2, 1, -1],
-  //     size: [2, 1, 0],
-  //     name: LIGHT_TYPES.HEMI,
-  //     background: 0x00ff00,
-  // },
+  {
+    image: '/public/sunset-text.png',
+    position: [-2, 1, -1],
+    size: [2, 1, 0],
+    name: LIGHT_TYPES.DIRECTIONAL,
+    background: 0xff0000,
+  },
+  {
+    image: '/public/street-text.png',
+    position: [2, 1, -1],
+    size: [2, 1, 0],
+    name: LIGHT_TYPES.HEMI,
+    background: 0x00ff00,
+  },
   {
     image: '/public/logo512.png',
     position: [6, 1, -1],
     size: [2, 1, 0],
     name: LIGHT_TYPES.PHONG,
-    background: 0xffffff,
+    background: 0x0000ff,
   },
 ];
 
@@ -76,7 +76,7 @@ export function getLightByType(type: LIGHT_TYPES) {
       light.decay = 2;
       light.distance = 200;
 
-      light.castShadow = true;
+      // light.castShadow = true;
       light.shadow.mapSize.width = 512;
       light.shadow.mapSize.height = 512;
       light.shadow.camera.near = 10;

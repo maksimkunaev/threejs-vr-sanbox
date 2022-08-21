@@ -1,3 +1,4 @@
+export declare const isXR: boolean;
 export declare const getDefaultSize: () => {
     width: number;
     height: number;

@@ -1,11 +1,12 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from 'rollup-plugin-typescript2';
+import livereload from 'rollup-plugin-livereload';
 
 export default {
-  input: 'demo/index.ts',
+  input: 'src/demo/index.ts',
   output: {
-    file: 'demo/bundle.js',
+    file: 'src/demo/bundle.js',
     format: 'iife',
   },
   plugins: [
@@ -15,5 +16,6 @@ export default {
       useTsconfigDeclarationDir: true,
       tsconfig: 'tsconfig.json',
     }),
+    livereload(),
   ],
 };
