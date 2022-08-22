@@ -2,8 +2,6 @@ import * as THREE from 'three';
 import * as H from './helpers.js';
 import DefaultScene from './';
 
-const { isVR } = H;
-
 const getTeleportTarget = () => {
   const mesh = new THREE.Mesh(
     new THREE.RingGeometry(0.05, 0.2, 18),
@@ -18,6 +16,7 @@ export default class Teleportation {
   _: DefaultScene;
   params;
 
+  enabled = true;
   targets: THREE.Object3D[] = [];
   target = getTeleportTarget();
   curve;
@@ -28,10 +27,10 @@ export default class Teleportation {
   );
   gamepadReady = false;
   isGeometryVisible = false;
-  isThrottling = false;
   step = 0.05;
-  rotationStep = 0.03;
-  rotationThreshold = 0.15;
+  rotationStep = 0.3;
+  rotationThreshold = 0.7;
+  maxAngle = Math.PI / 2;
   progress = 0;
   controllerIndex = 1;
 
@@ -42,14 +41,24 @@ export default class Teleportation {
     this.curve = new THREE.CubicBezierCurve3(...this.getCurveVector());
     this.updateTargets(params.targets);
 
-    _.controllers.onGamepadConnected(
-      this.controllerIndex,
-      () => (this.gamepadReady = true)
-    );
+    if (_.isVRSupported) {
+      this.rotationStep = 0.03;
+      _.controllers.onGamepadConnected(
+        this.controllerIndex,
+        () => (this.gamepadReady = true)
+      );
+    } else {
+      window.addEventListener('keydown', this.onKeyDown);
+      this.enabled = params.enabled ?? false;
+    }
   }
 
+  onKeyDown = e => {
+    if (e.key === 'Shift') this.enabled = !this.enabled;
+  };
+
   fly = () => {
-    if (this.isGeometryVisible && !this.isThrottling) {
+    if (this.isGeometryVisible) {
       this.progressCurve = this.curve.clone();
       this.progress = this.step;
     }
@@ -92,7 +101,7 @@ export default class Teleportation {
     if (this.isGeometryVisible) return;
     this.isGeometryVisible = true;
 
-    isVR && this._.scene.add(this.line);
+    this._.isVRSupported && this._.scene.add(this.line);
     this._.scene.add(this.target);
   };
 
@@ -100,7 +109,7 @@ export default class Teleportation {
     if (!this.isGeometryVisible) return;
     this.isGeometryVisible = false;
 
-    isVR && this._.scene.remove(this.line);
+    this._.isVRSupported && this._.scene.remove(this.line);
     this._.scene.remove(this.target);
   };
 
@@ -123,7 +132,7 @@ export default class Teleportation {
   }
 
   updateGeometry = () => {
-    if (isVR) {
+    if (this._.isVRSupported) {
       if (!this.gamepadReady) return;
 
       const [, , , yAmplitide] = this.getGamepad().axes;
@@ -158,14 +167,12 @@ export default class Teleportation {
 
     const points = this.progressCurve.getPoint(this.progress);
 
-    // console.log('points', points);
-
     this._.observer.position.copy(points);
     this.progress += this.step;
   };
 
   updateObserverRotation() {
-    if (isVR) {
+    if (this._.isVRSupported) {
       if (!this.gamepadReady) return;
 
       const { buttons, axes } = this.getGamepad();
@@ -182,17 +189,38 @@ export default class Teleportation {
       return;
     }
 
-    const { pressedKeys } = this._.controllers;
+    // const { pressedKeys } = this._.controllers;
+    // if (pressedKeys.a) this._.observer.rotation.y += this.rotationStep;
+    // if (pressedKeys.d) this._.observer.rotation.y -= this.rotationStep;
 
-    if (pressedKeys.a) this._.observer.rotation.y += this.rotationStep;
-    if (pressedKeys.d) this._.observer.rotation.y -= this.rotationStep;
+    const { camera, observer, controllers } = this._;
+    const { x, y } = controllers.pointer;
+    const th = this.rotationThreshold;
+    let sign;
+
+    if (Math.abs(x) > th) {
+      sign = Math.sign(x);
+      observer.rotation.y +=
+        -1 * sign * Math.pow(x - th * sign, 2) * this.rotationStep;
+    }
+
+    if (Math.abs(y) > th) {
+      sign = Math.sign(y);
+      const delta = sign * Math.pow(y - th * sign, 2) * this.rotationStep;
+      const deg = camera.rotation.x + delta;
+
+      if (deg < -this.maxAngle || deg > this.maxAngle) return;
+
+      camera.rotation.x += delta;
+    }
   }
 
   update() {
-    // TODO: support selecting next target when flying
-    this.updateGeometry();
-
     this.updateObserverRotation();
+
+    if (!this.enabled) return this.hideTeleportGeometry();
+
+    this.updateGeometry();
     if (this.progress > 0) this.updateObserverPosition();
   }
 }

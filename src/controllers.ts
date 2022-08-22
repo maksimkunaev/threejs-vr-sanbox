@@ -1,10 +1,8 @@
 import * as THREE from 'three';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 
-import { isVR } from './helpers';
 import DefaultScene from './';
 
-const pointer = new THREE.Vector2();
 const controllerModelFactory = new XRControllerModelFactory();
 
 const KEY_CODES_MAP = {
@@ -30,25 +28,27 @@ export default class Controllers {
 
   controllers: any[] = [];
   gamepads: any[] = [];
+
   pressedKeys: Record<Keys, boolean> = {};
+  pointer = new THREE.Vector2();
 
   private gamepadConnectedListeners = [[], []];
   private lastIntersected: THREE.Object3D | null = null;
   private intersectionsObjectCallbacks = []; // by controller index
   private pointerUnsubscribers = [{}, {}];
 
-  constructor(root, params) {
-    this._ = root;
+  constructor(_, params) {
+    this._ = _;
     this.params = params;
 
-    if (isVR) {
+    if (_.isVRSupported) {
       this.initLine();
       this.createController(0);
       this.createController(1);
     } else {
       this._.renderer.domElement.addEventListener('pointermove', e => {
-        pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-        pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        this.pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+        this.pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
       });
 
       window.addEventListener('keydown', this.onKeyDown);
@@ -100,20 +100,20 @@ export default class Controllers {
   }
 
   onGamepadConnected(index, callback) {
-    if (!isVR) return;
+    if (!this._.isVRSupported) return;
     this.gamepadConnectedListeners[index].push(callback);
   }
 
   getIntersections(controllerIndex: number, objects: THREE.Object3D[]) {
     if (!objects.length) return [];
 
-    if (isVR) {
+    if (this._.isVRSupported) {
       const controller = this.controllers[controllerIndex];
       this.tempMatrix.identity().extractRotation(controller.matrixWorld);
       this.raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
       this.raycaster.ray.direction.set(0, 0, -1).applyMatrix4(this.tempMatrix);
     } else {
-      this.raycaster.setFromCamera(pointer, this._.camera);
+      this.raycaster.setFromCamera(this.pointer, this._.camera);
     }
 
     return this.raycaster.intersectObjects(objects, true); // TODO: optimize recursive search
@@ -133,7 +133,7 @@ export default class Controllers {
 
   isHoverEvent = event => /pointerenter|pointerleave/.test(event);
 
-  getIndex = index => (isVR ? index : 0);
+  getIndex = index => (this._.isVRSupported ? index : 0);
 
   on(controllerIndex: number, event, callback, objects?) {
     const index = this.getIndex(controllerIndex);
@@ -171,7 +171,7 @@ export default class Controllers {
 
     const cb = this.createListener(callback, index, objects);
 
-    if (isVR) {
+    if (this._.isVRSupported) {
       this.controllers[index].addEventListener(event, cb);
     } else {
       switch (event) {
@@ -196,7 +196,7 @@ export default class Controllers {
       return;
     }
 
-    if (isVR) {
+    if (this._.isVRSupported) {
       this.controllers.forEach(c => c.removeEventListener(event, callback));
     } else {
       switch (event) {

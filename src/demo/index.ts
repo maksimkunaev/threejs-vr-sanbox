@@ -22,20 +22,19 @@ new DefaultScene({
   scene: {
     configure: scene => {},
   },
-  // controllers: {
-  //   showRay: false,
+  controllers: {
+    // showRay: false,
+  },
+  teleportation: true,
+  // teleportation: {
+  //   targets: [],
   // },
   // camera: () => {
   //   const camera = new THREE.OrthographicCamera(-10, 10, 10, -10, 1, 1000);
   //   camera.position.set(0, 0, 10);
   //   return camera;
   // },
-  // orbitControls: true,
-  // gridHelper: true,
-  axesHelper: true,
-  teleportation: {
-    targets: [],
-  },
+
   async onReady(DS) {
     const { scene, controllers } = DS;
     updateScene({ DS, scene, roomSettings: MENU_CONFIG[0].roomSettings });
@@ -95,8 +94,7 @@ new DefaultScene({
     scene.add(globalState.spinner);
     globalState.spinner.visible = false;
   },
-  update(time) {
-    // globalState.objects.light.position.x = 3 * Math.sin(time);
+  update() {
     if (globalState.stats) globalState.stats.update();
     if (globalState.statsMesh) globalState.statsMesh.material.map.update();
 
