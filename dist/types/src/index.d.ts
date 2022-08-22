@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Controllers from './controllers.js';
 import Teleportation from './teleport.js';
@@ -13,7 +12,6 @@ export default class DefaultScene {
     teleportation: Teleportation;
     observer: THREE.Mesh;
     orbitControls: OrbitControls;
-    gltfLoader: GLTFLoader;
     constructor(params?: Params);
     private initRenderer;
     private initScene;
@@ -24,14 +22,6 @@ export default class DefaultScene {
     private initAxesHelper;
     private initGridHelper;
     private initTeleportation;
-    loadModel({ url, onProgress, onError, position, castShadow, scale }: {
-        url: any;
-        onProgress: any;
-        onError: any;
-        position: any;
-        castShadow: any;
-        scale: any;
-    }): Promise<unknown>;
     loadAudio({ url, targetMesh, listenerMeshes, onLoad }: {
         url: any;
         targetMesh: any;

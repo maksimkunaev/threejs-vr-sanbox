@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import * as H from './helpers.js';
@@ -22,7 +21,6 @@ export default class DefaultScene {
   teleportation: Teleportation;
   observer: THREE.Mesh;
   orbitControls: OrbitControls;
-  gltfLoader: GLTFLoader;
 
   constructor(params: Params = {}) {
     this.params = params;
@@ -31,7 +29,7 @@ export default class DefaultScene {
     this.initScene();
     this.initObserver();
     this.initCamera();
-    this.initOrbitControls();
+    this.initOrbitControls(params.orbitControls);
     this.initControllers(params);
     this.initAxesHelper(params.axesHelper);
     this.initGridHelper(params.gridHelper);
@@ -137,28 +135,6 @@ export default class DefaultScene {
     if (!params) return;
 
     this.teleportation = new Teleportation(this, params);
-  }
-
-  loadModel({ url, onProgress, onError, position, castShadow, scale }) {
-    if (!this.gltfLoader) this.gltfLoader = new GLTFLoader();
-
-    return new Promise(resolve => {
-      this.gltfLoader.load(
-        url,
-        gltf => {
-          if (position) gltf.scene.position.set(...position);
-          if (scale) gltf.scene.scale.set(...scale);
-          if (castShadow) gltf.scene.castShadow = true;
-
-          const obj = gltf.scene;
-
-          this.scene.add(obj);
-          resolve(obj);
-        },
-        onProgress,
-        onError
-      );
-    });
   }
 
   loadAudio({ url, targetMesh, listenerMeshes, onLoad }) {

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 export const isVR =
   /^\?vr/.test(location.search) || 'getVRDisplays' in navigator;
@@ -52,4 +53,37 @@ export function needUpdateRenderSize(renderer) {
   const needResize = canvas.width !== width || canvas.height !== height;
 
   return needResize;
+}
+
+export function loadModel({
+  url,
+  onProgress,
+  onError,
+  position,
+  castShadow,
+  scale,
+}: {
+  url: string;
+  onProgress?: (arg: unknown) => void;
+  onError?: (arg: unknown) => void;
+  position: number[];
+  castShadow?: boolean;
+  scale?: number[];
+}) {
+  const gltfLoader = new GLTFLoader();
+
+  return new Promise(resolve => {
+    gltfLoader.load(
+      url,
+      gltf => {
+        if (position) gltf.scene.position.set(...position);
+        if (scale) gltf.scene.scale.set(...scale);
+        if (castShadow) gltf.scene.castShadow = true;
+
+        resolve(gltf.scene);
+      },
+      onProgress,
+      onError
+    );
+  });
 }

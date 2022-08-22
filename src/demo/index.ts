@@ -1,26 +1,13 @@
 import * as THREE from 'three';
 import DefaultScene from '../index.js';
-import {
-  createMenu,
-  getFloor,
-  getLight,
-  LIGHT_TYPES,
-  MENU_CONFIG,
-  setGUI,
-} from './utils';
+import { createMenu, MENU_CONFIG, setGUI, Spinner } from './utils';
 
 const globalState = {
-  objects: {
-    light: getLight(LIGHT_TYPES.DIRECTIONAL, [4, 4, -15], 0.2),
-    light2: getLight(LIGHT_TYPES.AMBIENT, [0, 10, 0], 0.5),
-    box: new THREE.Mesh(
-      new THREE.BoxGeometry(0.3, 0.3, 0.3),
-      new THREE.MeshPhongMaterial({ color: 0xff0000 })
-    ),
-    floor: getFloor('#282d3a', [0, 0, 0]),
-  },
+  currentObjects: [],
   stats: null,
   statsMesh: null,
+  model: null,
+  spinner: Spinner(),
 };
 
 new DefaultScene({
@@ -33,56 +20,44 @@ new DefaultScene({
     },
   },
   scene: {
-    configure: scene => {
-      scene.background = new THREE.Color('#19202f');
-    },
+    configure: scene => {},
   },
   // controllers: {
   //   showRay: false,
   // },
-  // orbitControls: true,
   // camera: () => {
   //   const camera = new THREE.OrthographicCamera(-10, 10, 10, -10, 1, 1000);
   //   camera.position.set(0, 0, 10);
   //   return camera;
   // },
-  orbitControls: true,
-  axesHelper: true,
+  // orbitControls: true,
   // gridHelper: true,
+  axesHelper: true,
   teleportation: {
-    targets: [globalState.objects.floor],
+    targets: [],
   },
   async onReady(DS) {
     const { scene, controllers } = DS;
-    const { light, light2, floor, box } = globalState.objects;
+    updateScene({ DS, scene, roomSettings: MENU_CONFIG[0].roomSettings });
 
     DS.observer.position.z = 3;
     DS.observer.rotation.y = Math.PI * 1.5;
 
-    scene.add(floor);
-    scene.add(light);
-    scene.add(light2);
-
-    box.position.y = 1.5;
-    box.castShadow = true;
-    box.receiveShadow = true;
-    floor.receiveShadow = true;
+    const menu = createMenu();
+    scene.add(menu);
 
     // const camera = new THREE.PerspectiveCamera();
     // camera.position.set(-5, 5, 5);
     // camera.lookAt(0, 0, 0);
     // DS.camera = camera;
 
-    const menu = createMenu();
-    scene.add(menu);
-
-    setGUI({
-      model: menu.children[0],
-      renderer: DS.renderer,
-      camera: DS.camera,
-      observer: DS.scene,
-      globalState,
-    });
+    // setGUI({
+    //   model: globalState.objects.find(o => o.name === 'floor'),
+    //   renderer: DS.renderer,
+    //   camera: DS.camera,
+    //   observer: DS.scene,
+    //   globalState,
+    // });
 
     MENU_CONFIG.map(({ name, background, roomSettings }, i) => {
       const item = menu.children[i];
@@ -91,7 +66,7 @@ new DefaultScene({
       const onPointerEnter = () => item.material.color.set(0x00ffff);
       const onPointerLeave = () => item.material.color.set(background);
       const onSelectStart = () => {
-        // changeScene(roomSettings);
+        updateScene({ DS, scene, roomSettings: MENU_CONFIG[i].roomSettings });
         controllers.off(1, 'pointerenter', onPointerEnter, objects);
       };
 
@@ -100,23 +75,6 @@ new DefaultScene({
       controllers.on(1, 'selectstart', onSelectStart, objects);
     });
 
-    const model = await DS.loadModel({
-      url: '/public/360_sphere_robot/scene.gltf',
-      position: [2, 2.5, 2],
-      castShadow: false,
-    });
-
-    // DS.teleportation.addTargets([box, model]);
-    box.castShadow = true;
-    box.receiveShadow = true;
-    floor.receiveShadow = true;
-
-    // setGUI({
-    //   model,
-    //   renderer: DS.renderer,
-    //   camera: DS.camera,
-    //   observer: DS.observer,
-    // });
     // DS.loadAudio({
     //   url: '/public/guitar.mp3',
     //   targetMesh: DS.scene,
@@ -133,34 +91,63 @@ new DefaultScene({
     //     // sound.play();
     //   },
     // });
+
+    scene.add(globalState.spinner);
+    globalState.spinner.visible = false;
   },
   update(time) {
     // globalState.objects.light.position.x = 3 * Math.sin(time);
     if (globalState.stats) globalState.stats.update();
     if (globalState.statsMesh) globalState.statsMesh.material.map.update();
+
+    if (globalState.spinner.visible) {
+      globalState.spinner.rotation.z += 0.01;
+    }
   },
 });
 
-function changeScene({
-  backgroundColor,
-  floorColor,
-  lightType,
-  colorIntensity,
-  children,
-  scene,
-  floor,
-}) {
+function updateScene({ DS, scene, roomSettings }) {
+  const { backgroundColor, objects } = roomSettings;
   scene.background = new THREE.Color(backgroundColor);
-  floor.material.color.set(floorColor);
+  globalState.currentObjects.forEach(obj => scene.remove(obj));
 
-  const light = getLight(lightType, [0, 10, 0], colorIntensity);
-  scene.remove(globalState.objects.light);
-  globalState.objects.light = light;
-  scene.add(light);
+  const syncObjects = objects.filter(obj => !obj.async);
+  const asyncObjects = objects.filter(obj => obj.async);
+  const objectsWithTeleportation = syncObjects
+    .filter(({ teleportation }) => teleportation)
+    .map(({ mesh }) => mesh);
 
-  children.map(child => {
-    scene.add(child);
+  syncObjects.forEach(({ mesh }) => {
+    scene.add(mesh);
+    globalState.currentObjects.push(mesh);
   });
 
-  // floorTexture: '/public/floor.png',
+  const promises = asyncObjects.map(async obj => {
+    const mesh = await obj.getMesh();
+
+    scene.add(mesh);
+    globalState.currentObjects.push(mesh);
+
+    if (obj.teleportation === true) {
+      // TODO - refactor this, update sync targets first and then async
+      DS.teleportation.updateTargets([...objectsWithTeleportation, mesh]);
+    }
+
+    // TODO - if we add more than 1 GUI - we need to remove the old one
+    if (obj.isStats) {
+      setGUI({
+        model: mesh,
+        renderer: DS.renderer,
+        camera: DS.camera,
+        observer: DS.scene,
+        globalState,
+      });
+    }
+  });
+
+  globalState.spinner.visible = true;
+
+  Promise.all(promises).then(() => {
+    globalState.spinner.visible = false;
+  });
 }
