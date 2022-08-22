@@ -64,28 +64,41 @@ const generateSpheres = (count: number) => {
   return group;
 };
 
-const generateBoxes = (count: number) => {
+const getRandomHeight = () => {
+  return Math.random() * 6 + 1;
+};
+
+const generateBoxes = (color: string) => {
   const group = new THREE.Group();
+  const material = new THREE.MeshStandardMaterial({
+    color: getRandomColor(),
+    roughness: 0.9,
+    metalness: 0.9,
+  });
+  material.receiveShadow = true;
 
-  for (let i = 0; i < count; i++) {
-    const geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
-    const material = new THREE.MeshStandardMaterial({
-      color: getRandomColor(),
-      roughness: 0.9,
-      metalness: 0.9,
-    });
-    const box = new THREE.Mesh(geometry, material);
-    const position = [
-      Math.random() * 30 - 15,
-      Math.random() * 30 - 15,
-      Math.random() * 30 - 15,
-    ];
+  const xlength = 5;
+  const yLength = 5;
+  const density = 0.3;
 
-    material.castShadow = true;
-    material.receiveShadow = true;
+  for (let x = 0; x < xlength; x++) {
+    for (let y = 0; y < yLength; y++) {
+      const isBox = Math.random() < density;
 
-    box.position.set(...position);
-    group.add(box);
+      if (isBox) {
+        const height = getRandomHeight();
+
+        const geometry = new THREE.BoxGeometry(1, height, 1);
+        const box = new THREE.Mesh(geometry, material);
+        box.position.set(x, height / 2, y);
+
+        group.add(box);
+      }
+
+      // material.castShadow = true;
+      // box.position.set(...position);
+      // group.add(box);
+    }
   }
   return group;
 };
@@ -123,7 +136,7 @@ export const MENU_CONFIG = [
         },
         {
           name: 'box',
-          mesh: generateBoxes(50),
+          mesh: generateBoxes('#000'),
         },
         {
           name: 'floor',
@@ -133,13 +146,13 @@ export const MENU_CONFIG = [
             repeat: true,
           }),
         },
-        {
-          name: 'model',
-          async: true,
-          teleportation: true,
-          getMesh: async () =>
-            await getModel('/public/360_sphere_robot/scene.gltf', [2, 2.5, 2]),
-        },
+        // {
+        //   name: 'model',
+        //   async: true,
+        //   teleportation: true,
+        //   getMesh: async () =>
+        //     await getModel('/public/360_sphere_robot/scene.gltf', [2, 2.5, 2]),
+        // },
       ],
     },
   },
@@ -194,7 +207,7 @@ export function getFloor({
   texture?: string;
   repeat?: boolean;
 }) {
-  const gg = new THREE.PlaneGeometry(20, 20);
+  const gg = new THREE.PlaneGeometry(30, 30);
   const gm = new THREE.MeshStandardMaterial({ color });
 
   const ground = new THREE.Mesh(gg, gm);
@@ -219,12 +232,11 @@ export function getFloor({
 export function getLightByType(type: LIGHT_TYPES, intensity: number) {
   switch (type) {
     case LIGHT_TYPES.PHONG: {
-      const light = new THREE.PointLight(0xff0040, 2, 50);
+      const light = new THREE.PointLight(0xffffff, 2, 50);
       light.castShadow = true;
 
       return light;
     }
-
     case LIGHT_TYPES.HEMI:
       return new THREE.AmbientLight(0xffffff, intensity);
     case LIGHT_TYPES.SPOT: {
