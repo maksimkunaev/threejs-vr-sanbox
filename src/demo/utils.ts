@@ -6,7 +6,7 @@ import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { loadModel } from '../helpers';
 
 export enum LIGHT_TYPES {
-  PHONG,
+  POINT,
   HEMI,
   DIRECTIONAL,
   SPOT,
@@ -65,41 +65,49 @@ const generateSpheres = (count: number) => {
 };
 
 const getRandomHeight = () => {
-  return Math.random() * 6 + 1;
+  return Math.random() * 25 + 1;
 };
 
 const generateBoxes = (color: string) => {
   const group = new THREE.Group();
   const material = new THREE.MeshStandardMaterial({
-    color: getRandomColor(),
+    color: '#111111',
     roughness: 0.9,
     metalness: 0.9,
   });
-  material.receiveShadow = true;
+  const wireMaterial = new THREE.MeshStandardMaterial({
+    color: '#666666',
+    wireframe: true,
+    transparent: true,
+    opacity: 0.02,
+  });
 
-  const xlength = 5;
-  const yLength = 5;
+  const xlength = 50;
+  const yLength = 50;
   const density = 0.3;
 
-  for (let x = 0; x < xlength; x++) {
-    for (let y = 0; y < yLength; y++) {
+  for (let x = 0; x < xlength; x += 3) {
+    for (let y = 0; y < yLength; y += 3) {
       const isBox = Math.random() < density;
 
       if (isBox) {
         const height = getRandomHeight();
-
-        const geometry = new THREE.BoxGeometry(1, height, 1);
+        const geometry = new THREE.BoxGeometry(2.8, height, 2.8, 2, height, 2);
         const box = new THREE.Mesh(geometry, material);
+        const wire = new THREE.Mesh(geometry, wireMaterial);
+
+        box.castShadow = true;
+        box.receiveShadow = true;
         box.position.set(x, height / 2, y);
 
+        box.add(wire);
         group.add(box);
       }
-
-      // material.castShadow = true;
-      // box.position.set(...position);
-      // group.add(box);
     }
   }
+
+  group.position.set(-5, 0, -5);
+
   return group;
 };
 
@@ -122,28 +130,35 @@ export const MENU_CONFIG = [
     position: [-2, 0.6, -1],
     size: [1, 1.4],
     name: LIGHT_TYPES.DIRECTIONAL,
-    background: '#c9d1d9',
     roomSettings: {
-      backgroundColor: '#155888',
+      ...(() => {
+        const color = getRandomColor();
+        return {
+          backgroundColor: color,
+          fog: new THREE.Fog(color, 0, 30),
+        };
+      })(),
       objects: [
         {
           name: 'light',
-          mesh: getLight(LIGHT_TYPES.DIRECTIONAL, [4, 4, 5], 1),
+          mesh: getLight(LIGHT_TYPES.POINT, [4, 50, 5], 5, 100),
+          gui: true,
         },
         {
           name: 'light2',
-          mesh: getLight(LIGHT_TYPES.AMBIENT, [0, 5, 0], 1.5),
+          mesh: getLight(LIGHT_TYPES.AMBIENT, [0, 50, 0], 7, 100),
         },
         {
           name: 'box',
           mesh: generateBoxes('#000'),
+          teleportation: true,
         },
         {
           name: 'floor',
           teleportation: true,
           mesh: getFloor({
-            color: '0xfffff',
-            repeat: true,
+            color: '#000',
+            // repeat: true,
           }),
         },
         // {
@@ -156,46 +171,46 @@ export const MENU_CONFIG = [
       ],
     },
   },
-  {
-    position: [0, 0.6, -1],
-    size: [1, 2.4],
-    name: LIGHT_TYPES.HEMI,
-    background: 0x00ff00,
-    roomSettings: {
-      backgroundColor: '#237272',
-      objects: [
-        {
-          name: 'light',
-          mesh: getLight(LIGHT_TYPES.DIRECTIONAL, [4, 4, -15], 1),
-        },
-        {
-          name: 'light2',
-          mesh: getLight(LIGHT_TYPES.AMBIENT, [0, 5, 0], 1.5),
-        },
-        {
-          name: 'box',
-          mesh: generateSpheres(50),
-        },
-        {
-          name: 'floor',
-          teleportation: true,
-          mesh: getFloor({
-            color: '0xfffff',
-            texture: '/public/spinner.png',
-            repeat: true,
-          }),
-        },
-        {
-          name: 'model',
-          async: true,
-          isStats: true,
-          teleportation: true,
-          getMesh: async () =>
-            await getModel('/public/houses/scene.gltf', [-2, 0.1, 2]),
-        },
-      ],
-    },
-  },
+  // {
+  //   position: [0, 0.6, -1],
+  //   size: [1, 2.4],
+  //   name: LIGHT_TYPES.HEMI,
+  //   background: 0x00ff00,
+  //   roomSettings: {
+  //     backgroundColor: '#237272',
+  //     objects: [
+  //       {
+  //         name: 'light',
+  //         mesh: getLight(LIGHT_TYPES.DIRECTIONAL, [4, 4, -15], 1),
+  //       },
+  //       {
+  //         name: 'light2',
+  //         mesh: getLight(LIGHT_TYPES.AMBIENT, [0, 5, 0], 1.5),
+  //       },
+  //       {
+  //         name: 'box',
+  //         mesh: generateSpheres(50),
+  //       },
+  //       {
+  //         name: 'floor',
+  //         teleportation: true,
+  //         mesh: getFloor({
+  //           color: '0xfffff',
+  //           texture: '/public/spinner.png',
+  //           repeat: true,
+  //         }),
+  //       },
+  //       {
+  //         name: 'model',
+  //         async: true,
+  //         isStats: true,
+  //         teleportation: true,
+  //         getMesh: async () =>
+  //           await getModel('/public/houses/scene.gltf', [-2, 0.1, 2]),
+  //       },
+  //     ],
+  //   },
+  // },
 ];
 
 export function getFloor({
@@ -207,33 +222,40 @@ export function getFloor({
   texture?: string;
   repeat?: boolean;
 }) {
-  const gg = new THREE.PlaneGeometry(30, 30);
-  const gm = new THREE.MeshStandardMaterial({ color });
+  const geometry = new THREE.PlaneGeometry(100, 100);
+  const material = new THREE.MeshStandardMaterial({ color });
 
-  const ground = new THREE.Mesh(gg, gm);
+  const ground = new THREE.Mesh(geometry, material);
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
-  ground.material.opacity = 0.8;
+  // ground.material.opacity = 0.8;
   // ground.material.transparent = true;
 
-  if (texture) {
-    const gt = new THREE.TextureLoader().load(texture);
-    gm.map = gt;
+  // if (texture) {
+  //   const gt = new THREE.TextureLoader().load(texture);
+  //   gm.map = gt;
 
-    if (repeat) ground.material.map.repeat.set(20, 20);
-    ground.material.map.wrapS = THREE.RepeatWrapping;
-    ground.material.map.wrapT = THREE.RepeatWrapping;
-    ground.material.map.encoding = THREE.sRGBEncoding;
-  }
+  //   if (repeat) ground.material.map.repeat.set(20, 20);
+  //   ground.material.map.wrapS = THREE.RepeatWrapping;
+  //   ground.material.map.wrapT = THREE.RepeatWrapping;
+  //   ground.material.map.encoding = THREE.sRGBEncoding;
+  // }
 
   return ground;
 }
 
-export function getLightByType(type: LIGHT_TYPES, intensity: number) {
+export function getLightByType(
+  type: LIGHT_TYPES,
+  intensity: number,
+  distance: number
+) {
   switch (type) {
-    case LIGHT_TYPES.PHONG: {
-      const light = new THREE.PointLight(0xffffff, 2, 50);
+    case LIGHT_TYPES.POINT: {
+      const light = new THREE.PointLight(0xffffff, intensity, 100);
       light.castShadow = true;
+
+      light.shadow.mapSize.width = 1024;
+      light.shadow.mapSize.height = 1024;
 
       return light;
     }
@@ -259,12 +281,14 @@ export function getLightByType(type: LIGHT_TYPES, intensity: number) {
     case LIGHT_TYPES.AMBIENT:
       return new THREE.AmbientLight(0xffffff, intensity);
     default:
-      return new THREE.DirectionalLight(0xffffff, intensity);
+      const dLight = new THREE.DirectionalLight(0xffffff, intensity);
+      dLight.castShadow = true;
+      return dLight;
   }
 }
 
-export function getLight(type, position, intensity) {
-  const light = getLightByType(type, intensity);
+export function getLight(type, position, intensity, distance) {
+  const light = getLightByType(type, intensity, distance);
   const sphere = new THREE.SphereGeometry(0.1, 16, 8);
 
   light.position.set(...position);
@@ -301,10 +325,10 @@ export function createMenu() {
   // const loader = new THREE.TextureLoader();
   const group = new THREE.Group();
 
-  MENU_CONFIG.forEach(({ position, size, background }) => {
+  MENU_CONFIG.forEach(({ position, size, roomSettings }) => {
     // const texture = loader.load(image);
     const material = new THREE.MeshBasicMaterial({
-      color: background,
+      color: roomSettings.backgroundColor,
       side: THREE.DoubleSide,
     });
     const geometry = new THREE.PlaneGeometry(...size);
@@ -327,34 +351,34 @@ export function setGUI({ globalState, model, renderer, camera, observer }) {
   cubeFolder.add(model.position, 'z', -2, 3, 0.01);
   cubeFolder.open();
 
-  gui.domElement.style.visibility = 'hidden';
+  // gui.domElement.style.visibility = 'hidden';
 
-  const group = new InteractiveGroup(renderer, camera);
+  // const group = new InteractiveGroup(renderer, camera);
 
-  const mesh = new HTMLMesh(gui.domElement);
-  mesh.position.x = -0.75;
-  mesh.position.y = 1.5;
-  mesh.position.z = -0.5;
-  mesh.rotation.y = Math.PI / 4;
-  mesh.scale.setScalar(2);
-  group.add(mesh);
+  // const mesh = new HTMLMesh(gui.domElement);
+  // mesh.position.x = -0.75;
+  // mesh.position.y = 1.5;
+  // mesh.position.z = -0.5;
+  // mesh.rotation.y = Math.PI / 4;
+  // mesh.scale.setScalar(2);
+  // group.add(mesh);
 
-  // Add stats.js
-  const stats = new Stats();
-  stats.dom.style.width = '80px';
-  stats.dom.style.height = '48px';
-  document.body.appendChild(stats.dom);
+  // // Add stats.js
+  // const stats = new Stats();
+  // stats.dom.style.width = '80px';
+  // stats.dom.style.height = '48px';
+  // document.body.appendChild(stats.dom);
 
-  const statsMesh = new HTMLMesh(stats.dom);
-  statsMesh.position.x = -0.65;
-  statsMesh.position.y = 1.7;
-  statsMesh.position.z = -0.5;
-  statsMesh.rotation.y = Math.PI / 4;
-  statsMesh.scale.setScalar(2.5);
-  group.add(statsMesh);
+  // const statsMesh = new HTMLMesh(stats.dom);
+  // statsMesh.position.x = -0.65;
+  // statsMesh.position.y = 1.7;
+  // statsMesh.position.z = -0.5;
+  // statsMesh.rotation.y = Math.PI / 4;
+  // statsMesh.scale.setScalar(2.5);
+  // group.add(statsMesh);
 
-  observer.add(group);
+  // observer.add(group);
 
-  globalState.mesh = mesh;
-  globalState.statsMesh = statsMesh;
+  // globalState.mesh = mesh;
+  // globalState.statsMesh = statsMesh;
 }
