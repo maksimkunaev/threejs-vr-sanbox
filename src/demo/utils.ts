@@ -3,7 +3,7 @@ import { GUI } from 'dat.gui';
 import { InteractiveGroup } from 'three/examples/jsm/interactive/InteractiveGroup.js';
 import { HTMLMesh } from 'three/examples/jsm/interactive/HTMLMesh.js';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
-import { loadModel } from 'uilib/helpers';
+import { loadModel } from '../helpers';
 
 export enum LIGHT_TYPES {
   PHONG,

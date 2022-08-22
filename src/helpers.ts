@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-export const isVR =
-  /^\?vr/.test(location.search) || 'getVRDisplays' in navigator;
 export const pointer = { x: 0, y: 0 };
 export const getDefaultSize = () => ({
   width: window.innerWidth,
@@ -44,15 +42,6 @@ export function getCubicCurve3(x0, y0, z0, x2, y2, z2) {
     ),
     new THREE.Vector3(x2, y2, z2),
   ];
-}
-
-export function needUpdateRenderSize(renderer) {
-  const canvas = renderer.domElement;
-  const width = canvas.clientWidth;
-  const height = canvas.clientHeight;
-  const needResize = canvas.width !== width || canvas.height !== height;
-
-  return needResize;
 }
 
 export function loadModel({
