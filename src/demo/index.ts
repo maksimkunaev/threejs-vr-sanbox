@@ -50,20 +50,13 @@ new DefaultScene({
     // camera.lookAt(0, 0, 0);
     // DS.camera = camera;
 
-    // setGUI({
-    //   model: globalState.objects.find(o => o.name === 'floor'),
-    //   renderer: DS.renderer,
-    //   camera: DS.camera,
-    //   observer: DS.scene,
-    //   globalState,
-    // });
-
-    MENU_CONFIG.map(({ name, background, roomSettings }, i) => {
+    MENU_CONFIG.map(({ name, roomSettings }, i) => {
       const item = menu.children[i];
       const objects = [item];
 
       const onPointerEnter = () => item.material.color.set(0x00ffff);
-      const onPointerLeave = () => item.material.color.set(background);
+      const onPointerLeave = () =>
+        item.material.color.set(roomSettings.backgroundColor);
       const onSelectStart = () => {
         updateScene({ DS, scene, roomSettings: MENU_CONFIG[i].roomSettings });
         controllers.off(1, 'pointerenter', onPointerEnter, objects);
@@ -105,44 +98,32 @@ new DefaultScene({
 });
 
 function updateScene({ DS, scene, roomSettings }) {
-  const { backgroundColor, objects } = roomSettings;
+  const { backgroundColor, objects, fog } = roomSettings;
   scene.background = new THREE.Color(backgroundColor);
+  scene.fog = fog;
   globalState.currentObjects.forEach(obj => scene.remove(obj));
 
-  const syncObjects = objects.filter(obj => !obj.async);
-  const asyncObjects = objects.filter(obj => obj.async);
-  const objectsWithTeleportation = syncObjects
-    .filter(({ teleportation }) => teleportation)
-    .map(({ mesh }) => mesh);
-
-  syncObjects.forEach(({ mesh }) => {
-    scene.add(mesh);
-    globalState.currentObjects.push(mesh);
-  });
-
-  const promises = asyncObjects.map(async obj => {
-    const mesh = await obj.getMesh();
+  const teleportTargets = [];
+  const promises = objects.map(async obj => {
+    const mesh = obj.mesh || (await obj.getMesh());
 
     scene.add(mesh);
     globalState.currentObjects.push(mesh);
-
-    if (obj.teleportation === true) {
-      // TODO - refactor this, update sync targets first and then async
-      DS.teleportation.updateTargets([...objectsWithTeleportation, mesh]);
-    }
+    if (obj.teleportation === true) teleportTargets.push(mesh);
 
     // TODO - if we add more than 1 GUI - we need to remove the old one
-    if (obj.isStats) {
+    if (obj.gui) {
       setGUI({
         model: mesh,
         renderer: DS.renderer,
         camera: DS.camera,
-        observer: DS.scene,
+        observer: DS.observer,
         globalState,
       });
     }
   });
 
+  DS.teleportation.updateTargets(teleportTargets);
   globalState.spinner.visible = true;
 
   Promise.all(promises).then(() => {

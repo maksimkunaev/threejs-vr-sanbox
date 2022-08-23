@@ -100,6 +100,7 @@ export default class DefaultScene {
     );
 
     this.camera.position.y = 2;
+    // this.camera.lookAt(0, 0, 0);
 
     this.observer.add(this.camera);
   }
