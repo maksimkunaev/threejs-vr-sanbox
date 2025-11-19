@@ -15,3 +15,5 @@ In the project directory, you can run:
 VR mode can only be started with https
 
 So you can run it in development mode, for example with [ngrok](https://ngrok.com/)
+
+v0.0.1
