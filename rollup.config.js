@@ -16,6 +16,7 @@ export default {
       useTsconfigDeclarationDir: true,
       tsconfig: 'tsconfig.json',
     }),
-    livereload(),
+    // Live reload only in watch mode (npm run dev); otherwise its server keeps `npm run build` from exiting.
+    process.env.ROLLUP_WATCH && livereload(),
   ],
 };
